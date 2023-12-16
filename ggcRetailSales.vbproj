@@ -1,0 +1,398 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>
+    </ProductVersion>
+    <SchemaVersion>
+    </SchemaVersion>
+    <ProjectGuid>{81352368-B116-4D39-8FFB-5A74905DE7F8}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <RootNamespace>ggcRetailSales</RootNamespace>
+    <AssemblyName>ggcRetailSales</AssemblyName>
+    <FileAlignment>512</FileAlignment>
+    <MyType>Windows</MyType>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <DefineDebug>true</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>C:\GGC_Systems\vb.net\RetMgySys\</OutputPath>
+    <DocumentationFile>ggcRetailSales.xml</DocumentationFile>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <DefineDebug>false</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DocumentationFile>ggcRetailSales.xml</DocumentationFile>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OptionExplicit>On</OptionExplicit>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OptionCompare>Binary</OptionCompare>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OptionStrict>Off</OptionStrict>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OptionInfer>On</OptionInfer>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="adodb, Version=7.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </Reference>
+    <Reference Include="MySql.Data, Version=6.7.4.0, Culture=neutral, PublicKeyToken=c5687fc88969c44d, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>C:\GGC_Systems\vb.net\RetMgySys\MySql.Data.dll</HintPath>
+    </Reference>
+    <Reference Include="MySql.Data.Entity, Version=6.7.4.0, Culture=neutral, PublicKeyToken=c5687fc88969c44d, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>C:\Program Files (x86)\MySQL\MySQL Connector Net 6.7.4\Assemblies\v4.0\MySql.Data.Entity.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+  </ItemGroup>
+  <ItemGroup>
+    <Import Include="Microsoft.VisualBasic" />
+    <Import Include="System" />
+    <Import Include="System.Collections" />
+    <Import Include="System.Collections.Generic" />
+    <Import Include="System.Data" />
+    <Import Include="System.Diagnostics" />
+    <Import Include="System.Linq" />
+    <Import Include="System.Xml.Linq" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="CashPullout.vb" />
+    <Compile Include="ChargeInvoiceCollection.vb" />
+    <Compile Include="Forms\frmTables.Designer.vb">
+      <DependentUpon>frmTables.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\frmTables.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\frmDiscountMerger.designer.vb">
+      <DependentUpon>frmDiscountMerger.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\frmDiscountMerger.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\frmPayMergeDiscount.designer.vb">
+      <DependentUpon>frmPayMergeDiscount.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\frmPayMergeDiscount.vb" />
+    <Compile Include="Forms\Form1.Designer.vb">
+      <DependentUpon>Form1.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Form1.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Form2.Designer.vb">
+      <DependentUpon>Form2.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Form2.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\frmChargeInvoiceCollection.designer.vb">
+      <DependentUpon>frmChargeInvoiceCollection.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\frmChargeInvoiceCollection.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\frmSalesReturn.designer.vb">
+      <DependentUpon>frmSalesReturn.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\frmSalesReturn.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\frmChargeInvoice.designer.vb">
+      <DependentUpon>frmChargeInvoice.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\frmChargeInvoice.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\frmZReading.designer.vb">
+      <DependentUpon>frmZReading.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\frmZReading.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="SalesReturn.vb" />
+    <Compile Include="Forms\frmOrderSplit.designer.vb">
+      <DependentUpon>frmOrderSplit.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\frmOrderSplit.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\frmPaySplitted.designer.vb">
+      <DependentUpon>frmPaySplitted.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\frmPaySplitted.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\frmCashPullout.designer.vb">
+      <DependentUpon>frmCashPullout.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\frmCashPullout.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\frmDailySales.designer.vb">
+      <DependentUpon>frmDailySales.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\frmDailySales.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ChargeInvoice.vb" />
+    <Compile Include="Complementary.vb" />
+    <Compile Include="DailySales.vb" />
+    <Compile Include="Discount.vb" />
+    <Compile Include="Forms\frmComplementary.designer.vb">
+      <DependentUpon>frmComplementary.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\frmComplementary.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\frmUserDisc.Designer.vb">
+      <DependentUpon>frmUserDisc.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\frmUserDisc.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\frmDiscount.designer.vb">
+      <DependentUpon>frmDiscount.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\frmDiscount.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\frmChangePrice.designer.vb">
+      <DependentUpon>frmChangePrice.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\frmChangePrice.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\frmChangeQty.designer.vb">
+      <DependentUpon>frmChangeQty.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\frmChangeQty.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\frmMergeOrder.designer.vb">
+      <DependentUpon>frmMergeOrder.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\frmMergeOrder.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\frmSelectTable.designer.vb">
+      <DependentUpon>frmSelectTable.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\frmSelectTable.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\frmManageTable.designer.vb">
+      <DependentUpon>frmManageTable.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\frmManageTable.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MergeOrder.vb" />
+    <Compile Include="modMain.vb" />
+    <Compile Include="My Project\AssemblyInfo.vb" />
+    <Compile Include="My Project\Application.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Application.myapp</DependentUpon>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="My Project\Resources.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="My Project\Settings.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="New_Sales_Order.vb" />
+    <Compile Include="SplitOrder.vb" />
+    <Compile Include="TableMaster.vb" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Forms\frmTables.resx">
+      <DependentUpon>frmTables.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\frmDiscountMerger.resx">
+      <DependentUpon>frmDiscountMerger.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\frmPayMergeDiscount.resx">
+      <DependentUpon>frmPayMergeDiscount.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Form1.resx">
+      <DependentUpon>Form1.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Form2.resx">
+      <DependentUpon>Form2.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\frmChargeInvoiceCollection.resx">
+      <DependentUpon>frmChargeInvoiceCollection.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\frmSalesReturn.resx">
+      <DependentUpon>frmSalesReturn.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\frmOrderSplit.resx">
+      <DependentUpon>frmOrderSplit.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\frmPaySplitted.resx">
+      <DependentUpon>frmPaySplitted.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\frmComplementary.resx">
+      <DependentUpon>frmComplementary.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\frmDiscount.resx">
+      <DependentUpon>frmDiscount.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\frmChangePrice.resx">
+      <DependentUpon>frmChangePrice.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\frmChangeQty.resx">
+      <DependentUpon>frmChangeQty.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\frmMergeOrder.resx">
+      <DependentUpon>frmMergeOrder.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\frmSelectTable.resx">
+      <DependentUpon>frmSelectTable.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\frmManageTable.resx">
+      <DependentUpon>frmManageTable.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\frmUserDisc.resx">
+      <DependentUpon>frmUserDisc.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\frmCashPullout.resx">
+      <DependentUpon>frmCashPullout.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\frmDailySales.resx">
+      <DependentUpon>frmDailySales.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\frmChargeInvoice.resx">
+      <DependentUpon>frmChargeInvoice.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\frmZReading.resx">
+      <DependentUpon>frmZReading.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="My Project\Resources.resx">
+      <Generator>VbMyResourcesResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.vb</LastGenOutput>
+      <CustomToolNamespace>My.Resources</CustomToolNamespace>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="My Project\Application.myapp">
+      <Generator>MyApplicationCodeGenerator</Generator>
+      <LastGenOutput>Application.Designer.vb</LastGenOutput>
+    </None>
+    <None Include="My Project\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <CustomToolNamespace>My</CustomToolNamespace>
+      <LastGenOutput>Settings.Designer.vb</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\abstract_dark_wood_textures_backgrounds_1280x720.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\next disabled.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\next mouse over1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\next.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\prev disabled.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\prev mouse over1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\prev.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Natural-Beech-Wood.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Mouse over x.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Mouse Up -.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Mouse Up +.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Mouse Up minus.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Mouse Up plus.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Mouse Up x.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Mouse over -.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Mouse over +.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Mouse over minus.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Mouse over plus.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\ggcAppDriver\ggcAppDriver.vbproj">
+      <Project>{6FA248F3-A2BA-43DF-BE98-032E11714DB5}</Project>
+      <Name>ggcAppDriver</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ggcClient\ggcClient.vbproj">
+      <Project>{D1B85464-9368-4354-B294-3B5E555B61C3}</Project>
+      <Name>ggcClient</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ggcPayment\ggcPayment.vbproj">
+      <Project>{a7bb8738-7dd6-45a0-90c9-fc346648fbf3}</Project>
+      <Name>ggcPayment</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ggcRetailParams\ggcRetailParams\ggcRetailParams.vbproj">
+      <Project>{4883F473-C0B0-4266-A9AC-8E4BCA3C4CB7}</Project>
+      <Name>ggcRetailParams</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
