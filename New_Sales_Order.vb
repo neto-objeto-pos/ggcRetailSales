@@ -53,8 +53,10 @@ Public Class New_Sales_Order
     Private p_nTranTotl As Double
     Private p_nComplmnt As Double
     Public p_bSChargex As Boolean
+    Public p_bDlvrServ As Boolean
     Public p_nTotalSales As Double
     Private p_nSChargex As Decimal
+    Private p_sTrantype As String
 
     Private p_bExisting As xeLogical
     Private p_nRow As Integer
@@ -100,10 +102,10 @@ Public Class New_Sales_Order
     Private p_nTableNo As Integer
     Private p_sMergeTb As String
 
-    Public Event MasterRetreived(ByVal Index As Integer, _
+    Public Event MasterRetreived(ByVal Index As Integer,
                                  ByVal Value As Object)
-    Public Event DetailRetrieved(ByVal Row As Integer, _
-                                 ByVal Index As Integer, _
+    Public Event DetailRetrieved(ByVal Row As Integer,
+                                 ByVal Index As Integer,
                                  ByVal Value As Object)    'Property Detail(Integer)
 
     Public Event DisplayFromRow(ByVal Row As Integer)
@@ -155,6 +157,14 @@ Public Class New_Sales_Order
         End Get
         Set(ByVal value As Integer)
             p_nTableNo = value
+        End Set
+    End Property
+    Public Property Trantype() As Integer
+        Get
+            Return p_sTrantype
+        End Get
+        Set(ByVal value As Integer)
+            p_sTrantype = value
         End Set
     End Property
 
@@ -255,6 +265,8 @@ Public Class New_Sales_Order
                     Return p_oDTMaster(0).Item("nNonVATxx")
                 Case "nvoidtotl"
                     Return p_oDTMaster(0).Item("nVoidTotl")
+                Case "cTrantype"
+                    Return p_oDTMaster(0).Item("cTrantype")
                 Case "scashrnme"
                     If p_oDTMaster(0).Item("sCashrNme") = "" Then
                         If p_oDTMaster(0).Item("sCashierx") <> "" Then
@@ -454,6 +466,9 @@ Public Class New_Sales_Order
         p_oDTMaster(0).Item("nSChargex") = 0
         p_oDTMaster(0).Item("cSChargex") = loDT(0).Item("cSChargex")
         p_bSChargex = IIf(loDT(0).Item("cSChargex") = "1", True, False)
+
+        p_oDTMaster(0).Item("cTranType") = loDT(0).Item("cTranType")
+        p_bDlvrServ = IIf(loDT(0).Item("cTranType") = "1", True, False)
         p_nTableNo = IIf(p_oDTMaster(0).Item("sTableNox") = "", 0, p_oDTMaster(0).Item("sTableNox"))
 
         lsSQL = AddCondition(getSQ_Discount, "sSourceNo = " & strParm(p_oDTMaster(0).Item("sTransNox")))
@@ -577,6 +592,7 @@ Public Class New_Sales_Order
         p_oDTMaster(0).Item("nSChargex") = 0
         p_oDTMaster(0).Item("cSChargex") = loDT(0).Item("cSChargex")
         p_bSChargex = IIf(loDT(0).Item("cSChargex") = "1", True, False)
+        p_bDlvrServ = IIf(loDT(0).Item("cTranType") = "1", True, False)
         p_nTableNo = IIf(p_oDTMaster(0).Item("sTableNox") = "", 0, p_oDTMaster(0).Item("sTableNox"))
 
         lsSQL = AddCondition(getSQ_Discount, "sSourceNo = " & strParm(p_oDTMaster(0).Item("sTransNox")))
@@ -678,11 +694,11 @@ Public Class New_Sales_Order
         Dim lsSQL As String
         Dim loDT As DataTable
 
-        lsSQL = "SELECT sTransNox" & _
-                   " FROM SO_Master" & _
-                   " WHERE sTransNox LIKE " & strParm(p_oApp.BranchCode & p_sTermnl & "%") & _
-                     " AND dTransact  < " & dateParm(Format(p_oApp.SysDate, xsDATE_SHORT)) & _
-                     " AND cTranStat = '0'" & _
+        lsSQL = "SELECT sTransNox" &
+                   " FROM SO_Master" &
+                   " WHERE sTransNox LIKE " & strParm(p_oApp.BranchCode & p_sTermnl & "%") &
+                     " AND dTransact  < " & dateParm(Format(p_oApp.SysDate, xsDATE_SHORT)) &
+                     " AND cTranStat = '0'" &
                 " ORDER BY sTransNox"
 
         loDT = p_oApp.ExecuteQuery(lsSQL)
@@ -937,7 +953,10 @@ Public Class New_Sales_Order
             p_oDTMaster(0).Item("sBillNmbr") = loDT(0).Item("sBillNmbr")
             p_oDTMaster(0).Item("cSChargex") = loDT(0).Item("cSChargex")
             p_bSChargex = IIf(loDT(0).Item("cSChargex") = 1, True, False)
+            p_oDTMaster(0).Item("cTranType") = loDT(0).Item("cTranType")
+            p_bDlvrServ = IIf(loDT(0).Item("cTranType") = 1, True, False)
             p_nTableNo = loDT(0).Item("sTableNox")
+            p_sTrantype = loDT(0).Item("cTranType")
         Else
             'more than 1 order in a table
             Dim loDta As DataRow = KwikSearch(p_oApp _
@@ -967,6 +986,7 @@ Public Class New_Sales_Order
                 p_oDTMaster(0).Item("dPrntBill") = loDta("dPrntBill")
                 p_oDTMaster(0).Item("sBillNmbr") = loDta("sBillNmbr")
                 p_nTableNo = loDT(0).Item("sTableNox")
+                p_sTrantype = loDT(0).Item("cTranType")
             End If
         End If
 
@@ -1142,81 +1162,81 @@ Public Class New_Sales_Order
     '    Return True
     'End Function
 
-    Private Function loadSplit(ByVal fsSourceNo As String, _
+    Private Function loadSplit(ByVal fsSourceNo As String,
                                ByVal fcSplitTyp As Integer) As DataTable
         Dim lsSQL As String
         Dim loDT As New DataTable
 
         If fcSplitTyp = 2 Then
-            lsSQL = "SELECT b.sBarcodex" & _
-                        ", b.sDescript" & _
-                        ", b.sBriefDsc" & _
-                        ", a.nUnitPrce" & _
-                        ", a.cReversex" & _
-                        ", d.nQuantity" & _
-                        ", a.nDiscount" & _
-                        ", a.nAddDiscx" & _
-                        ", b.nDiscLev1" & _
-                        ", b.nDiscLev2" & _
-                        ", b.nDiscLev3" & _
-                        ", b.nDealrDsc" & _
-                        ", a.sStockIDx" & _
-                        ", b.sCategrID" & _
-                        ", a.cPrintedx" & _
-                        ", a.sTransNox" & _
-                        ", a.nComplmnt" & _
-                        ", a.nEntryNox" & _
-                        ", a.cServedxx" & _
-                        ", a.cDetailxx" & _
-                        ", a.sReplItem" & _
-                        ", a.cReversed" & _
-                        ", a.cComboMlx" & _
-                        ", a.cWthPromo" & _
-                        ", a.dModified" & _
-                        ", c.nAmountxx" & _
-                    " FROM SO_Detail a" & _
-                        ", Inventory b" & _
-                        ", Order_Split c" & _
-                        ", Order_Split_Detail d" & _
-                    " WHERE a.sStockIDx = b.sStockIDx" & _
-                        " AND a.sTransNox = c.sReferNox" & _
-                        " AND c.sTransNox = d.sTransNox" & _
-                        " AND a.sStockIDx = d.sStockIDx" & _
-                        " AND d.sTransNox = " & strParm(fsSourceNo) & _
+            lsSQL = "SELECT b.sBarcodex" &
+                        ", b.sDescript" &
+                        ", b.sBriefDsc" &
+                        ", a.nUnitPrce" &
+                        ", a.cReversex" &
+                        ", d.nQuantity" &
+                        ", a.nDiscount" &
+                        ", a.nAddDiscx" &
+                        ", b.nDiscLev1" &
+                        ", b.nDiscLev2" &
+                        ", b.nDiscLev3" &
+                        ", b.nDealrDsc" &
+                        ", a.sStockIDx" &
+                        ", b.sCategrID" &
+                        ", a.cPrintedx" &
+                        ", a.sTransNox" &
+                        ", a.nComplmnt" &
+                        ", a.nEntryNox" &
+                        ", a.cServedxx" &
+                        ", a.cDetailxx" &
+                        ", a.sReplItem" &
+                        ", a.cReversed" &
+                        ", a.cComboMlx" &
+                        ", a.cWthPromo" &
+                        ", a.dModified" &
+                        ", c.nAmountxx" &
+                    " FROM SO_Detail a" &
+                        ", Inventory b" &
+                        ", Order_Split c" &
+                        ", Order_Split_Detail d" &
+                    " WHERE a.sStockIDx = b.sStockIDx" &
+                        " AND a.sTransNox = c.sReferNox" &
+                        " AND c.sTransNox = d.sTransNox" &
+                        " AND a.sStockIDx = d.sStockIDx" &
+                        " AND d.sTransNox = " & strParm(fsSourceNo) &
                     " ORDER BY a.nEntryNox"
         Else
-            lsSQL = "SELECT b.sBarcodex" & _
-                        ", b.sDescript" & _
-                        ", b.sBriefDsc" & _
-                        ", a.nUnitPrce" & _
-                        ", a.cReversex" & _
-                        ", a.nQuantity" & _
-                        ", a.nDiscount" & _
-                        ", a.nAddDiscx" & _
-                        ", b.nDiscLev1" & _
-                        ", b.nDiscLev2" & _
-                        ", b.nDiscLev3" & _
-                        ", b.nDealrDsc" & _
-                        ", a.sStockIDx" & _
-                        ", b.sCategrID" & _
-                        ", a.cPrintedx" & _
-                        ", a.sTransNox" & _
-                        ", a.nComplmnt" & _
-                        ", a.nEntryNox" & _
-                        ", a.cServedxx" & _
-                        ", a.cDetailxx" & _
-                        ", a.sReplItem" & _
-                        ", a.cReversed" & _
-                        ", a.cComboMlx" & _
-                        ", a.cWthPromo" & _
-                        ", a.dModified" & _
-                        ", c.nAmountxx" & _
-                    " FROM SO_Detail a" & _
-                        ", Inventory b" & _
-                        ", Order_Split c" & _
-                    " WHERE a.sStockIDx = b.sStockIDx" & _
-                        " AND a.sTransNox = c.sReferNox" & _
-                        " AND c.sTransNox = " & strParm(fsSourceNo) & _
+            lsSQL = "SELECT b.sBarcodex" &
+                        ", b.sDescript" &
+                        ", b.sBriefDsc" &
+                        ", a.nUnitPrce" &
+                        ", a.cReversex" &
+                        ", a.nQuantity" &
+                        ", a.nDiscount" &
+                        ", a.nAddDiscx" &
+                        ", b.nDiscLev1" &
+                        ", b.nDiscLev2" &
+                        ", b.nDiscLev3" &
+                        ", b.nDealrDsc" &
+                        ", a.sStockIDx" &
+                        ", b.sCategrID" &
+                        ", a.cPrintedx" &
+                        ", a.sTransNox" &
+                        ", a.nComplmnt" &
+                        ", a.nEntryNox" &
+                        ", a.cServedxx" &
+                        ", a.cDetailxx" &
+                        ", a.sReplItem" &
+                        ", a.cReversed" &
+                        ", a.cComboMlx" &
+                        ", a.cWthPromo" &
+                        ", a.dModified" &
+                        ", c.nAmountxx" &
+                    " FROM SO_Detail a" &
+                        ", Inventory b" &
+                        ", Order_Split c" &
+                    " WHERE a.sStockIDx = b.sStockIDx" &
+                        " AND a.sTransNox = c.sReferNox" &
+                        " AND c.sTransNox = " & strParm(fsSourceNo) &
                     " ORDER BY a.nEntryNox"
             'lsSQL = "SELECT" & _
             '           "  nUnitPrce" & _
@@ -1371,13 +1391,13 @@ Public Class New_Sales_Order
             If Not saveDetail(p_nRow) Then Return False
         End If
 
-            'For lnRow = lnRow To p_oDTDetail.Rows.Count - 1
-            'Call saveDetail(lnRow)
-            'Next
-            'RaiseEvent DisplayFromRow(lnRow)
+        'For lnRow = lnRow To p_oDTDetail.Rows.Count - 1
+        'Call saveDetail(lnRow)
+        'Next
+        'RaiseEvent DisplayFromRow(lnRow)
 
-            ' update tran totals
-            Call computeTotal(p_oDTMaster, p_oDTDetail, p_oDtaDiscx, p_oDiscount)
+        ' update tran totals
+        Call computeTotal(p_oDTMaster, p_oDTDetail, p_oDtaDiscx, p_oDiscount)
 
         For lnRow = lnRow To p_oDTDetail.Rows.Count - 1
             Call saveDetail(lnRow)
@@ -1467,9 +1487,9 @@ Public Class New_Sales_Order
         'set tag detail as reversed
         p_oDTDetail(fnRow).Item("cReversed") = "1"
         Dim lsSQL As String
-        lsSQL = "UPDATE " & pxeDetTable & _
-               " SET cReversed = '1'" & _
-               " WHERE sTransNox = " & strParm(p_oDTMaster(0).Item("sTransNox")) & _
+        lsSQL = "UPDATE " & pxeDetTable &
+               " SET cReversed = '1'" &
+               " WHERE sTransNox = " & strParm(p_oDTMaster(0).Item("sTransNox")) &
                  " AND nEntryNox = " & fnRow + 1
         p_oApp.Execute(lsSQL, pxeDetTable)
 
@@ -1525,6 +1545,8 @@ Public Class New_Sales_Order
             .AppDriver = p_oApp
             .Waiter = p_oDTMaster(0).Item("sWaiterID")
             .TableNo = p_oDTMaster(0).Item("sTableNox")
+            .TransNo = p_oDTMaster(0).Item("sTransNox")
+            .TranType = p_oDTMaster(0).Item("cTranType")
             .isWSCharge = IIf(p_oDTMaster(0).Item("cSChargex") = "x", True, p_oDTMaster(0).Item("cSChargex"))
             .Occupants = IFNull(p_oDTMaster(0).Item("nOccupnts"), 0)
             .ShowDialog()
@@ -1535,6 +1557,7 @@ Public Class New_Sales_Order
             p_oDTMaster(0).Item("sWaiterNm") = getWaiter(p_oDTMaster(0).Item("sWaiterID"))
             p_oDTMaster(0).Item("nOccupnts") = .Occupants
             p_oDTMaster(0).Item("cSChargex") = IIf(.isWSCharge, 1, 0)
+            p_oDTMaster(0).Item("cTranType") = .TranType
         End With
 
         p_oApp.BeginTransaction()
@@ -1550,6 +1573,7 @@ Public Class New_Sales_Order
 
             lsSQL = lsSQL & ", nOccupnts = " & p_oDTMaster(0).Item("nOccupnts")
             lsSQL = lsSQL & ", cSChargex = " & p_oDTMaster(0).Item("cSChargex")
+            lsSQL = lsSQL & ", cTrantype = " & p_oDTMaster(0).Item("cTrantype")
 
             If lsTableNo <> p_oDTMaster(0).Item("sTableNox") Then
                 Dim lasDetail() As String
@@ -1610,7 +1634,7 @@ Public Class New_Sales_Order
 
         p_oApp.CommitTransaction()
 
-        p_oApp.SaveEvent("0028", "Order No. " & p_oDTMaster(0).Item("nContrlNo") & _
+        p_oApp.SaveEvent("0028", "Order No. " & p_oDTMaster(0).Item("nContrlNo") &
                                 "/Table No. " & IFNull(p_oDTMaster(0).Item("sTableNox"), ""), p_sSerial)
 
 
@@ -1636,7 +1660,7 @@ Public Class New_Sales_Order
                                         , False _
                                         , "" _
                                         , "sTransNox»nContrlNo" _
-                                        , "TransNox»Control", _
+                                        , "TransNox»Control",
                                         , "sTransNox»nContrlNo" _
                                         , 1)
             If IsNothing(loDta) Then
@@ -1714,9 +1738,9 @@ Public Class New_Sales_Order
                         End If
                     End If
 
-                    lsSQL = "UPDATE " & pxeDetTable & _
-                            " SET cPrintedx = 1" & _
-                            " WHERE sTransNox = " & strParm(p_oDTMaster(0)("sTransNox")) & _
+                    lsSQL = "UPDATE " & pxeDetTable &
+                            " SET cPrintedx = 1" &
+                            " WHERE sTransNox = " & strParm(p_oDTMaster(0)("sTransNox")) &
                                 " AND nEntryNox = " & lnCtr + 1
 
                     Try
@@ -1743,8 +1767,8 @@ Public Class New_Sales_Order
                 .ControlNo = lsControl
                 .ReferNox = lsReferNo
 
-                lsSQL = "UPDATE " & pxeMasTable & _
-                            " SET sOrderNox = " & strParm(lsControl) & _
+                lsSQL = "UPDATE " & pxeMasTable &
+                            " SET sOrderNox = " & strParm(lsControl) &
                             " WHERE sTransNox = " & strParm(p_oDTMaster(0)("sTransNox"))
 
                 Try
@@ -1754,9 +1778,9 @@ Public Class New_Sales_Order
                     Throw ex
                 End Try
 
-                lsSQL = "UPDATE Cash_Reg_Machine SET" & _
-                            "  sMasterNo = " & strParm(lsReferNo) & _
-                            ", sOrderNox = " & strParm(lsControl) & _
+                lsSQL = "UPDATE Cash_Reg_Machine SET" &
+                            "  sMasterNo = " & strParm(lsReferNo) &
+                            ", sOrderNox = " & strParm(lsControl) &
                         " WHERE sIDNumber = " & strParm(p_sPOSNo)
 
                 Try
@@ -1848,10 +1872,10 @@ Public Class New_Sales_Order
                 .SplitType = lsSplitType
                 lbSplitted = True
 
-                lsSQL = "UPDATE Order_Split SET" & _
-                            "  nPrntBill = nPrntBill + 1" & _
-                            ", dPrntBill = " & dateParm(p_oApp.getSysDate) & _
-                            ", sBillNmbr = " & strParm(lsBillNox) & _
+                lsSQL = "UPDATE Order_Split SET" &
+                            "  nPrntBill = nPrntBill + 1" &
+                            ", dPrntBill = " & dateParm(p_oApp.getSysDate) &
+                            ", sBillNmbr = " & strParm(lsBillNox) &
                         " WHERE sTransNox = " & strParm(lsSourceNo)
 
                 Try
@@ -1875,18 +1899,18 @@ Public Class New_Sales_Order
             End If
 
             If p_oDTMaster(0)("nPrntBill") = 0 Then
-                lsSQL = "UPDATE " & pxeMasTable & _
-                        " SET  sBillNmbr = " & strParm(lsBillNox) & _
-                            ", nPrntBill = nPrntBill + 1" & _
-                            ", dPrntBill = " & dateParm(p_oApp.getSysDate) & _
+                lsSQL = "UPDATE " & pxeMasTable &
+                        " SET  sBillNmbr = " & strParm(lsBillNox) &
+                            ", nPrntBill = nPrntBill + 1" &
+                            ", dPrntBill = " & dateParm(p_oApp.getSysDate) &
                         " WHERE sTransNox = " & strParm(p_oDTMaster(0)("sTransNox"))
 
                 .BillingNo = lsBillNox
                 lbReprint = False
             Else
-                lsSQL = "UPDATE " & pxeMasTable & _
-                        " SET  nPrntBill = nPrntBill + 1" & _
-                            ", dPrntBill = " & dateParm(p_oApp.getSysDate) & _
+                lsSQL = "UPDATE " & pxeMasTable &
+                        " SET  nPrntBill = nPrntBill + 1" &
+                            ", dPrntBill = " & dateParm(p_oApp.getSysDate) &
                         " WHERE sTransNox = " & strParm(p_oDTMaster(0)("sTransNox"))
 
                 .BillingNo = p_oDTMaster(0)("sBillNmbr")
@@ -1901,13 +1925,13 @@ Public Class New_Sales_Order
             End Try
 
             If p_oDTMaster(0)("nPrntBill") = 0 Then
-                lsSQL = "UPDATE Cash_Reg_Machine SET" & _
-                            "  sMasterNo = " & strParm(lsReferNo) & _
-                            ", sBillNmbr = " & strParm(lsBillNox) & _
+                lsSQL = "UPDATE Cash_Reg_Machine SET" &
+                            "  sMasterNo = " & strParm(lsReferNo) &
+                            ", sBillNmbr = " & strParm(lsBillNox) &
                         " WHERE sIDNumber = " & strParm(p_sPOSNo)
             Else
-                lsSQL = "UPDATE Cash_Reg_Machine SET" & _
-                            "  sMasterNo = " & strParm(lsReferNo) & _
+                lsSQL = "UPDATE Cash_Reg_Machine SET" &
+                            "  sMasterNo = " & strParm(lsReferNo) &
                         " WHERE sIDNumber = " & strParm(p_sPOSNo)
             End If
 
@@ -1992,6 +2016,7 @@ Public Class New_Sales_Order
             .ClientNo = p_nNoClient
             .WithDisc = p_nWithDisc
             .TableNo = p_nTableNo
+            .TranType = p_sTrantype
             .LogName = p_sLogName
             .PosDate = p_dPOSDatex
             .MergeTable = p_sMergeTb
@@ -2042,8 +2067,8 @@ Public Class New_Sales_Order
 
             Dim lsSQL As String
 
-            lsSQL = "UPDATE Cash_Reg_Machine SET" & _
-                        "  sMasterNo = " & strParm(lsReferNo) & _
+            lsSQL = "UPDATE Cash_Reg_Machine SET" &
+                        "  sMasterNo = " & strParm(lsReferNo) &
                     " WHERE sIDNumber = " & strParm(p_sPOSNo)
 
             Try
@@ -2096,16 +2121,18 @@ Public Class New_Sales_Order
             .ClientNo = p_nNoClient
             .WithDisc = p_nWithDisc
             .TableNo = p_nTableNo
+            .TranType = p_sTrantype
 
             lbSuccess = .payTransaction()
             'MsgBox("2")
 
             If lbSuccess Then
                 Dim lnPayCtr As Integer
-                lnPayCtr = IIf(.CashAmount > 0, 1, 0) + _
-                            IIf(.CreditCardAmount > 0, 1, 0) + _
-                            IIf(.CheckAmount > 0, 1, 0) + _
-                            IIf(.GCAmount > 0, 1, 0)
+                lnPayCtr = IIf(.CashAmount > 0, 1, 0) +
+                            IIf(.CreditCardAmount > 0, 1, 0) +
+                            IIf(.CheckAmount > 0, 1, 0) +
+                            IIf(.GCAmount > 0, 1, 0) +
+                            IIf(.DSAmount > 0, 1, 0)
 
                 If lnPayCtr > 0 Then
                     Dim loSOPay As Payment
@@ -2153,6 +2180,8 @@ Public Class New_Sales_Order
                         loSOPay.Master(loSOPay.ItemCount - 1, "nAmountxx") = .CheckAmount
                     End If
 
+
+
                     If .GCAmount > 0 Then
                         loSOPay.AddPayment()
                         loSOPay.Master(loSOPay.ItemCount - 1, "sTransNox") = .Master("sTransNox")
@@ -2186,6 +2215,43 @@ Public Class New_Sales_Order
                                 loSOPay.Master(loSOPay.ItemCount - 1, "nAmountxx") = lnActGC
                             Else
                                 loSOPay.Master(loSOPay.ItemCount - 1, "nAmountxx") = .GCAmount
+                            End If
+                        End If
+                    End If
+
+                    If .DSAmount > 0 Then
+                        loSOPay.AddPayment()
+                        loSOPay.Master(loSOPay.ItemCount - 1, "sTransNox") = .Master("sTransNox")
+                        loSOPay.Master(loSOPay.ItemCount - 1, "cPaymForm") = 4
+                        'loSOPay.Master(loSOPay.ItemCount - 1, "nAmountxx") = .DSAmount
+                        Dim lnActDS As Decimal = 0
+                        lnActDS = .Master("nSalesAmt") + .Master("nSChargex")
+                        lnActDS = lnActDS - (.Master("nDiscount") + .Master("nVatDiscx") + .Master("nPWDDiscx"))
+
+                        If .DSAmount > 0 Then
+                            If (.DSAmount + .DSAmount) > (.Master("nSalesAmt") + .Master("nSChargex")) Then
+                                If .DSAmount > .DSAmount Then
+                                    If .DSAmount <= (.Master("nSalesAmt") + .Master("nSChargex")) Then
+                                        lnActDS = .DSAmount
+                                    Else
+                                        lnActDS = (.Master("nSalesAmt") + .Master("nSChargex")) - .DSAmount
+                                    End If
+                                Else
+                                    lnActDS = .DSAmount
+                                End If
+                            Else
+                                If .DSAmount > .DSAmount Then
+                                    lnActDS = .GCAmount
+                                Else
+                                    lnActDS = lnActDS - .CashAmount
+                                End If
+                            End If
+                            loSOPay.Master(loSOPay.ItemCount - 1, "nAmountxx") = lnActDS
+                        Else
+                            If .DSAmount > lnActDS Then
+                                loSOPay.Master(loSOPay.ItemCount - 1, "nAmountxx") = lnActDS
+                            Else
+                                loSOPay.Master(loSOPay.ItemCount - 1, "nAmountxx") = .DSAmount
                             End If
                         End If
                     End If
@@ -2323,18 +2389,18 @@ Public Class New_Sales_Order
         Dim lbPaidAll As Boolean
 
         If fbSplitted = True Then
-            lsSQL = "SELECT" & _
-                "  a.sTransNox" & _
-                ", a.cPaymForm" & _
-                ", a.sReferNox" & _
-                ", a.nAmountxx" & _
-                ", a.cSplitTyp" & _
-                ", IF(b.sTransNox IS NULL, 0, 1) xPaidxxxx" & _
-            " FROM Order_Split a" & _
-                 " LEFT JOIN Receipt_Master b" & _
-                    " ON a.sTransNox = b.sSourceNo" & _
-                    " AND b.sSourceCd = 'SOSp'" & _
-            " WHERE a.sReferNox = " & strParm(p_oDTMaster(0).Item("sTransNox")) & _
+            lsSQL = "SELECT" &
+                "  a.sTransNox" &
+                ", a.cPaymForm" &
+                ", a.sReferNox" &
+                ", a.nAmountxx" &
+                ", a.cSplitTyp" &
+                ", IF(b.sTransNox IS NULL, 0, 1) xPaidxxxx" &
+            " FROM Order_Split a" &
+                 " LEFT JOIN Receipt_Master b" &
+                    " ON a.sTransNox = b.sSourceNo" &
+                    " AND b.sSourceCd = 'SOSp'" &
+            " WHERE a.sReferNox = " & strParm(p_oDTMaster(0).Item("sTransNox")) &
                 " AND IF(b.sTransNox IS NULL, 0, 1) = '0'"
 
             loDT = p_oApp.ExecuteQuery(lsSQL)
@@ -2343,22 +2409,22 @@ Public Class New_Sales_Order
                 lbPaidAll = False
                 Return True
             Else
-                lsSQL = "UPDATE " & pxeMasTable & _
-                        " SET cTranStat = " & strParm("5") & _
-                            ", nTranTotl = " & foSalesOrder.p_oDTMaster(0).Item("nTranTotl") & _
+                lsSQL = "UPDATE " & pxeMasTable &
+                        " SET cTranStat = " & strParm("5") &
+                            ", nTranTotl = " & foSalesOrder.p_oDTMaster(0).Item("nTranTotl") &
                         " WHERE sTransnox = " & strParm(foSalesOrder.p_oDTMaster(0).Item("sTransNox"))
                 lbPaidAll = True
             End If
         Else
             If Trim(IFNull(foSalesOrder.p_oDTMaster(0).Item("sMergeIDx"), "")) = "" Then
-                lsSQL = "UPDATE " & pxeMasTable & _
-                        " SET cTranStat = " & strParm("5") & _
-                            ", nTranTotl = " & foSalesOrder.p_oDTMaster(0).Item("nTranTotl") & _
+                lsSQL = "UPDATE " & pxeMasTable &
+                        " SET cTranStat = " & strParm("5") &
+                            ", nTranTotl = " & foSalesOrder.p_oDTMaster(0).Item("nTranTotl") &
                         " WHERE sTransnox = " & strParm(foSalesOrder.p_oDTMaster(0).Item("sTransNox"))
             Else
-                lsSQL = "UPDATE " & pxeMasTable & _
-                        " SET cTranStat = " & strParm("5") & _
-                            ", nTranTotl = " & foSalesOrder.p_oDTMaster(0).Item("nTranTotl") & _
+                lsSQL = "UPDATE " & pxeMasTable &
+                        " SET cTranStat = " & strParm("5") &
+                            ", nTranTotl = " & foSalesOrder.p_oDTMaster(0).Item("nTranTotl") &
                         " WHERE sMergeIDx = " & strParm(foSalesOrder.p_oDTMaster(0).Item("sMergeIDx"))
             End If
             lbPaidAll = True
@@ -2374,19 +2440,19 @@ Public Class New_Sales_Order
             p_oApp.CommitTransaction()
         End Try
 
-        If p_oDTMaster(0).Item("sTableNox") <> "" And _
+        If p_oDTMaster(0).Item("sTableNox") <> "" And
             lbPaidAll Then
             If CInt(p_oDTMaster(0).Item("sTableNox")) > 0 Then
                 If Trim(IFNull(p_oDTMaster(0).Item("sMergeIDx"), "")) = "" Then
-                    lsSQL = "UPDATE Table_Master SET" & _
-                            " cStatusxx = '0'" & _
-                            ", nOccupnts = '0'" & _
+                    lsSQL = "UPDATE Table_Master SET" &
+                            " cStatusxx = '0'" &
+                            ", nOccupnts = '0'" &
                         " WHERE nTableNox = " & CDbl(foSalesOrder.p_oDTMaster(0).Item("sTableNox"))
 
                     Try
                         lnRow = p_oApp.Execute(lsSQL, "Table_Master")
                         If lnRow <= 0 Then
-                            MsgBox("Unable to Save Transaction!!!" & vbCrLf & _
+                            MsgBox("Unable to Save Transaction!!!" & vbCrLf &
                                     "Please contact GGC SSG/SEG for assistance!!!", MsgBoxStyle.Critical, "WARNING")
                             Return False
                         End If
@@ -2403,14 +2469,14 @@ Public Class New_Sales_Order
 
                         For lnCtr = 0 To loDT.Rows.Count - 1
                             If IFNull(loDT(lnRow)("sTableNox"), "") <> "" Then
-                                lsSQL = "UPDATE Table_Master SET" & _
-                                            " cStatusxx = '0'" & _
+                                lsSQL = "UPDATE Table_Master SET" &
+                                            " cStatusxx = '0'" &
                                         " WHERE nTableNox = " & CDbl(loDT(lnCtr)("sTableNox"))
 
                                 lnRow = p_oApp.Execute(lsSQL, "Table_Master")
 
                                 If lnRow <= 0 Then
-                                    MsgBox("Unable to Save Transaction!!!" & vbCrLf & _
+                                    MsgBox("Unable to Save Transaction!!!" & vbCrLf &
                                             "Please contact GGC SSG/SEG for assistance!!!", MsgBoxStyle.Critical, "WARNING")
                                     Return False
                                 End If
@@ -2429,7 +2495,7 @@ Public Class New_Sales_Order
     Public Function ChangeQty(ByVal fnRowNo As Integer) As Boolean
         'Do not allow kwik-deduction if ordered item has a promo...
         If p_oDTDetail(fnRowNo).Item("cWthPromo") = "1" Then
-            MsgBox("Changing the quantity of Ordered item with promo is not allowed!" & vbCrLf & _
+            MsgBox("Changing the quantity of Ordered item with promo is not allowed!" & vbCrLf &
                    "Please reverse this order and enter the new order information...", MsgBoxStyle.OkOnly + MsgBoxStyle.Information, "Sales Order")
             Return False
         End If
@@ -2479,7 +2545,7 @@ Public Class New_Sales_Order
         Dim lnNewPrice As Double
 
         If p_oDTDetail(fnRowNo).Item("cWthPromo") = "1" Then
-            MsgBox("Changing the price of Ordered item with promo is not allowed!" & vbCrLf & _
+            MsgBox("Changing the price of Ordered item with promo is not allowed!" & vbCrLf &
                    "Please reverse this order and enter the new order information...", MsgBoxStyle.OkOnly + MsgBoxStyle.Information, "Sales Order")
             Return False
         End If
@@ -2504,9 +2570,9 @@ Public Class New_Sales_Order
         Try
             If p_sParent = "" Then p_oApp.BeginTransaction()
 
-            lsSQL = "UPDATE " & pxeDetTable & _
-                    " SET nUnitPrce = " & lnNewPrice & _
-                    " WHERE sTransNox = " & strParm(p_oDTMaster(0).Item("sTransNox")) & _
+            lsSQL = "UPDATE " & pxeDetTable &
+                    " SET nUnitPrce = " & lnNewPrice &
+                    " WHERE sTransNox = " & strParm(p_oDTMaster(0).Item("sTransNox")) &
                         " AND nEntryNox = " & fnRowNo + 1
 
             p_oApp.Execute(lsSQL, pxeDetTable)
@@ -2529,14 +2595,16 @@ Public Class New_Sales_Order
         Dim lbSuccess As Boolean
         Dim loDT As DataTable
 
-        loDT = p_oApp.ExecuteQuery("SELECT sTransNox FROM SO_Master" &
+        loDT = p_oApp.ExecuteQuery("SELECT sTransNox,cTranType FROM SO_Master" &
                                             " WHERE sTableNox = " & fnTableNo &
                                                 " AND cTranStat = 0")
 
         If loDT.Rows.Count = 0 Then Return False
 
-        If IsNothing(p_oTable) Then p_oTable = New TableMaster(p_oApp)
-
+        If IsNothing(p_oTable) Then
+            p_oTable = New TableMaster(p_oApp)
+        End If
+        p_oTable.TranNo = loDT.Rows(0)("sTransNox")
         With p_oTable
             If Not .OpenTable(fnTableNo) Then
                 MsgBox("No table with the given number found.", MsgBoxStyle.Information, "Notice")
@@ -2545,17 +2613,23 @@ Public Class New_Sales_Order
 
             '.Master("nOccupnts") = IFNull(p_oDTMaster(0).Item("nOccupnts"), 0)
             .WithSCharge = IIf(p_oDTMaster.Rows(0)("cSChargex") = "x", False, p_oDTMaster.Rows(0)("cSChargex"))
+            .TranType = (p_oDTMaster.Rows(0)("cTranType"))
             lbSuccess = .showManageTable
             p_bSChargex = .WithSCharge
-
+            p_sTrantype = .TranType
+            'p_bDlvrServ = .isDelivery
             'Jovan revised computation for service charge based on total amount due
             p_oDTMaster.Rows(0)("nSChargex") = IIf(p_bSChargex, ((Math.Round(p_oDTMaster(0).Item("nTranTotl"), 2) - Math.Round((p_oDTMaster(0).Item("nVoidTotl") + p_oDTMaster(0).Item("nDiscount") + p_oDTMaster(0).Item("nVatDiscx") + p_oDTMaster(0).Item("nPWDDiscx")), 2))) * (p_nSChargex / 100), 0)
             p_oDTMaster(0).Item("nOccupnts") = .Master("nOccupnts")
-            p_oDTMaster.Rows(0)("cSChargex") = IIf(.WithSCharge, 1, 0)
+            p_oDTMaster(0).Item("cSChargex") = IIf(.WithSCharge, 1, 0)
+            'p_oDTMaster(0).Item("cTranType") = IIf(.isDelivery, 1, 0)
+            p_oDTMaster(0).Item("cTranType") = .Master("cTranType")
 
             If lbSuccess Then
+                p_sTrantype = .TranType
                 Dim lsSQL As String = "UPDATE SO_Master SET" &
                                         " cSChargex = " & strParm(p_oDTMaster.Rows(0)("cSChargex")) &
+                                        ", cTranType = " & strParm(p_sTrantype) &
                                     " WHERE sTransNox = " & strParm(p_oDTMaster.Rows(0)("sTransNox"))
                 If lsSQL <> "" Then p_oApp.Execute(lsSQL, "SO_Master")
             End If
@@ -2615,7 +2689,7 @@ Public Class New_Sales_Order
         Try
             lnRow = p_oApp.Execute(lsSQL, pxeMasTable)
             If lnRow <= 0 Then
-                MsgBox("Unable to Save Transaction!!!" & vbCrLf & _
+                MsgBox("Unable to Save Transaction!!!" & vbCrLf &
                         "Please contact GGC SSG/SEG for assistance!!!", MsgBoxStyle.Critical, "WARNING")
                 Return False
             End If
@@ -2632,7 +2706,7 @@ Public Class New_Sales_Order
         Try
             lnRow = p_oApp.Execute(lsSQL, pxeMasTable)
             If lnRow <= 0 Then
-                MsgBox("Unable to Save Transaction!!!" & vbCrLf & _
+                MsgBox("Unable to Save Transaction!!!" & vbCrLf &
                         "Please contact GGC SSG/SEG for assistance!!!", MsgBoxStyle.Critical, "WARNING")
                 Return False
             End If
@@ -2650,53 +2724,53 @@ Public Class New_Sales_Order
         Dim lbPaidAll As Boolean
 
         If fbSplitted = True Then
-            lsSQL = "SELECT" & _
-                "  a.sTransNox" & _
-                ", a.cPaymForm" & _
-                ", a.sReferNox" & _
-                ", a.nAmountxx" & _
-                ", a.cSplitTyp" & _
-                ", IF(b.sTransNox IS NULL, 0, 1) xPaidxxxx" & _
-            " FROM Order_Split a" & _
-                 " LEFT JOIN Receipt_Master b" & _
-                    " ON a.sTransNox = b.sSourceNo" & _
-                    " AND b.sSourceCd = 'SOSp'" & _
-            " WHERE a.sReferNox = " & strParm(p_oDTMaster(0).Item("sTransNox")) & _
+            lsSQL = "SELECT" &
+                "  a.sTransNox" &
+                ", a.cPaymForm" &
+                ", a.sReferNox" &
+                ", a.nAmountxx" &
+                ", a.cSplitTyp" &
+                ", IF(b.sTransNox IS NULL, 0, 1) xPaidxxxx" &
+            " FROM Order_Split a" &
+                 " LEFT JOIN Receipt_Master b" &
+                    " ON a.sTransNox = b.sSourceNo" &
+                    " AND b.sSourceCd = 'SOSp'" &
+            " WHERE a.sReferNox = " & strParm(p_oDTMaster(0).Item("sTransNox")) &
                 " AND IF(b.sTransNox IS NULL, 0, 1) = '0'"
 
             loDT = p_oApp.ExecuteQuery(lsSQL)
 
             If loDT.Rows.Count > 0 Then
-                lsSQL = "UPDATE Order_Split SET" & _
-                            " cTranStat = " & strParm(xeTranStat.TRANS_POSTED) & _
+                lsSQL = "UPDATE Order_Split SET" &
+                            " cTranStat = " & strParm(xeTranStat.TRANS_POSTED) &
                         " WHERE sTransnox = " & strParm(fsSplitNox)
                 p_oApp.Execute(lsSQL, "Order_Split")
                 'MsgBox("4")
                 lbPaidAll = False
                 Return True
             Else
-                lsSQL = "UPDATE Order_Split SET" & _
-                           " cTranStat = " & strParm(xeTranStat.TRANS_POSTED) & _
+                lsSQL = "UPDATE Order_Split SET" &
+                           " cTranStat = " & strParm(xeTranStat.TRANS_POSTED) &
                        " WHERE sTransnox = " & strParm(fsSplitNox)
                 p_oApp.Execute(lsSQL, "Order_Split")
                 'MsgBox("4")
 
-                lsSQL = "UPDATE " & pxeMasTable & _
-                        " SET cTranStat = " & strParm(xeTranStat.TRANS_POSTED) & _
-                            ", nTranTotl = " & p_oDTMaster(0).Item("nTranTotl") & _
+                lsSQL = "UPDATE " & pxeMasTable &
+                        " SET cTranStat = " & strParm(xeTranStat.TRANS_POSTED) &
+                            ", nTranTotl = " & p_oDTMaster(0).Item("nTranTotl") &
                         " WHERE sTransnox = " & strParm(p_oDTMaster(0).Item("sTransNox"))
                 lbPaidAll = True
             End If
         Else
             If Trim(IFNull(p_oDTMaster(0).Item("sMergeIDx"), "")) = "" Then
-                lsSQL = "UPDATE " & pxeMasTable & _
-                        " SET cTranStat = " & strParm(xeTranStat.TRANS_POSTED) & _
-                            ", nTranTotl = " & p_oDTMaster(0).Item("nTranTotl") & _
+                lsSQL = "UPDATE " & pxeMasTable &
+                        " SET cTranStat = " & strParm(xeTranStat.TRANS_POSTED) &
+                            ", nTranTotl = " & p_oDTMaster(0).Item("nTranTotl") &
                         " WHERE sTransnox = " & strParm(p_oDTMaster(0).Item("sTransNox"))
             Else
-                lsSQL = "UPDATE " & pxeMasTable & _
-                        " SET cTranStat = " & strParm(xeTranStat.TRANS_POSTED) & _
-                            ", nTranTotl = " & p_oDTMaster(0).Item("nTranTotl") & _
+                lsSQL = "UPDATE " & pxeMasTable &
+                        " SET cTranStat = " & strParm(xeTranStat.TRANS_POSTED) &
+                            ", nTranTotl = " & p_oDTMaster(0).Item("nTranTotl") &
                         " WHERE sMergeIDx = " & strParm(p_oDTMaster(0).Item("sMergeIDx"))
             End If
             lbPaidAll = True
@@ -2715,19 +2789,19 @@ Public Class New_Sales_Order
         End Try
 
 
-        If p_oDTMaster(0).Item("sTableNox") <> "" And _
+        If p_oDTMaster(0).Item("sTableNox") <> "" And
             lbPaidAll Then
             If CInt(p_oDTMaster(0).Item("sTableNox")) > 0 Then
 
                 If Trim(IFNull(p_oDTMaster(0).Item("sMergeIDx"), "")) = "" Then
-                    lsSQL = "UPDATE Table_Master SET" & _
-                            " cStatusxx = '0'" & _
+                    lsSQL = "UPDATE Table_Master SET" &
+                            " cStatusxx = '0'" &
                         " WHERE nTableNox = " & CDbl(p_oDTMaster(0).Item("sTableNox"))
 
                     Try
                         lnRow = p_oApp.Execute(lsSQL, "Table_Master")
                         If lnRow <= 0 Then
-                            MsgBox("Unable to Save Transaction!!!" & vbCrLf & _
+                            MsgBox("Unable to Save Transaction!!!" & vbCrLf &
                                     "Please contact GGC SSG/SEG for assistance!!!", MsgBoxStyle.Critical, "WARNING")
                             Return False
                         End If
@@ -2744,14 +2818,14 @@ Public Class New_Sales_Order
 
                         For lnCtr = 0 To loDT.Rows.Count - 1
                             If IFNull(loDT(lnRow)("sTableNox"), "") <> "" Then
-                                lsSQL = "UPDATE Table_Master SET" & _
-                                            " cStatusxx = '0'" & _
+                                lsSQL = "UPDATE Table_Master SET" &
+                                            " cStatusxx = '0'" &
                                         " WHERE nTableNox = " & CDbl(loDT(lnCtr)("sTableNox"))
 
                                 lnRow = p_oApp.Execute(lsSQL, "Table_Master")
 
                                 If lnRow <= 0 Then
-                                    MsgBox("Unable to Save Transaction!!!" & vbCrLf & _
+                                    MsgBox("Unable to Save Transaction!!!" & vbCrLf &
                                             "Please contact GGC SSG/SEG for assistance!!!", MsgBoxStyle.Critical, "WARNING")
                                     Return False
                                 End If
@@ -2773,7 +2847,7 @@ Public Class New_Sales_Order
         If p_oDTMaster(0).Item("sTransNox") = "" Then Return False
 
         lnRep = MsgBox("Are you sure you want to charge order?", vbQuestion & vbYesNo, "CONFIRMATION")
-        If lnRep = vbno then return False
+        If lnRep = vbNo Then Return False
 
         If Not getUserApproval() Then Return False
 
@@ -2878,12 +2952,12 @@ Public Class New_Sales_Order
         Dim loCharge As ChargeInvoice
         Dim lnRep As Integer
 
-        lsSQL = "SELECT" & _
-                    " sTransNox" & _
-                " FROM SO_Master" & _
-                " WHERE cTranStat = '0'" & _
-                    " AND nPrntBill > '0'" & _
-                    " AND LEFT(sTransNox, 6) = " & strParm(p_oApp.BranchCode & p_sTermnl) & _
+        lsSQL = "SELECT" &
+                    " sTransNox" &
+                " FROM SO_Master" &
+                " WHERE cTranStat = '0'" &
+                    " AND nPrntBill > '0'" &
+                    " AND LEFT(sTransNox, 6) = " & strParm(p_oApp.BranchCode & p_sTermnl) &
                 " ORDER BY sTransNox"
 
 
@@ -2969,12 +3043,12 @@ Public Class New_Sales_Order
 
         p_oApp.BeginTransaction()
         If Trim(p_oDTMaster(0).Item("sMergeIDx")) = "" Then
-            lsSQL = "UPDATE " & pxeMasTable & _
-                    " SET cTranStat = " & strParm(xeTranStat.TRANS_CANCELLED) & _
+            lsSQL = "UPDATE " & pxeMasTable &
+                    " SET cTranStat = " & strParm(xeTranStat.TRANS_CANCELLED) &
                     " WHERE sTransnox = " & strParm(p_oDTMaster(0).Item("sTransNox"))
         Else
-            lsSQL = "UPDATE " & pxeMasTable & _
-                    " SET cTranStat = " & strParm(xeTranStat.TRANS_CANCELLED) & _
+            lsSQL = "UPDATE " & pxeMasTable &
+                    " SET cTranStat = " & strParm(xeTranStat.TRANS_CANCELLED) &
                     " WHERE sMergeIDx = " & strParm(p_oDTMaster(0).Item("sMergeIDx"))
         End If
 
@@ -3056,7 +3130,7 @@ Public Class New_Sales_Order
 
             If .WasSplitted Then
                 If .WasSplitPosted Then
-                    MsgBox("Transaction already splitted..." & vbCrLf & _
+                    MsgBox("Transaction already splitted..." & vbCrLf &
                             "Cannot continue voiding order... Please pay the transaction...")
 
                     'Return False
@@ -3089,7 +3163,7 @@ Public Class New_Sales_Order
         Try
             lnRow = p_oApp.Execute(lsSQL, "SO_Master")
             If lnRow <= 0 Then
-                MsgBox("Unable to Void Order!!!" & vbCrLf & _
+                MsgBox("Unable to Void Order!!!" & vbCrLf &
                         "Please contact GGC SSG/SEG for assistance!!!", MsgBoxStyle.Critical, "WARNING")
                 Return False
             End If
@@ -3097,14 +3171,14 @@ Public Class New_Sales_Order
             If p_oDTMaster(0).Item("sTableNox") <> "" Then
                 If CInt(p_oDTMaster(0).Item("sTableNox")) > 0 Then
                     If Trim(IFNull(p_oDTMaster(0).Item("sMergeIDx"), "")) = "" Then
-                        lsSQL = "UPDATE Table_Master SET" & _
-                                " cStatusxx = '0'" & _
+                        lsSQL = "UPDATE Table_Master SET" &
+                                " cStatusxx = '0'" &
                             " WHERE nTableNox = " & CDbl(p_oDTMaster(0).Item("sTableNox"))
 
                         Try
                             lnRow = p_oApp.Execute(lsSQL, "Table_Master")
                             If lnRow <= 0 Then
-                                MsgBox("Unable to Save Transaction!!!" & vbCrLf & _
+                                MsgBox("Unable to Save Transaction!!!" & vbCrLf &
                                         "Please contact GGC SSG/SEG for assistance!!!", MsgBoxStyle.Critical, "WARNING")
                                 Return False
                             End If
@@ -3121,15 +3195,15 @@ Public Class New_Sales_Order
 
                             For lnCtr = 0 To loDT.Rows.Count - 1
                                 If IFNull(loDT(lnRow)("sTableNox"), "") <> "" Then
-                                    lsSQL = "UPDATE Table_Master SET" & _
-                                                " cStatusxx = '0'" & _
-                                                ", nOccupnts = '0'" & _
+                                    lsSQL = "UPDATE Table_Master SET" &
+                                                " cStatusxx = '0'" &
+                                                ", nOccupnts = '0'" &
                                             " WHERE nTableNox = " & CDbl(loDT(lnCtr)("sTableNox"))
 
                                     lnRow = p_oApp.Execute(lsSQL, "Table_Master")
 
                                     If lnRow <= 0 Then
-                                        MsgBox("Unable to Save Transaction!!!" & vbCrLf & _
+                                        MsgBox("Unable to Save Transaction!!!" & vbCrLf &
                                                 "Please contact GGC SSG/SEG for assistance!!!", MsgBoxStyle.Critical, "WARNING")
                                         Return False
                                     End If
@@ -3225,33 +3299,33 @@ Public Class New_Sales_Order
     End Function
 
     Private Function getSQ_User() As String
-        Return "SELECT sUserIDxx" & _
-              ", sLogNamex" & _
-              ", sPassword" & _
-              ", sUserName" & _
-              ", nUserLevl" & _
-              ", cUserType" & _
-              ", sProdctID" & _
-              ", cUserStat" & _
-              ", nSysError" & _
-              ", cLogStatx" & _
-              ", cLockStat" & _
-              ", cAllwLock" & _
-           " FROM xxxSysUser" & _
-           " WHERE sLogNamex = ?sLogNamex" & _
+        Return "SELECT sUserIDxx" &
+              ", sLogNamex" &
+              ", sPassword" &
+              ", sUserName" &
+              ", nUserLevl" &
+              ", cUserType" &
+              ", sProdctID" &
+              ", cUserStat" &
+              ", nSysError" &
+              ", cLogStatx" &
+              ", cLockStat" &
+              ", cAllwLock" &
+           " FROM xxxSysUser" &
+           " WHERE sLogNamex = ?sLogNamex" &
               " AND sPassword = ?sPassword"
     End Function
 
     Private Function getSQ_Category() As String
-        Return "SELECT" & _
-                   "  sCategrCd" & _
-                   ", sDescript" & _
-                   ", IFNULL(sImgePath, '') sImgePath" & _
-                   ", cForwardx" & _
-                   ", cRecdStat" & _
-               " FROM Product_Category" & _
-               " WHERE cRecdStat = '1'" & _
-                    " AND sImgePath <> ''" & _
+        Return "SELECT" &
+                   "  sCategrCd" &
+                   ", sDescript" &
+                   ", IFNULL(sImgePath, '') sImgePath" &
+                   ", cForwardx" &
+                   ", cRecdStat" &
+               " FROM Product_Category" &
+               " WHERE cRecdStat = '1'" &
+                    " AND sImgePath <> ''" &
                " ORDER BY cPriority DESC, sDescript ASC"
     End Function
 
@@ -3299,13 +3373,13 @@ Public Class New_Sales_Order
         End If
 
         If Not lbMember Then
-            MsgBox("User is not a member of this application!!!" & vbCrLf & _
+            MsgBox("User is not a member of this application!!!" & vbCrLf &
                "Application used is not allowed!!!", vbCritical, "Warning")
         End If
 
         ' check user status
         If loDT.Rows(0).Item("cUserStat").Equals(xeUserStatus.SUSPENDED) Then
-            MsgBox("User is currently suspended!!!" & vbCrLf & _
+            MsgBox("User is currently suspended!!!" & vbCrLf &
                      "Application used is not allowed!!!", vbCritical, "Warning")
             Return False
         End If
@@ -3457,13 +3531,13 @@ Public Class New_Sales_Order
 
         'Do not allow kwik-deduction if ordered item has a promo...
         If p_oDTDetail(fnRowNo).Item("cWthPromo") = "1" Then
-            MsgBox("Changing the quantity of Ordered item with promo is not allowed!" & vbCrLf & _
+            MsgBox("Changing the quantity of Ordered item with promo is not allowed!" & vbCrLf &
                    "Please reverse this order and enter the new order information...", MsgBoxStyle.OkOnly + MsgBoxStyle.Information, "Sales Order")
             Return False
         End If
 
         If p_oDTDetail(fnRowNo).Item("cComboMlx") = "1" Then
-            MsgBox("Changing the quantity of Ordered combo item is not allowed!" & vbCrLf & _
+            MsgBox("Changing the quantity of Ordered combo item is not allowed!" & vbCrLf &
                    "Please reverse this order and enter the new order information...", MsgBoxStyle.OkOnly + MsgBoxStyle.Information, "Sales Order")
             Return False
         End If
@@ -3481,9 +3555,9 @@ Public Class New_Sales_Order
                     'update all items of this master combo/add-on
                     lnDtlRow += 1
                     lnQuantity = Math.DivRem(p_oDTDetail(fnRowNo + lnDtlRow).Item("nQuantity"), p_oDTDetail(fnRowNo).Item("nQuantity"), 0)
-                    lsSQL = "UPDATE " & pxeDetTable & _
-                           " SET nQuantity = nQuantity + " & (p_nQuantity * lnQuantity) & _
-                           " WHERE sTransNox = " & strParm(p_oDTMaster(0).Item("sTransNox")) & _
+                    lsSQL = "UPDATE " & pxeDetTable &
+                           " SET nQuantity = nQuantity + " & (p_nQuantity * lnQuantity) &
+                           " WHERE sTransNox = " & strParm(p_oDTMaster(0).Item("sTransNox")) &
                              " AND nEntryNox = " & (fnRowNo + 1) + lnDtlRow
                     p_oApp.Execute(lsSQL, pxeDetTable)
 
@@ -3495,9 +3569,9 @@ Public Class New_Sales_Order
             End If
 
             'Update the master combo/add-on
-            lsSQL = "UPDATE " & pxeDetTable & _
-                    " SET nQuantity = nQuantity +" & p_nQuantity & _
-                    " WHERE sTransNox = " & strParm(p_oDTMaster(0).Item("sTransNox")) & _
+            lsSQL = "UPDATE " & pxeDetTable &
+                    " SET nQuantity = nQuantity +" & p_nQuantity &
+                    " WHERE sTransNox = " & strParm(p_oDTMaster(0).Item("sTransNox")) &
                         " AND nEntryNox = " & fnRowNo + 1
 
             p_oApp.Execute(lsSQL, pxeDetTable)
@@ -3632,13 +3706,13 @@ Public Class New_Sales_Order
 
         'Do not allow kwik-deduction if ordered item has a promo...
         If p_oDTDetail(fnRowNo).Item("cWthPromo") = "1" Then
-            MsgBox("Changing the quantity of Ordered item with promo is not allowed!" & vbCrLf & _
+            MsgBox("Changing the quantity of Ordered item with promo is not allowed!" & vbCrLf &
                    "Please reverse this order and enter the new order information...", MsgBoxStyle.OkOnly + MsgBoxStyle.Information, "Sales Order")
             Return False
         End If
 
         If p_oDTDetail(fnRowNo).Item("cComboMlx") = "1" Then
-            MsgBox("Changing the quantity of Ordered combo item is not allowed!" & vbCrLf & _
+            MsgBox("Changing the quantity of Ordered combo item is not allowed!" & vbCrLf &
                    "Please reverse this order and enter the new order information...", MsgBoxStyle.OkOnly + MsgBoxStyle.Information, "Sales Order")
             Return False
         End If
@@ -3654,8 +3728,8 @@ Public Class New_Sales_Order
                     Do While p_oDTDetail(fnRowNo + lnDtlRow + 1).Item("cDetailxx") = "1"
                         'Delete all items of this master addon/promo/combo
                         lnDtlRow += 1
-                        lsSQL = "DELETE FROM " & pxeDetTable & _
-                               " WHERE sTransNox = " & strParm(p_oDTMaster(0).Item("sTransNox")) & _
+                        lsSQL = "DELETE FROM " & pxeDetTable &
+                               " WHERE sTransNox = " & strParm(p_oDTMaster(0).Item("sTransNox")) &
                                  " AND nEntryNox = " & (fnRowNo + 1) + lnDtlRow
                         p_oApp.Execute(lsSQL, pxeDetTable)
                         p_oDTDetail.Rows.Remove(p_oDTDetail.Rows(fnRowNo + lnDtlRow))
@@ -3665,16 +3739,16 @@ Public Class New_Sales_Order
                 End If
 
                 'Delete the zeroed order 
-                lsSQL = "DELETE FROM " & pxeDetTable & _
-                       " WHERE sTransNox = " & strParm(p_oDTMaster(0).Item("sTransNox")) & _
+                lsSQL = "DELETE FROM " & pxeDetTable &
+                       " WHERE sTransNox = " & strParm(p_oDTMaster(0).Item("sTransNox")) &
                          " AND nEntryNox = " & fnRowNo + 1
                 p_oApp.Execute(lsSQL, pxeDetTable)
                 p_oDTDetail.Rows.Remove(p_oDTDetail.Rows(fnRowNo))
 
                 'Update the Value of nEntryNox in our table
-                lsSQL = "UPDATE " & pxeDetTable & _
-                       " SET nEntryNox = nEntryNox - " & ((lnDtlRow + 1) + 1) & _
-                       " WHERE sTransNox = " & strParm(p_oDTMaster(0).Item("sTransNox")) & _
+                lsSQL = "UPDATE " & pxeDetTable &
+                       " SET nEntryNox = nEntryNox - " & ((lnDtlRow + 1) + 1) &
+                       " WHERE sTransNox = " & strParm(p_oDTMaster(0).Item("sTransNox")) &
                          " AND nEntryNox > " & fnRowNo
                 p_oApp.Execute(lsSQL, pxeDetTable)
 
@@ -3701,9 +3775,9 @@ Public Class New_Sales_Order
                         'update all items of this master combo/add-on
                         lnDtlRow += 1
                         lnQuantity = Math.DivRem(p_oDTDetail(fnRowNo + lnDtlRow).Item("nQuantity"), p_oDTDetail(fnRowNo).Item("nQuantity"), 0)
-                        lsSQL = "UPDATE " & pxeDetTable & _
-                               " SET nQuantity = nQuantity - " & (p_nQuantity * lnQuantity) & _
-                               " WHERE sTransNox = " & strParm(p_oDTMaster(0).Item("sTransNox")) & _
+                        lsSQL = "UPDATE " & pxeDetTable &
+                               " SET nQuantity = nQuantity - " & (p_nQuantity * lnQuantity) &
+                               " WHERE sTransNox = " & strParm(p_oDTMaster(0).Item("sTransNox")) &
                                  " AND nEntryNox = " & (fnRowNo + 1) + lnDtlRow
                         p_oApp.Execute(lsSQL, pxeDetTable)
 
@@ -3715,9 +3789,9 @@ Public Class New_Sales_Order
                 End If
 
                 'Update the master combo/add-on
-                lsSQL = "UPDATE " & pxeDetTable & _
-                        " SET nQuantity = nQuantity -" & p_nQuantity & _
-                        " WHERE sTransNox = " & strParm(p_oDTMaster(0).Item("sTransNox")) & _
+                lsSQL = "UPDATE " & pxeDetTable &
+                        " SET nQuantity = nQuantity -" & p_nQuantity &
+                        " WHERE sTransNox = " & strParm(p_oDTMaster(0).Item("sTransNox")) &
                             " AND nEntryNox = " & fnRowNo + 1
                 p_oApp.Execute(lsSQL, pxeDetTable)
 
@@ -3845,8 +3919,8 @@ Public Class New_Sales_Order
                     Do While p_oDTDetail(fnRowNo + lnDtlRow + 1).Item("cDetailxx") = "1"
                         'Delete all items of this master addon/promo/combo
                         lnDtlRow += 1
-                        lsSQL = "DELETE FROM " & pxeDetTable & _
-                               " WHERE sTransNox = " & strParm(p_oDTMaster(0).Item("sTransNox")) & _
+                        lsSQL = "DELETE FROM " & pxeDetTable &
+                               " WHERE sTransNox = " & strParm(p_oDTMaster(0).Item("sTransNox")) &
                                  " AND nEntryNox = " & (fnRowNo + 1) + lnDtlRow
                         p_oApp.Execute(lsSQL, pxeDetTable)
                         p_oDTDetail.Rows.Remove(p_oDTDetail.Rows(fnRowNo + lnDtlRow))
@@ -3857,16 +3931,16 @@ Public Class New_Sales_Order
                 End If
 
                 'Delete the zeroed order 
-                lsSQL = "DELETE FROM " & pxeDetTable & _
-                       " WHERE sTransNox = " & strParm(p_oDTMaster(0).Item("sTransNox")) & _
+                lsSQL = "DELETE FROM " & pxeDetTable &
+                       " WHERE sTransNox = " & strParm(p_oDTMaster(0).Item("sTransNox")) &
                          " AND nEntryNox = " & fnRowNo + 1
                 p_oApp.Execute(lsSQL, pxeDetTable)
                 p_oDTDetail.Rows.Remove(p_oDTDetail.Rows(fnRowNo))
 
                 'Update the Value of nEntryNox in our table
-                lsSQL = "UPDATE " & pxeDetTable & _
-                       " SET nEntryNox = nEntryNox - " & ((lnDtlRow + 1) + 1) & _
-                       " WHERE sTransNox = " & strParm(p_oDTMaster(0).Item("sTransNox")) & _
+                lsSQL = "UPDATE " & pxeDetTable &
+                       " SET nEntryNox = nEntryNox - " & ((lnDtlRow + 1) + 1) &
+                       " WHERE sTransNox = " & strParm(p_oDTMaster(0).Item("sTransNox")) &
                          " AND nEntryNox > " & fnRowNo
                 p_oApp.Execute(lsSQL, pxeDetTable)
 
@@ -3884,9 +3958,9 @@ Public Class New_Sales_Order
                         'update all items of this master combo/add-on
                         lnDtlRow += 1
                         lnQuantity = Math.DivRem(p_oDTDetail(fnRowNo + lnDtlRow).Item("nQuantity"), p_oDTDetail(fnRowNo).Item("nQuantity"), 0)
-                        lsSQL = "UPDATE " & pxeDetTable & _
-                               " SET nQuantity = " & (p_nQuantity * lnQuantity) & _
-                               " WHERE sTransNox = " & strParm(p_oDTMaster(0).Item("sTransNox")) & _
+                        lsSQL = "UPDATE " & pxeDetTable &
+                               " SET nQuantity = " & (p_nQuantity * lnQuantity) &
+                               " WHERE sTransNox = " & strParm(p_oDTMaster(0).Item("sTransNox")) &
                                  " AND nEntryNox = " & (fnRowNo + 1) + lnDtlRow
                         p_oApp.Execute(lsSQL, pxeDetTable)
 
@@ -3898,9 +3972,9 @@ Public Class New_Sales_Order
                 End If
 
                 'Update the master combo/add-on
-                lsSQL = "UPDATE " & pxeDetTable & _
-                        " SET nQuantity = " & p_nQuantity & _
-                        " WHERE sTransNox = " & strParm(p_oDTMaster(0).Item("sTransNox")) & _
+                lsSQL = "UPDATE " & pxeDetTable &
+                        " SET nQuantity = " & p_nQuantity &
+                        " WHERE sTransNox = " & strParm(p_oDTMaster(0).Item("sTransNox")) &
                             " AND nEntryNox = " & fnRowNo + 1
                 p_oApp.Execute(lsSQL, pxeDetTable)
 
@@ -3944,11 +4018,11 @@ Public Class New_Sales_Order
 
         RaiseEvent MasterRetreived(0, p_oDTMaster(0).Item("sTransNox"))
 
-        p_oApp.SaveEvent("0017", "Order No. " & p_oDTMaster(0).Item("nContrlNo") & _
+        p_oApp.SaveEvent("0017", "Order No. " & p_oDTMaster(0).Item("nContrlNo") &
                                 "/Table No. " & IFNull(p_oDTMaster(0).Item("sTableNox"), ""), p_sSerial)
 
-        lsSQL = "UPDATE Cash_Reg_Machine SET" & _
-                            "  sTransNox = " & strParm(p_oDTMaster(0)("sTransNox")) & _
+        lsSQL = "UPDATE Cash_Reg_Machine SET" &
+                            "  sTransNox = " & strParm(p_oDTMaster(0)("sTransNox")) &
                         " WHERE sIDNumber = " & strParm(p_sPOSNo)
 
         Try
@@ -3961,14 +4035,14 @@ Public Class New_Sales_Order
         Return True
     End Function
 
-    Private Function updateCashRegMachine(ByRef fsTransNox As String, _
+    Private Function updateCashRegMachine(ByRef fsTransNox As String,
                                           ByVal fbNeoTrans As Boolean) As Boolean
         Dim lsSQL As String
 
         If fbNeoTrans Then fsTransNox = getNextMasterNo()
 
-        lsSQL = "UPDATE Cash_Reg_Machine SET" & _
-                    " sMasterNo = " & strParm(fsTransNox) & _
+        lsSQL = "UPDATE Cash_Reg_Machine SET" &
+                    " sMasterNo = " & strParm(fsTransNox) &
                 " WHERE sIDNumber = " & strParm(p_sPOSNo)
 
         p_oApp.Execute(lsSQL, "Cash_Reg_Machine")
@@ -4098,6 +4172,7 @@ Public Class New_Sales_Order
         p_oDTMaster.Columns.Add("nDiscntbl", System.Type.GetType("System.Decimal")) 'Discountable Amount
         p_oDTMaster.Columns.Add("nSChargex", System.Type.GetType("System.Decimal")) 'Service Charge
         p_oDTMaster.Columns.Add("cSChargex", System.Type.GetType("System.String")).MaxLength = 1
+        p_oDTMaster.Columns.Add("cTranType", System.Type.GetType("System.String")).MaxLength = 1
         p_oDTMaster.Columns.Add("dModified", System.Type.GetType("System.DateTime"))
 
         'p_oDTMaster.Columns.Add("nDiscAmtV", System.Type.GetType("System.Decimal"))
@@ -4124,6 +4199,7 @@ Public Class New_Sales_Order
         p_oDTMaster(0).Item("sMergeIDx") = ""
         p_oDTMaster(0).Item("sTableNox") = ""
         p_oDTMaster(0).Item("cSChargex") = "x"
+        p_oDTMaster(0).Item("cTranType") = ""
         p_oDTMaster(0).Item("cTranStat") = "0"
         p_oDTMaster(0).Item("nPrntBill") = 0
 
@@ -4233,7 +4309,7 @@ Public Class New_Sales_Order
         Return True
     End Function
 
-    Private Function newDetail(ByVal foDT As DataTable, _
+    Private Function newDetail(ByVal foDT As DataTable,
                                ByRef fnQty As Integer) As Boolean
         Dim lbAddNewRow As Boolean = True
 
@@ -4334,9 +4410,9 @@ Public Class New_Sales_Order
                     'please see newDetail(fnRows)
                     If lnLoc < p_oDTDetail.Rows.Count - 1 Then
                         Dim lsSQL As String
-                        lsSQL = "UPDATE " & pxeDetTable & _
-                                " SET nEntryNox = nEntryNox + 1" & _
-                                " WHERE sTransNox = " & strParm(p_oDTMaster(0).Item("sTransNox")) & _
+                        lsSQL = "UPDATE " & pxeDetTable &
+                                " SET nEntryNox = nEntryNox + 1" &
+                                " WHERE sTransNox = " & strParm(p_oDTMaster(0).Item("sTransNox")) &
                                     " AND nEntryNox > " & lnLoc + 1
                         Try
                             p_oApp.Execute(lsSQL, pxeDetTable)
@@ -4544,11 +4620,11 @@ Public Class New_Sales_Order
         Dim loDT As DataTable
         Dim lsSQL As String
 
-        lsSQL = "SELECT nTableNox" & _
-                    ", cStatusxx" & _
-                    ", dReserved" & _
-                    ", nCapacity" & _
-                    ", nOccupnts" & _
+        lsSQL = "SELECT nTableNox" &
+                    ", cStatusxx" &
+                    ", dReserved" &
+                    ", nCapacity" &
+                    ", nOccupnts" &
                 " FROM Table_Master"
 
         loDT = p_oApp.ExecuteQuery(lsSQL)
@@ -4579,8 +4655,8 @@ Public Class New_Sales_Order
         Dim lsSQL As String
         Dim loDTa As DataTable
 
-        lsSQL = "SELECT * " & _
-            " FROM Order_Split" & _
+        lsSQL = "SELECT * " &
+            " FROM Order_Split" &
             " WHERE sReferNox = " & strParm(fsReferNox)
         loDTa = p_oApp.ExecuteQuery(lsSQL)
 
@@ -4686,31 +4762,31 @@ Public Class New_Sales_Order
 
         If p_oDiscount.HasDiscount Then
             Dim lsSQL As String
-            lsSQL = "SELECT" & _
-                        "  a.nNoClient" & _
-                        ", a.nWithDisc" & _
-                        ", b.sIDNumber" & _
-                        ", b.sClientNm" & _
-                        ", d.sCategrID" & _
-                        ", d.nMinAmtxx" & _
-                        ", d.nDiscRate" & _
-                        ", d.nDiscAmtx" & _
-                        ", d.sCardIDxx" & _
-                        ", c.cNoneVatx" & _
-                        ", e.sTransNox" & _
-                        ", e.sTableNox" & _
-                              " FROM Discount a," & _
-                                    " Discount_Detail b," & _
-                                    " Discount_Card c," & _
-                                    " Discount_Card_Detail d," & _
-                                    " SO_Master e" & _
-                                       " WHERE a.sTransNox = b.sTransNox" & _
-                                            " AND a.sDiscCard = c.sCardIDxx" & _
-                                            " AND c.sCardIDxx = d.sCardIDxx" & _
-                                            " AND a.sSourceNo = e.sTransNox" & _
-                                            " AND d.sCardIDxx = " & strParm(p_oDiscount.Master("sCardIDxx")) & _
-                                            " AND a.sSourceNo = " & strParm(fsSourceNo) & _
-                                            " ORDER BY b.nEntryNox ASC" & _
+            lsSQL = "SELECT" &
+                        "  a.nNoClient" &
+                        ", a.nWithDisc" &
+                        ", b.sIDNumber" &
+                        ", b.sClientNm" &
+                        ", d.sCategrID" &
+                        ", d.nMinAmtxx" &
+                        ", d.nDiscRate" &
+                        ", d.nDiscAmtx" &
+                        ", d.sCardIDxx" &
+                        ", c.cNoneVatx" &
+                        ", e.sTransNox" &
+                        ", e.sTableNox" &
+                              " FROM Discount a," &
+                                    " Discount_Detail b," &
+                                    " Discount_Card c," &
+                                    " Discount_Card_Detail d," &
+                                    " SO_Master e" &
+                                       " WHERE a.sTransNox = b.sTransNox" &
+                                            " AND a.sDiscCard = c.sCardIDxx" &
+                                            " AND c.sCardIDxx = d.sCardIDxx" &
+                                            " AND a.sSourceNo = e.sTransNox" &
+                                            " AND d.sCardIDxx = " & strParm(p_oDiscount.Master("sCardIDxx")) &
+                                            " AND a.sSourceNo = " & strParm(fsSourceNo) &
+                                            " ORDER BY b.nEntryNox ASC" &
                                             " LIMIT 1"
             Try
                 loDiscDtl = p_oApp.ExecuteQuery(lsSQL)
@@ -4718,25 +4794,26 @@ Public Class New_Sales_Order
                 p_nNoClient = 0
                 p_nWithDisc = 0
                 p_nTableNo = 0
+                p_sTrantype = ""
 
                 If loDiscDtl.Rows.Count = 0 Then
-                    lsSQL = "SELECT" & _
-                                "  a.sCategrID" & _
-                                ", a.nMinAmtxx" & _
-                                ", a.nDiscRate" & _
-                                ", a.nDiscAmtx" & _
-                                ", a.sCardIDxx" & _
-                                ", b.cNoneVatx" & _
-                                ", d.sIDNumber" & _
-                            " FROM Discount_Card_Detail a" & _
-                                ", Discount_Card b" & _
-                                    " LEFT JOIN Discount c" & _
-                                        " LEFT JOIN Discount_Detail d" & _
-                                            " ON c.sTransNox = d.sTransNox" & _
-                                        " ON b.sCardIDxx = c.sDiscCard" & _
-                                        " AND c.sSourceCd = 'SO'" & _
-                                        " AND c.sSourceNo = " & strParm(fsSourceNo) & _
-                            " WHERE a.sCardIDxx = b.sCardIDxx" & _
+                    lsSQL = "SELECT" &
+                                "  a.sCategrID" &
+                                ", a.nMinAmtxx" &
+                                ", a.nDiscRate" &
+                                ", a.nDiscAmtx" &
+                                ", a.sCardIDxx" &
+                                ", b.cNoneVatx" &
+                                ", d.sIDNumber" &
+                            " FROM Discount_Card_Detail a" &
+                                ", Discount_Card b" &
+                                    " LEFT JOIN Discount c" &
+                                        " LEFT JOIN Discount_Detail d" &
+                                            " ON c.sTransNox = d.sTransNox" &
+                                        " ON b.sCardIDxx = c.sDiscCard" &
+                                        " AND c.sSourceCd = 'SO'" &
+                                        " AND c.sSourceNo = " & strParm(fsSourceNo) &
+                            " WHERE a.sCardIDxx = b.sCardIDxx" &
                                 " AND a.sCardIDxx = " & strParm(p_oDiscount.Master("sCardIDxx"))
 
                     loDiscDtl = p_oApp.ExecuteQuery(lsSQL)
@@ -4773,13 +4850,13 @@ Public Class New_Sales_Order
         End If
 
         Dim lsSQL As String
-        lsSQL = "SELECT" & _
-                       "  a.sClientID" & _
-                       ", a.sCompnyNm" & _
-                       ", CONCAT(IF(IFNull(a.sHouseNox, '') = '', '', CONCAT(a.sHouseNox, ' ')), a.sAddressx, ', ', b.sTownName, ', ', c.sProvName, ' ', b.sZippCode) xAddressx " & _
-               " FROM `Client_Master` a" & _
-                " LEFT JOIN TownCity b ON a.sTownIDxx = b.sTownIDxx" & _
-                " LEFT JOIN Province c ON b.sProvIDxx = c.sProvIDxx" & _
+        lsSQL = "SELECT" &
+                       "  a.sClientID" &
+                       ", a.sCompnyNm" &
+                       ", CONCAT(IF(IFNull(a.sHouseNox, '') = '', '', CONCAT(a.sHouseNox, ' ')), a.sAddressx, ', ', b.sTownName, ', ', c.sProvName, ' ', b.sZippCode) xAddressx " &
+               " FROM `Client_Master` a" &
+                " LEFT JOIN TownCity b ON a.sTownIDxx = b.sTownIDxx" &
+                " LEFT JOIN Province c ON b.sProvIDxx = c.sProvIDxx" &
         IIf(fbIsCode = False, " WHERE a.cRecdStat = '1'", "")
 
         'Are we using like comparison or equality comparison
@@ -4845,8 +4922,8 @@ Public Class New_Sales_Order
         Dim lnLen As Long
         Dim lsStr As String = ""
 
-        lsSQL = "SELECT sTransNox" & _
-                " FROM Cash_Reg_Machine" & _
+        lsSQL = "SELECT sTransNox" &
+                " FROM Cash_Reg_Machine" &
                 " WHERE sIDNumber = " & strParm(p_sPOSNo)
         Try
             loDA.SelectCommand = New MySqlCommand(lsSQL, p_oApp.Connection)
@@ -4909,8 +4986,8 @@ Public Class New_Sales_Order
         Dim lnLen As Long
         Dim lsStr As String = ""
 
-        lsSQL = "SELECT sMasterNo" & _
-                " FROM Cash_Reg_Machine" & _
+        lsSQL = "SELECT sMasterNo" &
+                " FROM Cash_Reg_Machine" &
                 " WHERE sIDNumber = " & strParm(p_sPOSNo)
         Try
             loDA.SelectCommand = New MySqlCommand(lsSQL, p_oApp.Connection)
@@ -4973,8 +5050,8 @@ Public Class New_Sales_Order
         Dim lnLen As Long
         Dim lsStr As String = ""
 
-        lsSQL = "SELECT sOrderNox" & _
-                " FROM Cash_Reg_Machine" & _
+        lsSQL = "SELECT sOrderNox" &
+                " FROM Cash_Reg_Machine" &
                 " WHERE sIDNumber = " & strParm(p_sPOSNo)
         Try
             loDA.SelectCommand = New MySqlCommand(lsSQL, p_oApp.Connection)
@@ -5037,8 +5114,8 @@ Public Class New_Sales_Order
         Dim lnLen As Long
         Dim lsStr As String = ""
 
-        lsSQL = "SELECT sBillNmbr" & _
-                " FROM Cash_Reg_Machine" & _
+        lsSQL = "SELECT sBillNmbr" &
+                " FROM Cash_Reg_Machine" &
                 " WHERE sIDNumber = " & strParm(p_sPOSNo)
         Try
             loDA.SelectCommand = New MySqlCommand(lsSQL, p_oApp.Connection)
@@ -5095,11 +5172,11 @@ Public Class New_Sales_Order
         Dim lsSQL As String
         Dim loDT As DataTable
 
-        lsSQL = "SELECT nContrlNo" & _
-                " FROM " & pxeMasTable & _
-                " WHERE sTransNox LIKE " & strParm(p_sBranchCd & p_sTermnl & Format(p_oApp.getSysDate().ToString("yy") & "%")) & _
-                    " AND dTransact LIKE " & strParm(Format(p_oApp.getSysDate().ToString("yyyy-MM") & "%")) & _
-                " ORDER BY nContrlNo DESC" & _
+        lsSQL = "SELECT nContrlNo" &
+                " FROM " & pxeMasTable &
+                " WHERE sTransNox LIKE " & strParm(p_sBranchCd & p_sTermnl & Format(p_oApp.getSysDate().ToString("yy") & "%")) &
+                    " AND dTransact LIKE " & strParm(Format(p_oApp.getSysDate().ToString("yyyy-MM") & "%")) &
+                " ORDER BY nContrlNo DESC" &
                 " LIMIT 1"
 
         loDT = p_oApp.ExecuteQuery(lsSQL)
@@ -5183,10 +5260,10 @@ Public Class New_Sales_Order
         Dim loDT As DataTable
         Dim lnCtr As Integer
 
-        lsSQL = "SELECT sMergeIDx" & _
-                " FROM " & pxeMasTable & _
-                " WHERE sMergeIDx LIKE " & strParm(p_sBranchCd & Format(p_oApp.getSysDate(), "yy") & "%") & _
-                " ORDER BY sMergeIDx DESC" & _
+        lsSQL = "SELECT sMergeIDx" &
+                " FROM " & pxeMasTable &
+                " WHERE sMergeIDx LIKE " & strParm(p_sBranchCd & Format(p_oApp.getSysDate(), "yy") & "%") &
+                " ORDER BY sMergeIDx DESC" &
                 " LIMIT 1"
 
         loDT = p_oApp.ExecuteQuery(lsSQL)
@@ -5245,19 +5322,19 @@ Public Class New_Sales_Order
 
     Private Function getSQ_ChargedOrder() As String
         Return _
-            "SELECT sTransNox" & _
-                ", nContrlNo" & _
-                ", dTransact" & _
-                ", sReceiptx" & _
-                ", nTranTotl" & _
-                ", sCashierx" & _
-                ", sTableNox" & _
-                ", sWaiterID" & _
-                ", sMergeIDx" & _
-                ", cTranStat" & _
-                ", dModified" & _
-                " FROM " & pxeMasTable & _
-            " WHERE cTranStat = '2'" & _
+            "SELECT sTransNox" &
+                ", nContrlNo" &
+                ", dTransact" &
+                ", sReceiptx" &
+                ", nTranTotl" &
+                ", sCashierx" &
+                ", sTableNox" &
+                ", sWaiterID" &
+                ", sMergeIDx" &
+                ", cTranStat" &
+                ", dModified" &
+                " FROM " & pxeMasTable &
+            " WHERE cTranStat = '2'" &
             " ORDER BY sTransNox ASC"
     End Function
 
@@ -5279,6 +5356,7 @@ Public Class New_Sales_Order
                 ", dPrntBill" &
                 ", dModified" &
                 ", cSChargex" &
+                ", cTranType" &
                 " FROM " & pxeMasTable &
             " WHERE cTranStat = '0'" &
                 " AND LEFT(sTransNox, 6) = " & strParm(p_oApp.BranchCode & p_sTermnl) &
@@ -5302,6 +5380,7 @@ Public Class New_Sales_Order
                 ", a.dPrntBill" &
                 ", a.dModified" &
                 ", a.cSChargex" &
+                ", a.cTranType" &
                 ", a.sCustName" &
             " FROM " & pxeMasTable & " a" &
                 " LEFT JOIN Receipt_Master b" &
@@ -5442,60 +5521,60 @@ Public Class New_Sales_Order
 
     Private Function getSQ_Discount() As String
         Return _
-            "SELECT" & _
-                "  nNoClient" & _
-                ", nWithDisc" & _
+            "SELECT" &
+                "  nNoClient" &
+                ", nWithDisc" &
             " FROM Discount"
     End Function
 
     Private Function getSQ_Promo(ByVal fsStockIDx As String, ByVal fsCategrID As String) As String
         Dim lsSQL As String
 
-        lsSQL = _
-            "SELECT a.sTransNox" & _
-                ", a.nDiscRate" & _
-                ", a.nDiscAmtx" & _
-                ", a.nMinQtyxx" & _
-                ", a.nExtDRate" & _
-                ", a.nExtDAmtx" & _
-                ", a.nExtQtyxx" & _
-                ", a.dHappyHrF" & _
-                ", a.dHappyHrT" & _
-                ", a.dPromoFrm" & _
-                ", a.dPromoTru" & _
+        lsSQL =
+            "SELECT a.sTransNox" &
+                ", a.nDiscRate" &
+                ", a.nDiscAmtx" &
+                ", a.nMinQtyxx" &
+                ", a.nExtDRate" &
+                ", a.nExtDAmtx" &
+                ", a.nExtQtyxx" &
+                ", a.dHappyHrF" &
+                ", a.dHappyHrT" &
+                ", a.dPromoFrm" &
+                ", a.dPromoTru" &
             " FROM Sales_Promo a"
 
         If fsCategrID = vbEmpty Then
-            lsSQL = lsSQL & _
+            lsSQL = lsSQL &
                 " WHERE a.sStockIDx = " & strParm(fsStockIDx)
         Else
-            lsSQL = lsSQL & _
-                " WHERE ( a.sStockIDx = " & strParm(fsStockIDx) & _
+            lsSQL = lsSQL &
+                " WHERE ( a.sStockIDx = " & strParm(fsStockIDx) &
                     " OR a.sCategrID = " & strParm(fsCategrID) & " )"
         End If
 
-        lsSQL = lsSQL & _
-                    " AND SYSDATE() BETWEEN a.dPromoFrm AND a.dPromoTru" & _
-                    " AND ( a.tHappyHrF IS NULL" & _
-                        " OR TIME(SYSDATE()) BETWEEN a.tHappyHrF AND a.tHappyHrT )" & _
-                    " AND a.cRecdStat = " & xeRecordStat.RECORD_NEW & _
+        lsSQL = lsSQL &
+                    " AND SYSDATE() BETWEEN a.dPromoFrm AND a.dPromoTru" &
+                    " AND ( a.tHappyHrF IS NULL" &
+                        " OR TIME(SYSDATE()) BETWEEN a.tHappyHrF AND a.tHappyHrT )" &
+                    " AND a.cRecdStat = " & xeRecordStat.RECORD_NEW &
                 " ORDER BY a.dPromoFrm DESC LIMIT 1"
         Return lsSQL
     End Function
 
     Private Function getSQ_Combo(ByVal fsStockIDx As String) As String
         Return _
-            "SELECT a.sComboIDx" & _
-                ", b.sBarcodex" & _
-                ", b.sDescript" & _
-                ", a.nQuantity" & _
-                ", b.sCategrID" & _
-                ", b.sStockIDx" & _
-                ", b.sBriefDsc" & _
-            " FROM Combo_Meals a" & _
-                ", Inventory b" & _
-            " WHERE a.sStockIDx = b.sStockIDx" & _
-                " AND a.sComboIDx = " & strParm(fsStockIDx) & _
+            "SELECT a.sComboIDx" &
+                ", b.sBarcodex" &
+                ", b.sDescript" &
+                ", a.nQuantity" &
+                ", b.sCategrID" &
+                ", b.sStockIDx" &
+                ", b.sBriefDsc" &
+            " FROM Combo_Meals a" &
+                ", Inventory b" &
+            " WHERE a.sStockIDx = b.sStockIDx" &
+                " AND a.sComboIDx = " & strParm(fsStockIDx) &
             " ORDER BY a.nEntryNox"
     End Function
 
@@ -5733,9 +5812,9 @@ Public Class New_Sales_Order
         Dim lsCashierNm As String
         Dim loDta As DataTable
 
-        lsSQL = "SELECT" & _
-                    " a.sUserName" & _
-                    " FROM xxxSysUser a" & _
+        lsSQL = "SELECT" &
+                    " a.sUserName" &
+                    " FROM xxxSysUser a" &
                     " WHERE a.sUserIDxx = " & strParm(sCashierx)
 
         loDta = p_oApp.ExecuteQuery(lsSQL)
@@ -5760,16 +5839,16 @@ Public Class New_Sales_Order
         Dim loSalesReturn As SalesReturn
 
         'show list of OR to reprint
-        lsSQL = "SELECT sORNumber" & _
-                     ", dTransact" & _
-                     ", nSalesAmt" & _
-                     ", IF(sSourceCd = 'SO', 'Sales Order', 'Splitted Order') sSourceNm" & _
-                     ", sSourceCD" & _
-                     ", sSourceNo" & _
-                     ", sTransNox" & _
-               " FROM Receipt_Master" & _
-               " WHERE sTransNox LIKE " & strParm(p_oApp.BranchCode & p_sTermnl & "%") & _
-                 " AND dTransact = " & dateParm(p_oApp.getSysDate) & _
+        lsSQL = "SELECT sORNumber" &
+                     ", dTransact" &
+                     ", nSalesAmt" &
+                     ", IF(sSourceCd = 'SO', 'Sales Order', 'Splitted Order') sSourceNm" &
+                     ", sSourceCD" &
+                     ", sSourceNo" &
+                     ", sTransNox" &
+               " FROM Receipt_Master" &
+               " WHERE sTransNox LIKE " & strParm(p_oApp.BranchCode & p_sTermnl & "%") &
+                 " AND dTransact = " & dateParm(p_oApp.getSysDate) &
                  " AND cTranStat NOT IN ('3', 4)"
 
         Dim loRow As DataRow = KwikSearch(p_oApp _
@@ -5777,15 +5856,15 @@ Public Class New_Sales_Order
                                          , True _
                                          , "" _
                                          , "sORNumber»dTransact»nSalesAmt»sSourceNm" _
-                                         , "OR No»Date»Sales Amount»Source", _
+                                         , "OR No»Date»Sales Amount»Source",
                                          , "sORNumber»dTransact»nSalesAmt»IF(sSourceCd = 'SO', 'Sales Order', 'Splitted Order')" _
                                          , 0)
         If IsNothing(loRow) Then
             Exit Sub
         End If
 
-        lsSQL = "UPDATE Receipt_Master SET" & _
-                    "  cTranStat = " & strParm(xeTranStat.TRANS_CANCELLED) & _
+        lsSQL = "UPDATE Receipt_Master SET" &
+                    "  cTranStat = " & strParm(xeTranStat.TRANS_CANCELLED) &
                 " WHERE sTransNox = " & strParm(loRow("sTransNox"))
 
         If p_oApp.Execute(lsSQL, "Receipt_Master") <= 0 Then
@@ -5947,23 +6026,23 @@ Public Class New_Sales_Order
     Public Sub PrintChargeOR()
         Dim lsSQL As String
 
-        lsSQL = "SELECT" & _
-                    "  RIGHT(a.sTransNox, 8) sTransNox" & _
-                    ", c.dTransact dTransact" & _
-                    ", IF(IFNULL(b.sCompnyNm, '') = '', a.sClientNm, b.sCompnyNm) sClientNm" & _
-                    ", a.nAmountxx nAmountxx" & _
-                    ", a.nDiscount nDiscount" & _
-                    ", a.nVatDiscx nVatDiscx" & _
-                    ", a.nPWDDIscx nPWDDIscx" & _
-                    ", a.sSourceCd sSourceCd" & _
-                    ", a.sSourceNo sSourceNo" & _
-                " FROM Charge_Invoice a" & _
-                    " LEFT JOIN Client_Master b" & _
-                        " ON a.sClientID = b.sClientID" & _
-                    " LEFT JOIN SO_Master c" & _
-                        " ON a.sSourceNo = c.sTransNox" & _
-                " WHERE a.sSourceCd = 'SO'" & _
-                    " AND a.cTranStat = '1'" & _
+        lsSQL = "SELECT" &
+                    "  RIGHT(a.sTransNox, 8) sTransNox" &
+                    ", c.dTransact dTransact" &
+                    ", IF(IFNULL(b.sCompnyNm, '') = '', a.sClientNm, b.sCompnyNm) sClientNm" &
+                    ", a.nAmountxx nAmountxx" &
+                    ", a.nDiscount nDiscount" &
+                    ", a.nVatDiscx nVatDiscx" &
+                    ", a.nPWDDIscx nPWDDIscx" &
+                    ", a.sSourceCd sSourceCd" &
+                    ", a.sSourceNo sSourceNo" &
+                " FROM Charge_Invoice a" &
+                    " LEFT JOIN Client_Master b" &
+                        " ON a.sClientID = b.sClientID" &
+                    " LEFT JOIN SO_Master c" &
+                        " ON a.sSourceNo = c.sTransNox" &
+                " WHERE a.sSourceCd = 'SO'" &
+                    " AND a.cTranStat = '1'" &
                     " AND a.cORPrintx = '0'"
 
         Dim loRow As DataRow = KwikSearch(p_oApp _
@@ -5971,7 +6050,7 @@ Public Class New_Sales_Order
                                          , True _
                                          , "" _
                                          , "sTransNox»dTransact»sClientNm»nAmountxx" _
-                                         , "CI No»Date»Name»Amount", _
+                                         , "CI No»Date»Name»Amount",
                                          , "RIGHT(a.sTransNox, 8)»c.dTransact»IF(IFNULL(b.sCompnyNm, '') = '', a.sClientNm, b.sCompnyNm)»a.nAmountxx" _
                                          , 0)
         If IsNothing(loRow) Then
@@ -5980,9 +6059,9 @@ Public Class New_Sales_Order
 
         If LoadChargeOrder(loRow("sSourceNo")) Then
             If PayOrder() Then
-                lsSQL = "UPDATE Charge_Invoice SET " & _
-                            " cTranStat = " & strParm(xeTranStat.TRANS_CLOSED) & _
-                        " WHERE sSourceNo = " & strParm(loRow("sSourceNo")) & _
+                lsSQL = "UPDATE Charge_Invoice SET " &
+                            " cTranStat = " & strParm(xeTranStat.TRANS_CLOSED) &
+                        " WHERE sSourceNo = " & strParm(loRow("sSourceNo")) &
                             " AND sSourceCD = " & strParm(loRow("sSourceCD"))
             End If
         End If

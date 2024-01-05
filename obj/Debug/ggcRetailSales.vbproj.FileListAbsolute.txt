@@ -1,270 +1,33 @@
-X:\GMC SEG Folder\vb.net\My Applications\ggcRetailSales\obj\Debug\ggcRetailSales.vbprojResolveAssemblyReference.cache
-X:\GMC SEG Folder\vb.net\My Applications\ggcRetailSales\obj\Debug\ggcRetailSales.frmOrderSplit.resources
-X:\GMC SEG Folder\vb.net\My Applications\ggcRetailSales\obj\Debug\ggcRetailSales.frmPaySplitted.resources
-X:\GMC SEG Folder\vb.net\My Applications\ggcRetailSales\obj\Debug\ggcRetailSales.frmComplementary.resources
-X:\GMC SEG Folder\vb.net\My Applications\ggcRetailSales\obj\Debug\ggcRetailSales.frmDiscount.resources
-X:\GMC SEG Folder\vb.net\My Applications\ggcRetailSales\obj\Debug\ggcRetailSales.frmChangePrice.resources
-X:\GMC SEG Folder\vb.net\My Applications\ggcRetailSales\obj\Debug\ggcRetailSales.frmChangeQty.resources
-X:\GMC SEG Folder\vb.net\My Applications\ggcRetailSales\obj\Debug\ggcRetailSales.frmMergeOrder.resources
-X:\GMC SEG Folder\vb.net\My Applications\ggcRetailSales\obj\Debug\ggcRetailSales.frmSelectTable.resources
-X:\GMC SEG Folder\vb.net\My Applications\ggcRetailSales\obj\Debug\ggcRetailSales.frmUserDisc.resources
-X:\GMC SEG Folder\vb.net\My Applications\ggcRetailSales\obj\Debug\ggcRetailSales.frmCashPullout.resources
-X:\GMC SEG Folder\vb.net\My Applications\ggcRetailSales\obj\Debug\ggcRetailSales.frmDailySales.resources
-X:\GMC SEG Folder\vb.net\My Applications\ggcRetailSales\obj\Debug\ggcRetailSales.Resources.resources
-X:\GMC SEG Folder\vb.net\My Applications\ggcRetailSales\obj\Debug\ggcRetailSales.vbproj.GenerateResource.Cache
-X:\GMC SEG Folder\vb.net\My Applications\ggcRetailSales\obj\Debug\ggcRetailSales.dll
-X:\GMC SEG Folder\vb.net\My Applications\ggcRetailSales\obj\Debug\ggcRetailSales.xml
-X:\GMC SEG Folder\vb.net\My Applications\ggcRetailSales\obj\Debug\ggcRetailSales.pdb
-\\192.168.10.220\seg\GMC SEG Folder\vb.net\My Applications\ggcRetailSales\obj\Debug\ggcRetailSales.vbprojResolveAssemblyReference.cache
-\\192.168.10.220\seg\GMC SEG Folder\vb.net\My Applications\ggcRetailSales\obj\Debug\ggcRetailSales.frmSalesReturn.resources
-\\192.168.10.220\seg\GMC SEG Folder\vb.net\My Applications\ggcRetailSales\obj\Debug\ggcRetailSales.frmOrderSplit.resources
-\\192.168.10.220\seg\GMC SEG Folder\vb.net\My Applications\ggcRetailSales\obj\Debug\ggcRetailSales.frmPaySplitted.resources
-\\192.168.10.220\seg\GMC SEG Folder\vb.net\My Applications\ggcRetailSales\obj\Debug\ggcRetailSales.frmComplementary.resources
-\\192.168.10.220\seg\GMC SEG Folder\vb.net\My Applications\ggcRetailSales\obj\Debug\ggcRetailSales.frmDiscount.resources
-\\192.168.10.220\seg\GMC SEG Folder\vb.net\My Applications\ggcRetailSales\obj\Debug\ggcRetailSales.frmChangePrice.resources
-\\192.168.10.220\seg\GMC SEG Folder\vb.net\My Applications\ggcRetailSales\obj\Debug\ggcRetailSales.frmChangeQty.resources
-\\192.168.10.220\seg\GMC SEG Folder\vb.net\My Applications\ggcRetailSales\obj\Debug\ggcRetailSales.frmMergeOrder.resources
-\\192.168.10.220\seg\GMC SEG Folder\vb.net\My Applications\ggcRetailSales\obj\Debug\ggcRetailSales.frmSelectTable.resources
-\\192.168.10.220\seg\GMC SEG Folder\vb.net\My Applications\ggcRetailSales\obj\Debug\ggcRetailSales.frmUserDisc.resources
-\\192.168.10.220\seg\GMC SEG Folder\vb.net\My Applications\ggcRetailSales\obj\Debug\ggcRetailSales.frmCashPullout.resources
-\\192.168.10.220\seg\GMC SEG Folder\vb.net\My Applications\ggcRetailSales\obj\Debug\ggcRetailSales.frmDailySales.resources
-\\192.168.10.220\seg\GMC SEG Folder\vb.net\My Applications\ggcRetailSales\obj\Debug\ggcRetailSales.Resources.resources
-\\192.168.10.220\seg\GMC SEG Folder\vb.net\My Applications\ggcRetailSales\obj\Debug\ggcRetailSales.vbproj.GenerateResource.Cache
-\\192.168.10.220\seg\GMC SEG Folder\vb.net\My Applications\ggcRetailSales\obj\Debug\ggcRetailSales.dll
-\\192.168.10.220\seg\GMC SEG Folder\vb.net\My Applications\ggcRetailSales\obj\Debug\ggcRetailSales.xml
-\\192.168.10.220\seg\GMC SEG Folder\vb.net\My Applications\ggcRetailSales\obj\Debug\ggcRetailSales.pdb
-X:\GMC SEG Folder\vb.net\My Applications\ggcRetailSales\obj\Debug\ggcRetailSales.frmSalesReturn.resources
-Z:\GMC SEG Folder\vb.net\My Applications\ggcRetailSales\obj\Debug\ggcRetailSales.frmSalesReturn.resources
-Z:\GMC SEG Folder\vb.net\My Applications\ggcRetailSales\obj\Debug\ggcRetailSales.frmOrderSplit.resources
-Z:\GMC SEG Folder\vb.net\My Applications\ggcRetailSales\obj\Debug\ggcRetailSales.frmPaySplitted.resources
-Z:\GMC SEG Folder\vb.net\My Applications\ggcRetailSales\obj\Debug\ggcRetailSales.frmComplementary.resources
-Z:\GMC SEG Folder\vb.net\My Applications\ggcRetailSales\obj\Debug\ggcRetailSales.frmDiscount.resources
-Z:\GMC SEG Folder\vb.net\My Applications\ggcRetailSales\obj\Debug\ggcRetailSales.frmChangePrice.resources
-Z:\GMC SEG Folder\vb.net\My Applications\ggcRetailSales\obj\Debug\ggcRetailSales.frmChangeQty.resources
-Z:\GMC SEG Folder\vb.net\My Applications\ggcRetailSales\obj\Debug\ggcRetailSales.frmMergeOrder.resources
-Z:\GMC SEG Folder\vb.net\My Applications\ggcRetailSales\obj\Debug\ggcRetailSales.frmSelectTable.resources
-Z:\GMC SEG Folder\vb.net\My Applications\ggcRetailSales\obj\Debug\ggcRetailSales.frmUserDisc.resources
-Z:\GMC SEG Folder\vb.net\My Applications\ggcRetailSales\obj\Debug\ggcRetailSales.frmCashPullout.resources
-Z:\GMC SEG Folder\vb.net\My Applications\ggcRetailSales\obj\Debug\ggcRetailSales.frmDailySales.resources
-Z:\GMC SEG Folder\vb.net\My Applications\ggcRetailSales\obj\Debug\ggcRetailSales.Resources.resources
-Z:\GMC SEG Folder\vb.net\My Applications\ggcRetailSales\obj\Debug\ggcRetailSales.dll
-Z:\GMC SEG Folder\vb.net\My Applications\ggcRetailSales\obj\Debug\ggcRetailSales.xml
-Z:\GMC SEG Folder\vb.net\My Applications\ggcRetailSales\obj\Debug\ggcRetailSales.pdb
-Z:\GMC SEG Folder\vb.net\My Applications\ggcRetailSales\obj\Debug\ggcRetailSales.frmChargeInvoice.resources
-Z:\GMC SEG Folder\vb.net\My Applications\ggcRetailSales\obj\Debug\ggcRetailSales.frmManageTable.resources
-\\192.168.10.220\seg\GMC SEG Folder\vb.net\My Applications\ggcRetailSales\obj\Debug\ggcRetailSales.frmManageTable.resources
-\\192.168.10.220\seg\GMC SEG Folder\vb.net\My Applications\ggcRetailSales\obj\Debug\ggcRetailSales.frmChargeInvoice.resources
-X:\GMC SEG Folder\vb.net\My Applications\ggcRetailSales\obj\Debug\ggcRetailSales.frmManageTable.resources
-X:\GMC SEG Folder\vb.net\My Applications\ggcRetailSales\obj\Debug\ggcRetailSales.frmChargeInvoice.resources
-D:\GMC SEG Folder\VBNET\My Applications\ggcRetailSales\obj\Debug\ggcRetailSales.vbprojResolveAssemblyReference.cache
-D:\GMC SEG Folder\VBNET\My Applications\ggcRetailSales\obj\Debug\ggcRetailSales.frmPayCharge.resources
-D:\GMC SEG Folder\VBNET\My Applications\ggcRetailSales\obj\Debug\ggcRetailSales.frmSalesReturn.resources
-D:\GMC SEG Folder\VBNET\My Applications\ggcRetailSales\obj\Debug\ggcRetailSales.frmOrderSplit.resources
-D:\GMC SEG Folder\VBNET\My Applications\ggcRetailSales\obj\Debug\ggcRetailSales.frmPaySplitted.resources
-D:\GMC SEG Folder\VBNET\My Applications\ggcRetailSales\obj\Debug\ggcRetailSales.frmComplementary.resources
-D:\GMC SEG Folder\VBNET\My Applications\ggcRetailSales\obj\Debug\ggcRetailSales.frmDiscount.resources
-D:\GMC SEG Folder\VBNET\My Applications\ggcRetailSales\obj\Debug\ggcRetailSales.frmChangePrice.resources
-D:\GMC SEG Folder\VBNET\My Applications\ggcRetailSales\obj\Debug\ggcRetailSales.frmChangeQty.resources
-D:\GMC SEG Folder\VBNET\My Applications\ggcRetailSales\obj\Debug\ggcRetailSales.frmMergeOrder.resources
-D:\GMC SEG Folder\VBNET\My Applications\ggcRetailSales\obj\Debug\ggcRetailSales.frmSelectTable.resources
-D:\GMC SEG Folder\VBNET\My Applications\ggcRetailSales\obj\Debug\ggcRetailSales.frmManageTable.resources
-D:\GMC SEG Folder\VBNET\My Applications\ggcRetailSales\obj\Debug\ggcRetailSales.frmUserDisc.resources
-D:\GMC SEG Folder\VBNET\My Applications\ggcRetailSales\obj\Debug\ggcRetailSales.frmCashPullout.resources
-D:\GMC SEG Folder\VBNET\My Applications\ggcRetailSales\obj\Debug\ggcRetailSales.frmDailySales.resources
-D:\GMC SEG Folder\VBNET\My Applications\ggcRetailSales\obj\Debug\ggcRetailSales.frmChargeInvoice.resources
-D:\GMC SEG Folder\VBNET\My Applications\ggcRetailSales\obj\Debug\ggcRetailSales.Resources.resources
-D:\GMC SEG Folder\VBNET\My Applications\ggcRetailSales\obj\Debug\ggcRetailSales.vbproj.GenerateResource.Cache
-D:\GMC SEG Folder\VBNET\My Applications\ggcRetailSales\obj\Debug\ggcRetailSales.dll
-D:\GMC SEG Folder\VBNET\My Applications\ggcRetailSales\obj\Debug\ggcRetailSales.xml
-D:\GMC SEG Folder\VBNET\My Applications\ggcRetailSales\obj\Debug\ggcRetailSales.pdb
-\\fs2\seg\GMC SEG Folder\vb.net\My Applications\ggcRetailSales\obj\Debug\ggcRetailSales.frmChargeInvoiceCollection.resources
-\\fs2\seg\GMC SEG Folder\vb.net\My Applications\ggcRetailSales\obj\Debug\ggcRetailSales.frmSalesReturn.resources
-\\fs2\seg\GMC SEG Folder\vb.net\My Applications\ggcRetailSales\obj\Debug\ggcRetailSales.frmOrderSplit.resources
-\\fs2\seg\GMC SEG Folder\vb.net\My Applications\ggcRetailSales\obj\Debug\ggcRetailSales.frmPaySplitted.resources
-\\fs2\seg\GMC SEG Folder\vb.net\My Applications\ggcRetailSales\obj\Debug\ggcRetailSales.frmComplementary.resources
-\\fs2\seg\GMC SEG Folder\vb.net\My Applications\ggcRetailSales\obj\Debug\ggcRetailSales.frmDiscount.resources
-\\fs2\seg\GMC SEG Folder\vb.net\My Applications\ggcRetailSales\obj\Debug\ggcRetailSales.frmChangePrice.resources
-\\fs2\seg\GMC SEG Folder\vb.net\My Applications\ggcRetailSales\obj\Debug\ggcRetailSales.frmChangeQty.resources
-\\fs2\seg\GMC SEG Folder\vb.net\My Applications\ggcRetailSales\obj\Debug\ggcRetailSales.frmMergeOrder.resources
-\\fs2\seg\GMC SEG Folder\vb.net\My Applications\ggcRetailSales\obj\Debug\ggcRetailSales.frmSelectTable.resources
-\\fs2\seg\GMC SEG Folder\vb.net\My Applications\ggcRetailSales\obj\Debug\ggcRetailSales.frmManageTable.resources
-\\fs2\seg\GMC SEG Folder\vb.net\My Applications\ggcRetailSales\obj\Debug\ggcRetailSales.frmUserDisc.resources
-\\fs2\seg\GMC SEG Folder\vb.net\My Applications\ggcRetailSales\obj\Debug\ggcRetailSales.frmCashPullout.resources
-\\fs2\seg\GMC SEG Folder\vb.net\My Applications\ggcRetailSales\obj\Debug\ggcRetailSales.frmDailySales.resources
-\\fs2\seg\GMC SEG Folder\vb.net\My Applications\ggcRetailSales\obj\Debug\ggcRetailSales.frmChargeInvoice.resources
-\\fs2\seg\GMC SEG Folder\vb.net\My Applications\ggcRetailSales\obj\Debug\ggcRetailSales.Resources.resources
-\\fs2\seg\GMC SEG Folder\vb.net\My Applications\ggcRetailSales\obj\Debug\ggcRetailSales.vbproj.GenerateResource.Cache
-\\fs2\seg\GMC SEG Folder\vb.net\My Applications\ggcRetailSales\obj\Debug\ggcRetailSales.vbprojResolveAssemblyReference.cache
-\\fs2\seg\GMC SEG Folder\vb.net\My Applications\ggcRetailSales\obj\Debug\ggcRetailSales.dll
-\\fs2\seg\GMC SEG Folder\vb.net\My Applications\ggcRetailSales\obj\Debug\ggcRetailSales.xml
-\\fs2\seg\GMC SEG Folder\vb.net\My Applications\ggcRetailSales\obj\Debug\ggcRetailSales.pdb
-Z:\GMC SEG Folder\vb.net\My Applications\ggcRetailSales\obj\Debug\ggcRetailSales.vbprojResolveAssemblyReference.cache
-Z:\GMC SEG Folder\vb.net\My Applications\ggcRetailSales\obj\Debug\ggcRetailSales.frmChargeInvoiceCollection.resources
-Z:\GMC SEG Folder\vb.net\My Applications\ggcRetailSales\obj\Debug\ggcRetailSales.vbproj.GenerateResource.Cache
-Y:\PEDRITOS POS\ggcRetailSales\obj\Debug\ggcRetailSales.vbprojResolveAssemblyReference.cache
-Y:\PEDRITOS POS\ggcRetailSales\obj\Debug\ggcRetailSales.Form1.resources
-Y:\PEDRITOS POS\ggcRetailSales\obj\Debug\ggcRetailSales.frmChargeInvoiceCollection.resources
-Y:\PEDRITOS POS\ggcRetailSales\obj\Debug\ggcRetailSales.frmSalesReturn.resources
-Y:\PEDRITOS POS\ggcRetailSales\obj\Debug\ggcRetailSales.frmOrderSplit.resources
-Y:\PEDRITOS POS\ggcRetailSales\obj\Debug\ggcRetailSales.frmPaySplitted.resources
-Y:\PEDRITOS POS\ggcRetailSales\obj\Debug\ggcRetailSales.frmComplementary.resources
-Y:\PEDRITOS POS\ggcRetailSales\obj\Debug\ggcRetailSales.frmDiscount.resources
-Y:\PEDRITOS POS\ggcRetailSales\obj\Debug\ggcRetailSales.frmChangePrice.resources
-Y:\PEDRITOS POS\ggcRetailSales\obj\Debug\ggcRetailSales.frmChangeQty.resources
-Y:\PEDRITOS POS\ggcRetailSales\obj\Debug\ggcRetailSales.frmMergeOrder.resources
-Y:\PEDRITOS POS\ggcRetailSales\obj\Debug\ggcRetailSales.frmSelectTable.resources
-Y:\PEDRITOS POS\ggcRetailSales\obj\Debug\ggcRetailSales.frmManageTable.resources
-Y:\PEDRITOS POS\ggcRetailSales\obj\Debug\ggcRetailSales.frmUserDisc.resources
-Y:\PEDRITOS POS\ggcRetailSales\obj\Debug\ggcRetailSales.frmCashPullout.resources
-Y:\PEDRITOS POS\ggcRetailSales\obj\Debug\ggcRetailSales.frmDailySales.resources
-Y:\PEDRITOS POS\ggcRetailSales\obj\Debug\ggcRetailSales.frmChargeInvoice.resources
-Y:\PEDRITOS POS\ggcRetailSales\obj\Debug\ggcRetailSales.Resources.resources
-Y:\PEDRITOS POS\ggcRetailSales\obj\Debug\ggcRetailSales.vbproj.GenerateResource.Cache
-Y:\PEDRITOS POS\ggcRetailSales\obj\Debug\ggcRetailSales.dll
-Y:\PEDRITOS POS\ggcRetailSales\obj\Debug\ggcRetailSales.xml
-Y:\PEDRITOS POS\ggcRetailSales\obj\Debug\ggcRetailSales.pdb
-Y:\POS\ggcRetailSales\obj\Debug\ggcRetailSales.vbprojResolveAssemblyReference.cache
-Y:\POS\ggcRetailSales\obj\Debug\ggcRetailSales.frmDiscountMerger.resources
-Y:\POS\ggcRetailSales\obj\Debug\ggcRetailSales.frmPayMergeDiscount.resources
-Y:\POS\ggcRetailSales\obj\Debug\ggcRetailSales.Form1.resources
-Y:\POS\ggcRetailSales\obj\Debug\ggcRetailSales.Form2.resources
-Y:\POS\ggcRetailSales\obj\Debug\ggcRetailSales.frmChargeInvoiceCollection.resources
-Y:\POS\ggcRetailSales\obj\Debug\ggcRetailSales.frmSalesReturn.resources
-Y:\POS\ggcRetailSales\obj\Debug\ggcRetailSales.frmOrderSplit.resources
-Y:\POS\ggcRetailSales\obj\Debug\ggcRetailSales.frmPaySplitted.resources
-Y:\POS\ggcRetailSales\obj\Debug\ggcRetailSales.frmComplementary.resources
-Y:\POS\ggcRetailSales\obj\Debug\ggcRetailSales.frmDiscount.resources
-Y:\POS\ggcRetailSales\obj\Debug\ggcRetailSales.frmChangePrice.resources
-Y:\POS\ggcRetailSales\obj\Debug\ggcRetailSales.frmChangeQty.resources
-Y:\POS\ggcRetailSales\obj\Debug\ggcRetailSales.frmMergeOrder.resources
-Y:\POS\ggcRetailSales\obj\Debug\ggcRetailSales.frmSelectTable.resources
-Y:\POS\ggcRetailSales\obj\Debug\ggcRetailSales.frmManageTable.resources
-Y:\POS\ggcRetailSales\obj\Debug\ggcRetailSales.frmUserDisc.resources
-Y:\POS\ggcRetailSales\obj\Debug\ggcRetailSales.frmCashPullout.resources
-Y:\POS\ggcRetailSales\obj\Debug\ggcRetailSales.frmDailySales.resources
-Y:\POS\ggcRetailSales\obj\Debug\ggcRetailSales.frmChargeInvoice.resources
-Y:\POS\ggcRetailSales\obj\Debug\ggcRetailSales.Resources.resources
-Y:\POS\ggcRetailSales\obj\Debug\ggcRetailSales.vbproj.GenerateResource.Cache
-Y:\POS\ggcRetailSales\obj\Debug\ggcRetailSales.dll
-Y:\POS\ggcRetailSales\obj\Debug\ggcRetailSales.xml
-Y:\POS\ggcRetailSales\obj\Debug\ggcRetailSales.pdb
-D:\POS\ggcRetailSales\obj\Debug\ggcRetailSales.vbproj.AssemblyReference.cache
-D:\POS\ggcRetailSales\obj\Debug\ggcRetailSales.frmTables.resources
-D:\POS\ggcRetailSales\obj\Debug\ggcRetailSales.frmDiscountMerger.resources
-D:\POS\ggcRetailSales\obj\Debug\ggcRetailSales.frmPayMergeDiscount.resources
-D:\POS\ggcRetailSales\obj\Debug\ggcRetailSales.Form1.resources
-D:\POS\ggcRetailSales\obj\Debug\ggcRetailSales.Form2.resources
-D:\POS\ggcRetailSales\obj\Debug\ggcRetailSales.frmChargeInvoiceCollection.resources
-D:\POS\ggcRetailSales\obj\Debug\ggcRetailSales.frmSalesReturn.resources
-D:\POS\ggcRetailSales\obj\Debug\ggcRetailSales.frmOrderSplit.resources
-D:\POS\ggcRetailSales\obj\Debug\ggcRetailSales.frmPaySplitted.resources
-D:\POS\ggcRetailSales\obj\Debug\ggcRetailSales.frmComplementary.resources
-D:\POS\ggcRetailSales\obj\Debug\ggcRetailSales.frmDiscount.resources
-D:\POS\ggcRetailSales\obj\Debug\ggcRetailSales.frmChangePrice.resources
-D:\POS\ggcRetailSales\obj\Debug\ggcRetailSales.frmChangeQty.resources
-D:\POS\ggcRetailSales\obj\Debug\ggcRetailSales.frmMergeOrder.resources
-D:\POS\ggcRetailSales\obj\Debug\ggcRetailSales.frmSelectTable.resources
-D:\POS\ggcRetailSales\obj\Debug\ggcRetailSales.frmManageTable.resources
-D:\POS\ggcRetailSales\obj\Debug\ggcRetailSales.frmUserDisc.resources
-D:\POS\ggcRetailSales\obj\Debug\ggcRetailSales.frmCashPullout.resources
-D:\POS\ggcRetailSales\obj\Debug\ggcRetailSales.frmDailySales.resources
-D:\POS\ggcRetailSales\obj\Debug\ggcRetailSales.frmChargeInvoice.resources
-D:\POS\ggcRetailSales\obj\Debug\ggcRetailSales.frmZReading.resources
-D:\POS\ggcRetailSales\obj\Debug\ggcRetailSales.Resources.resources
-D:\POS\ggcRetailSales\obj\Debug\ggcRetailSales.vbproj.GenerateResource.cache
-D:\POS\ggcRetailSales\obj\Debug\ggcRetailSales.vbproj.CoreCompileInputs.cache
-D:\POS\ggcRetailSales\obj\Debug\ggcRetailSales.vbproj.CopyComplete
-D:\POS\ggcRetailSales\obj\Debug\ggcRetailSales.dll
-D:\POS\ggcRetailSales\obj\Debug\ggcRetailSales.xml
-D:\POS\ggcRetailSales\obj\Debug\ggcRetailSales.pdb
-D:\POSold\ggcRetailSales\obj\Debug\ggcRetailSales.vbproj.AssemblyReference.cache
-D:\POSold\ggcRetailSales\obj\Debug\ggcRetailSales.frmTables.resources
-D:\POSold\ggcRetailSales\obj\Debug\ggcRetailSales.frmDiscountMerger.resources
-D:\POSold\ggcRetailSales\obj\Debug\ggcRetailSales.frmPayMergeDiscount.resources
-D:\POSold\ggcRetailSales\obj\Debug\ggcRetailSales.Form1.resources
-D:\POSold\ggcRetailSales\obj\Debug\ggcRetailSales.Form2.resources
-D:\POSold\ggcRetailSales\obj\Debug\ggcRetailSales.frmChargeInvoiceCollection.resources
-D:\POSold\ggcRetailSales\obj\Debug\ggcRetailSales.frmSalesReturn.resources
-D:\POSold\ggcRetailSales\obj\Debug\ggcRetailSales.frmOrderSplit.resources
-D:\POSold\ggcRetailSales\obj\Debug\ggcRetailSales.frmPaySplitted.resources
-D:\POSold\ggcRetailSales\obj\Debug\ggcRetailSales.frmComplementary.resources
-D:\POSold\ggcRetailSales\obj\Debug\ggcRetailSales.frmDiscount.resources
-D:\POSold\ggcRetailSales\obj\Debug\ggcRetailSales.frmChangePrice.resources
-D:\POSold\ggcRetailSales\obj\Debug\ggcRetailSales.frmChangeQty.resources
-D:\POSold\ggcRetailSales\obj\Debug\ggcRetailSales.frmMergeOrder.resources
-D:\POSold\ggcRetailSales\obj\Debug\ggcRetailSales.frmSelectTable.resources
-D:\POSold\ggcRetailSales\obj\Debug\ggcRetailSales.frmManageTable.resources
-D:\POSold\ggcRetailSales\obj\Debug\ggcRetailSales.frmUserDisc.resources
-D:\POSold\ggcRetailSales\obj\Debug\ggcRetailSales.frmCashPullout.resources
-D:\POSold\ggcRetailSales\obj\Debug\ggcRetailSales.frmDailySales.resources
-D:\POSold\ggcRetailSales\obj\Debug\ggcRetailSales.frmChargeInvoice.resources
-D:\POSold\ggcRetailSales\obj\Debug\ggcRetailSales.frmZReading.resources
-D:\POSold\ggcRetailSales\obj\Debug\ggcRetailSales.Resources.resources
-D:\POSold\ggcRetailSales\obj\Debug\ggcRetailSales.vbproj.GenerateResource.cache
-D:\POSold\ggcRetailSales\obj\Debug\ggcRetailSales.vbproj.CoreCompileInputs.cache
-D:\POSold\ggcRetailSales\obj\Debug\ggcRetailSales.vbproj.CopyComplete
-D:\POSold\ggcRetailSales\obj\Debug\ggcRetailSales.dll
-D:\POSold\ggcRetailSales\obj\Debug\ggcRetailSales.xml
-D:\POSold\ggcRetailSales\obj\Debug\ggcRetailSales.pdb
-D:\LP POS\POSold\ggcRetailSales\obj\Debug\ggcRetailSales.vbproj.AssemblyReference.cache
-D:\LP POS\POSold\ggcRetailSales\obj\Debug\ggcRetailSales.frmTables.resources
-D:\LP POS\POSold\ggcRetailSales\obj\Debug\ggcRetailSales.frmDiscountMerger.resources
-D:\LP POS\POSold\ggcRetailSales\obj\Debug\ggcRetailSales.frmPayMergeDiscount.resources
-D:\LP POS\POSold\ggcRetailSales\obj\Debug\ggcRetailSales.Form1.resources
-D:\LP POS\POSold\ggcRetailSales\obj\Debug\ggcRetailSales.Form2.resources
-D:\LP POS\POSold\ggcRetailSales\obj\Debug\ggcRetailSales.frmChargeInvoiceCollection.resources
-D:\LP POS\POSold\ggcRetailSales\obj\Debug\ggcRetailSales.frmSalesReturn.resources
-D:\LP POS\POSold\ggcRetailSales\obj\Debug\ggcRetailSales.frmOrderSplit.resources
-D:\LP POS\POSold\ggcRetailSales\obj\Debug\ggcRetailSales.frmPaySplitted.resources
-D:\LP POS\POSold\ggcRetailSales\obj\Debug\ggcRetailSales.frmComplementary.resources
-D:\LP POS\POSold\ggcRetailSales\obj\Debug\ggcRetailSales.frmDiscount.resources
-D:\LP POS\POSold\ggcRetailSales\obj\Debug\ggcRetailSales.frmChangePrice.resources
-D:\LP POS\POSold\ggcRetailSales\obj\Debug\ggcRetailSales.frmChangeQty.resources
-D:\LP POS\POSold\ggcRetailSales\obj\Debug\ggcRetailSales.frmMergeOrder.resources
-D:\LP POS\POSold\ggcRetailSales\obj\Debug\ggcRetailSales.frmSelectTable.resources
-D:\LP POS\POSold\ggcRetailSales\obj\Debug\ggcRetailSales.frmManageTable.resources
-D:\LP POS\POSold\ggcRetailSales\obj\Debug\ggcRetailSales.frmUserDisc.resources
-D:\LP POS\POSold\ggcRetailSales\obj\Debug\ggcRetailSales.frmCashPullout.resources
-D:\LP POS\POSold\ggcRetailSales\obj\Debug\ggcRetailSales.frmDailySales.resources
-D:\LP POS\POSold\ggcRetailSales\obj\Debug\ggcRetailSales.frmChargeInvoice.resources
-D:\LP POS\POSold\ggcRetailSales\obj\Debug\ggcRetailSales.frmZReading.resources
-D:\LP POS\POSold\ggcRetailSales\obj\Debug\ggcRetailSales.Resources.resources
-D:\LP POS\POSold\ggcRetailSales\obj\Debug\ggcRetailSales.vbproj.GenerateResource.cache
-D:\LP POS\POSold\ggcRetailSales\obj\Debug\ggcRetailSales.vbproj.CoreCompileInputs.cache
-D:\LP POS\POSold\ggcRetailSales\obj\Debug\ggcRetailSales.vbproj.CopyComplete
-D:\LP POS\POSold\ggcRetailSales\obj\Debug\ggcRetailSales.dll
-D:\LP POS\POSold\ggcRetailSales\obj\Debug\ggcRetailSales.xml
-D:\LP POS\POSold\ggcRetailSales\obj\Debug\ggcRetailSales.pdb
-C:\GGC_Systems\vb.net\RetMgySys\WinSCP.exe
-C:\GGC_Systems\vb.net\RetMgySys\ggcRetailSales.dll
-C:\GGC_Systems\vb.net\RetMgySys\ggcRetailSales.pdb
-C:\GGC_Systems\vb.net\RetMgySys\ggcRetailSales.xml
-D:\Guanzon\GMC SEG Folder\vb.net\TJ\POSold\ggcRetailSales\obj\Debug\ggcRetailSales.vbproj.AssemblyReference.cache
-D:\Guanzon\GMC SEG Folder\vb.net\TJ\POSold\ggcRetailSales\obj\Debug\ggcRetailSales.frmTables.resources
-D:\Guanzon\GMC SEG Folder\vb.net\TJ\POSold\ggcRetailSales\obj\Debug\ggcRetailSales.frmDiscountMerger.resources
-D:\Guanzon\GMC SEG Folder\vb.net\TJ\POSold\ggcRetailSales\obj\Debug\ggcRetailSales.frmPayMergeDiscount.resources
-D:\Guanzon\GMC SEG Folder\vb.net\TJ\POSold\ggcRetailSales\obj\Debug\ggcRetailSales.Form1.resources
-D:\Guanzon\GMC SEG Folder\vb.net\TJ\POSold\ggcRetailSales\obj\Debug\ggcRetailSales.Form2.resources
-D:\Guanzon\GMC SEG Folder\vb.net\TJ\POSold\ggcRetailSales\obj\Debug\ggcRetailSales.frmChargeInvoiceCollection.resources
-D:\Guanzon\GMC SEG Folder\vb.net\TJ\POSold\ggcRetailSales\obj\Debug\ggcRetailSales.frmSalesReturn.resources
-D:\Guanzon\GMC SEG Folder\vb.net\TJ\POSold\ggcRetailSales\obj\Debug\ggcRetailSales.frmOrderSplit.resources
-D:\Guanzon\GMC SEG Folder\vb.net\TJ\POSold\ggcRetailSales\obj\Debug\ggcRetailSales.frmPaySplitted.resources
-D:\Guanzon\GMC SEG Folder\vb.net\TJ\POSold\ggcRetailSales\obj\Debug\ggcRetailSales.frmComplementary.resources
-D:\Guanzon\GMC SEG Folder\vb.net\TJ\POSold\ggcRetailSales\obj\Debug\ggcRetailSales.frmDiscount.resources
-D:\Guanzon\GMC SEG Folder\vb.net\TJ\POSold\ggcRetailSales\obj\Debug\ggcRetailSales.frmChangePrice.resources
-D:\Guanzon\GMC SEG Folder\vb.net\TJ\POSold\ggcRetailSales\obj\Debug\ggcRetailSales.frmChangeQty.resources
-D:\Guanzon\GMC SEG Folder\vb.net\TJ\POSold\ggcRetailSales\obj\Debug\ggcRetailSales.frmMergeOrder.resources
-D:\Guanzon\GMC SEG Folder\vb.net\TJ\POSold\ggcRetailSales\obj\Debug\ggcRetailSales.frmSelectTable.resources
-D:\Guanzon\GMC SEG Folder\vb.net\TJ\POSold\ggcRetailSales\obj\Debug\ggcRetailSales.frmManageTable.resources
-D:\Guanzon\GMC SEG Folder\vb.net\TJ\POSold\ggcRetailSales\obj\Debug\ggcRetailSales.frmUserDisc.resources
-D:\Guanzon\GMC SEG Folder\vb.net\TJ\POSold\ggcRetailSales\obj\Debug\ggcRetailSales.frmCashPullout.resources
-D:\Guanzon\GMC SEG Folder\vb.net\TJ\POSold\ggcRetailSales\obj\Debug\ggcRetailSales.frmDailySales.resources
-D:\Guanzon\GMC SEG Folder\vb.net\TJ\POSold\ggcRetailSales\obj\Debug\ggcRetailSales.frmChargeInvoice.resources
-D:\Guanzon\GMC SEG Folder\vb.net\TJ\POSold\ggcRetailSales\obj\Debug\ggcRetailSales.frmZReading.resources
-D:\Guanzon\GMC SEG Folder\vb.net\TJ\POSold\ggcRetailSales\obj\Debug\ggcRetailSales.Resources.resources
-D:\Guanzon\GMC SEG Folder\vb.net\TJ\POSold\ggcRetailSales\obj\Debug\ggcRetailSales.vbproj.GenerateResource.cache
-D:\Guanzon\GMC SEG Folder\vb.net\TJ\POSold\ggcRetailSales\obj\Debug\ggcRetailSales.vbproj.CoreCompileInputs.cache
-D:\Guanzon\GMC SEG Folder\vb.net\TJ\POSold\ggcRetailSales\obj\Debug\ggcRetailSales.vbproj.CopyComplete
-D:\Guanzon\GMC SEG Folder\vb.net\TJ\POSold\ggcRetailSales\obj\Debug\ggcRetailSales.dll
-D:\Guanzon\GMC SEG Folder\vb.net\TJ\POSold\ggcRetailSales\obj\Debug\ggcRetailSales.xml
-D:\Guanzon\GMC SEG Folder\vb.net\TJ\POSold\ggcRetailSales\obj\Debug\ggcRetailSales.pdb
+C:\GGC_Systems\vb.net\RetMgtSys\WinSCP.exe
+C:\GGC_Systems\vb.net\RetMgtSys\ggcRetailSales.dll
+C:\GGC_Systems\vb.net\RetMgtSys\ggcRetailSales.pdb
+C:\GGC_Systems\vb.net\RetMgtSys\ggcRetailSales.xml
+C:\Users\User\source\repos\ggcRetailSales\obj\Debug\ggcRetailSales.vbproj.AssemblyReference.cache
+C:\Users\User\source\repos\ggcRetailSales\obj\Debug\ggcRetailSales.frmManageTable.resources
+C:\Users\User\source\repos\ggcRetailSales\obj\Debug\ggcRetailSales.frmTables.resources
+C:\Users\User\source\repos\ggcRetailSales\obj\Debug\ggcRetailSales.frmDiscountMerger.resources
+C:\Users\User\source\repos\ggcRetailSales\obj\Debug\ggcRetailSales.frmPayMergeDiscount.resources
+C:\Users\User\source\repos\ggcRetailSales\obj\Debug\ggcRetailSales.Form1.resources
+C:\Users\User\source\repos\ggcRetailSales\obj\Debug\ggcRetailSales.Form2.resources
+C:\Users\User\source\repos\ggcRetailSales\obj\Debug\ggcRetailSales.frmChargeInvoiceCollection.resources
+C:\Users\User\source\repos\ggcRetailSales\obj\Debug\ggcRetailSales.frmSalesReturn.resources
+C:\Users\User\source\repos\ggcRetailSales\obj\Debug\ggcRetailSales.frmOrderSplit.resources
+C:\Users\User\source\repos\ggcRetailSales\obj\Debug\ggcRetailSales.frmPaySplitted.resources
+C:\Users\User\source\repos\ggcRetailSales\obj\Debug\ggcRetailSales.frmComplementary.resources
+C:\Users\User\source\repos\ggcRetailSales\obj\Debug\ggcRetailSales.frmDiscount.resources
+C:\Users\User\source\repos\ggcRetailSales\obj\Debug\ggcRetailSales.frmChangePrice.resources
+C:\Users\User\source\repos\ggcRetailSales\obj\Debug\ggcRetailSales.frmChangeQty.resources
+C:\Users\User\source\repos\ggcRetailSales\obj\Debug\ggcRetailSales.frmMergeOrder.resources
+C:\Users\User\source\repos\ggcRetailSales\obj\Debug\ggcRetailSales.frmSelectTable.resources
+C:\Users\User\source\repos\ggcRetailSales\obj\Debug\ggcRetailSales.frmUserDisc.resources
+C:\Users\User\source\repos\ggcRetailSales\obj\Debug\ggcRetailSales.frmCashPullout.resources
+C:\Users\User\source\repos\ggcRetailSales\obj\Debug\ggcRetailSales.frmDailySales.resources
+C:\Users\User\source\repos\ggcRetailSales\obj\Debug\ggcRetailSales.frmChargeInvoice.resources
+C:\Users\User\source\repos\ggcRetailSales\obj\Debug\ggcRetailSales.frmZReading.resources
+C:\Users\User\source\repos\ggcRetailSales\obj\Debug\ggcRetailSales.Resources.resources
+C:\Users\User\source\repos\ggcRetailSales\obj\Debug\ggcRetailSales.vbproj.GenerateResource.cache
+C:\Users\User\source\repos\ggcRetailSales\obj\Debug\ggcRetailSales.vbproj.CoreCompileInputs.cache
+C:\Users\User\source\repos\ggcRetailSales\obj\Debug\ggcRetailSales.vbproj.CopyComplete
+C:\Users\User\source\repos\ggcRetailSales\obj\Debug\ggcRetailSales.dll
+C:\Users\User\source\repos\ggcRetailSales\obj\Debug\ggcRetailSales.xml
+C:\Users\User\source\repos\ggcRetailSales\obj\Debug\ggcRetailSales.pdb

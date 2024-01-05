@@ -42,6 +42,7 @@ Public Class frmManageTable
             clearFields()
 
             Call grpEventHandler(Me, GetType(Button), "cmdButton", "Click", AddressOf cmdButton_Click)
+            Call grpEventHandler(Me, GetType(RadioButton), "RDOButton", "Click", AddressOf RDOButton_Click)
 
             Call grpEventHandler(Me, GetType(TextBox), "txtField", "GotFocus", AddressOf txtField_GotFocus)
             Call grpEventHandler(Me, GetType(TextBox), "txtField", "LostFocus", AddressOf txtField_LostFocus)
@@ -58,14 +59,33 @@ Public Class frmManageTable
 
         Dim lnIndex As Integer
         lnIndex = Val(Mid(loChk.Name, 10))
+#Disable Warning BC42024 ' Unused local variable
+        Dim check As Boolean
+#Enable Warning BC42024 ' Unused local variable
 
         Select Case lnIndex
             Case 0 'Ok
-                If chk00.Checked = True Then
-                    poTable.WithSCharge = True
-                Else
+
+                If RDOButton00.Checked = True Then
+                    poTable.TranType = "0"
+                    If chk00.Checked = True Then
+                        poTable.WithSCharge = True
+                    Else
+                        poTable.WithSCharge = False
+                    End If
+                ElseIf RDOButton01.Checked = True Then
                     poTable.WithSCharge = False
+                    poTable.TranType = "1"
+                Else
+                    poTable.TranType = "2"
                 End If
+
+
+                'If chk00.Checked = True Then
+                '    poTable.WithSCharge = True
+                'Else
+                '    poTable.WithSCharge = False
+                'End If
 
                 If poTable.SaveTable Then
                     p_bCancelled = False
@@ -80,11 +100,32 @@ Public Class frmManageTable
 endProc:
         Exit Sub
     End Sub
+    Private Sub RDOButton_Click(ByVal sender As System.Object, ByVal e As System.EventArgs)
+        Dim loChk As RadioButton
+        loChk = CType(sender, System.Windows.Forms.RadioButton)
+
+        Dim lnIndex As Integer
+        lnIndex = Val(Mid(loChk.Name, 10))
+
+        Select Case lnIndex
+            Case 0 'Dine in
+                chk00.Enabled = True
+                chk00.Checked = True
+
+            Case 1, 2 'Delivery & take out
+                chk00.Checked = False
+                chk00.Enabled = False
+        End Select
+
+        Application.DoEvents()
+endProc:
+        Exit Sub
+    End Sub
 
     Private Sub setVisible()
         Me.Visible = False
         Me.TransparencyKey = Nothing
-        Me.Location = New Point(507,90)
+        Me.Location = New Point(507, 90)
 
         txtField02.MaxLength = 2
 
@@ -97,6 +138,18 @@ endProc:
         txtField04.Text = ""
         chk00.CheckState = IIf(poTable.WithSCharge, CheckState.Checked, CheckState.Unchecked)
 
+
+        Select Case poTable.Master("cTranType").ToString
+            Case "0"
+                RDOButton00.Checked = True
+            Case "1"
+                RDOButton01.Checked = True
+                chk00.Enabled = False
+            Case "2"
+                RDOButton02.Checked = True
+                chk00.Enabled = False
+        End Select
+
         Select Case poTable.Master("cStatusxx")
             Case 0
                 RadioButton1.Checked = True
@@ -107,6 +160,13 @@ endProc:
             Case 3
                 RadioButton4.Checked = True
         End Select
+        'If poTable.Master("cDlvrServ") = "1" Then
+        '    'select si delivery service
+        '    'uncheck si service charge
+        'Else
+
+        'End If
+
 
         txtField04.ReadOnly = False
         txtField04.Text = Format(poTable.Master("dReserved"), "MMM dd, yyyy hh:mm:ss")
@@ -215,11 +275,23 @@ endProc:
                     Case 3
                         RadioButton4.Checked = True
                 End Select
+
             Case 2
                 txtField02.Text = poTable.Master("nOccupnts")
             Case 4
                 txtField04.Text = Format(poTable.Master("dReserved"), "MMM dd, yyyy hh:mm:ss")
+            Case 5
+                Select Case poTable.Master("cTranType")
+                    Case "0"
+                        RDOButton00.Checked = True
+                    Case "1"
+                        RDOButton01.Checked = True
+                    Case "2"
+                        RDOButton02.Checked = True
+                End Select
         End Select
+
+
     End Sub
 
     Private Sub RadioButton_Click(ByVal sender As Object, ByVal e As System.EventArgs)
@@ -237,4 +309,5 @@ endProc:
             Call clearFields()
         End If
     End Sub
+
 End Class

@@ -38,6 +38,8 @@ Public Class TableMaster
     Private p_sBranchCd As String
     Private p_nTable As Integer
     Private p_bSChargex As Boolean
+    Private p_sTranType As String
+    Private p_sTranNo As String
     Private p_sTableNox As String
 
     Private Const p_sMasTable As String = "Table_Master"
@@ -54,6 +56,30 @@ Public Class TableMaster
             p_bSChargex = Value
         End Set
     End Property
+    Property TranType()
+        Set(ByVal value)
+            p_sTranType = value
+        End Set
+        Get
+            Return p_sTranType
+        End Get
+    End Property
+    Property TranNo()
+        Set(ByVal value)
+            p_sTranNo = value
+        End Set
+        Get
+            Return p_sTranNo
+        End Get
+    End Property
+    'Public Property isDelivery() As Boolean
+    '    Get
+    '        Return p_bDlvrServ
+    '    End Get
+    '    Set(ByVal Value As Boolean)
+    '        p_bDlvrServ = Value
+    '    End Set
+    'End Property
     Public WriteOnly Property SalesOrder
         Set(foSalesOrder)
             p_oSalesOrder = foSalesOrder
@@ -80,7 +106,9 @@ Public Class TableMaster
 
     Public Property Master(ByVal fvIndex As Object) As Object
         Get
-            If Not IsNumeric(fvIndex) Then fvIndex = LCase(fvIndex)
+            If Not IsNumeric(fvIndex) Then
+                fvIndex = LCase(fvIndex)
+            End If
 
             Select Case fvIndex
                 Case "ntablenox" : fvIndex = 0
@@ -88,6 +116,7 @@ Public Class TableMaster
                 Case "noccupnts" : fvIndex = 2
                 Case "ncapacity" : fvIndex = 3
                 Case "dreserved" : fvIndex = 4
+                Case "ctrantype" : fvIndex = 5
                 Case Else
                     MsgBox("Invalid Index Detected. Please verify your entry.", MsgBoxStyle.Critical, p_sMsgHeadr)
             End Select
@@ -115,6 +144,7 @@ Public Class TableMaster
                 Case "noccupnts" : fvIndex = 2
                 Case "dreserved" : fvIndex = 4
                     If Not IsDate(value) Then value = p_oApp.getSysDate
+                Case "ctrantype" : fvIndex = 5
                 Case Else
                     MsgBox("Invalid Index Detected. Please verify your entry.", MsgBoxStyle.Critical, p_sMsgHeadr)
             End Select
@@ -136,19 +166,22 @@ Public Class TableMaster
     End Sub
 
     Private Function getSQL_Master() As String
-        Return "SELECT" & _
-                    "  nTableNox" & _
-                    ", cStatusxx" & _
-                    ", IFNULL(nOccupnts, 0) nOccupnts" & _
-                    ", IFNULL(nCapacity, 0) nCapacity" & _
-                    ", IFNULL(dReserved, SYSDATE()) dReserved" & _
-                " FROM Table_Master"
+        Return "SELECT" &
+                    "  a.nTableNox nTableNox" &
+                    ", a.cStatusxx cStatusxx" &
+                    ", IFNULL(a.nOccupnts, 0) nOccupnts" &
+                    ", IFNULL(a.nCapacity, 0) nCapacity" &
+                    ", IFNULL(a.dReserved, SYSDATE()) dReserved" &
+                    ", b.cTranType cTranType" &
+                " FROM Table_Master a" &
+                " LEFT JOIN SO_Master b ON a.nTableNox = b.sTableNox"
     End Function
 
     Function OpenTable(ByVal fnTableNo As Integer) As Boolean
         Try
             Dim lsSQL As String
-            lsSQL = AddCondition(getSQL_Master, "nTableNox = " & fnTableNo)
+            lsSQL = AddCondition(getSQL_Master, "nTableNox = " & fnTableNo & " AND " & " sTransNox = " & strParm(p_sTranNo))
+            '& " AND " & " sTransNox = " & strParm(p_sTranNo)
             Debug.Print(lsSQL)
             p_oDTMstr = p_oApp.ExecuteQuery(lsSQL)
         Catch ex As MySqlException
@@ -172,14 +205,14 @@ Public Class TableMaster
 
         Try
             If p_oDTMstr(0)("cStatusxx") = 0 Then
-                lsSQL = "SELECT sTransNox FROM SO_Master" & _
-                " WHERE sTableNox = " & p_nTable & _
+                lsSQL = "SELECT sTransNox FROM SO_Master" &
+                " WHERE sTableNox = " & p_nTable &
                 " AND cTranStat = 0"
 
                 loDT = p_oApp.ExecuteQuery(lsSQL)
 
                 If loDT.Rows.Count > 0 Then
-                    If MsgBox("Open Order Exists for this table. Do you want to continue?", _
+                    If MsgBox("Open Order Exists for this table. Do you want to continue?",
                               MsgBoxStyle.YesNo, p_sMsgHeadr) = MsgBoxResult.No Then
                         Return False
                     End If
