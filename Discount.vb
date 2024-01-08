@@ -474,57 +474,6 @@ Public Class Discount
         Return True
     End Function
 
-    Function getUserDiscount() As Boolean
-        Dim lofrmUserDisc As New frmUserDisc
-        Dim loDT As New DataTable
-
-        Dim lnCtr As Integer = 0
-        Dim lbValid As Boolean = False
-
-        With lofrmUserDisc
-            Do
-                .TopMost = True
-                .ShowDialog()
-                If .Cancelled = True Then
-                    Return False
-                End If
-
-                p_oSC.Connection = p_oAppDrvr.Connection
-                p_oSC.CommandText = getSQ_User()
-                p_oSC.Parameters.Clear()
-                p_oSC.Parameters.AddWithValue("?sLogNamex", Encrypt(lofrmUserDisc.LogName, xsSignature))
-                p_oSC.Parameters.AddWithValue("?sPassword", Encrypt(lofrmUserDisc.Password, xsSignature))
-
-                loDT = p_oAppDrvr.ExecuteQuery(p_oSC)
-
-                If loDT.Rows.Count = 0 Then
-                    MsgBox("User Does Not Exist!" & vbCrLf & "Verify log name and/or password.", vbCritical, "Warning")
-                    lnCtr += 1
-                Else
-                    If Not isUserActive(loDT) Then
-                        lnCtr = 0
-                    Else
-                        If loDT.Rows(0).Item("nUserLevl") > xeUserRights.DATAENTRY Then
-                            lbValid = True
-                        Else
-                            MsgBox("User is not allowed to give discount!" & vbCrLf & "Verify user name and/or password.", vbCritical, "Warning")
-                            lnCtr += 1
-                        End If
-                    End If
-                End If
-            Loop Until lbValid Or lnCtr = 3
-        End With
-
-        If lbValid Then
-            p_sUserIDxx = loDT.Rows(0).Item("sUserIDxx")
-            p_sUserName = loDT.Rows(0).Item("sUserName")
-            p_sLogNamex = loDT.Rows(0).Item("sLogNamex")
-            p_nUserLevl = loDT.Rows(0).Item("nUserLevl")
-        End If
-
-        Return lbValid
-    End Function
-
     Function SearchCard(Optional ByVal Value As Object = "") As Boolean
         Return GetCard(Value)
     End Function
@@ -590,7 +539,7 @@ Public Class Discount
                     Next
 
                     If lbWithDiscount Then
-                        If Not getUserDiscount() Then Return False
+                        If Not p_oAppDrvr.getUserApproval Then Return False
                     End If
                 End If
             End If
@@ -842,23 +791,7 @@ endProc:
         Return True
     End Function
 
-    Private Function getSQ_User() As String
-        Return "SELECT sUserIDxx" & _
-              ", sLogNamex" & _
-              ", sPassword" & _
-              ", sUserName" & _
-              ", nUserLevl" & _
-              ", cUserType" & _
-              ", sProdctID" & _
-              ", cUserStat" & _
-              ", nSysError" & _
-              ", cLogStatx" & _
-              ", cLockStat" & _
-              ", cAllwLock" & _
-           " FROM xxxSysUser" & _
-           " WHERE sLogNamex = ?sLogNamex" & _
-              " AND sPassword = ?sPassword"
-    End Function
+
 
     Private Function getNextTransNo() As String
         Dim loDA As New MySqlDataAdapter

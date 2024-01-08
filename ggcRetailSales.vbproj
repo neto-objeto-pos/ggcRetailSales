@@ -21,7 +21,7 @@
     <DebugType>full</DebugType>
     <DefineDebug>true</DefineDebug>
     <DefineTrace>true</DefineTrace>
-    <OutputPath>C:\GGC_Systems\vb.net\RetMgySys\</OutputPath>
+    <OutputPath>..\..\..\..\..\GGC_Systems\vb.net\RetMgtSys\</OutputPath>
     <DocumentationFile>ggcRetailSales.xml</DocumentationFile>
     <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
     <Prefer32Bit>false</Prefer32Bit>
@@ -54,7 +54,7 @@
     </Reference>
     <Reference Include="MySql.Data, Version=6.7.4.0, Culture=neutral, PublicKeyToken=c5687fc88969c44d, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>C:\GGC_Systems\vb.net\RetMgySys\MySql.Data.dll</HintPath>
+      <HintPath>..\..\..\..\..\GGC_Systems\vb.net\RetMgtSys\MySql.Data.dll</HintPath>
     </Reference>
     <Reference Include="MySql.Data.Entity, Version=6.7.4.0, Culture=neutral, PublicKeyToken=c5687fc88969c44d, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -82,6 +82,12 @@
   <ItemGroup>
     <Compile Include="CashPullout.vb" />
     <Compile Include="ChargeInvoiceCollection.vb" />
+    <Compile Include="Forms\frmManageTable.designer.vb">
+      <DependentUpon>frmManageTable.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\frmManageTable.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Forms\frmTables.Designer.vb">
       <DependentUpon>frmTables.vb</DependentUpon>
     </Compile>
@@ -169,12 +175,6 @@
     <Compile Include="Forms\frmComplementary.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Forms\frmUserDisc.Designer.vb">
-      <DependentUpon>frmUserDisc.vb</DependentUpon>
-    </Compile>
-    <Compile Include="Forms\frmUserDisc.vb">
-      <SubType>Form</SubType>
-    </Compile>
     <Compile Include="Forms\frmDiscount.designer.vb">
       <DependentUpon>frmDiscount.vb</DependentUpon>
     </Compile>
@@ -205,12 +205,6 @@
     <Compile Include="Forms\frmSelectTable.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Forms\frmManageTable.designer.vb">
-      <DependentUpon>frmManageTable.vb</DependentUpon>
-    </Compile>
-    <Compile Include="Forms\frmManageTable.vb">
-      <SubType>Form</SubType>
-    </Compile>
     <Compile Include="MergeOrder.vb" />
     <Compile Include="modMain.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
@@ -234,6 +228,9 @@
     <Compile Include="TableMaster.vb" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Forms\frmManageTable.resx">
+      <DependentUpon>frmManageTable.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Forms\frmTables.resx">
       <DependentUpon>frmTables.vb</DependentUpon>
     </EmbeddedResource>
@@ -278,12 +275,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\frmSelectTable.resx">
       <DependentUpon>frmSelectTable.vb</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Forms\frmManageTable.resx">
-      <DependentUpon>frmManageTable.vb</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Forms\frmUserDisc.resx">
-      <DependentUpon>frmUserDisc.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\frmCashPullout.resx">
       <DependentUpon>frmCashPullout.vb</DependentUpon>
@@ -382,10 +373,13 @@
       <Project>{a7bb8738-7dd6-45a0-90c9-fc346648fbf3}</Project>
       <Name>ggcPayment</Name>
     </ProjectReference>
-    <ProjectReference Include="..\ggcRetailParams\ggcRetailParams\ggcRetailParams.vbproj">
-      <Project>{4883F473-C0B0-4266-A9AC-8E4BCA3C4CB7}</Project>
+    <ProjectReference Include="..\ggcRetailParams\ggcRetailParams.vbproj">
+      <Project>{4883f473-c0b0-4266-a9ac-8e4bca3c4cb7}</Project>
       <Name>ggcRetailParams</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\LP Logo.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
