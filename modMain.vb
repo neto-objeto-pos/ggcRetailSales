@@ -508,7 +508,7 @@ Module modMain
     '    'foMaster(0).Item("nVATAmtxx") = (lnTotlAmnt - (lnVoidTotl + lnZeroRatd + foMaster(0).Item("nNonVATxx") + foMaster(0).Item("nDiscount") + foMaster(0).Item("nPWDDiscx") + foMaster(0).Item("nVatDiscx"))) - foMaster(0).Item("nVATSales")
 
     '    foMaster(0).Item("nVATSales") = Math.Round((lnTotlAmnt - (lnVoidTotl + lnZeroRatd + foMaster(0).Item("nNonVATxx") + foMaster(0).Item("nDiscount"))) / lnVatPerc, 2)
-    '    foMaster(0).Item("nVATAmtxx") = (lnTotlAmnt - (lnVoidTotl + lnZeroRatd + foMaster(0).Item("nNonVATxx") + foMaster(0).Item("nDiscount"))) - foMaster(0).Item("nVATSales")
+    '    foMaster(0).Item("nVATAmtxx") = (lnTotlAmnt - (lnVoidTotl + lnZeroRatd + foMaster(0).Item("nNlnDiscntblonVATxx") + foMaster(0).Item("nDiscount"))) - foMaster(0).Item("nVATSales")
 
     '    Return True
     'End Function
@@ -564,7 +564,6 @@ Module modMain
                     'No card discount was detected 
                     'Compute sales price for this item
                     lnSlPrc = foDetail(lnRow).Item("nUnitPrce")
-
                     If foDetail(lnRow).Item("cReversex") = "+" Then
                         lnTotlAmnt += (lnSlPrc * foDetail(lnRow).Item("nQuantity"))
                         lnComplmnt += (lnSlPrc * foDetail(lnRow).Item("nComplmnt"))
@@ -669,15 +668,16 @@ Module modMain
                     Dim lnNonVat As Decimal
 
                     lnNonVat = Math.Round(lnAmtx / lnVatPerc, 2)
-                    foMaster(0).Item("nNonVATxx") = lnAmtx
-                    foMaster(0).Item("nVatDiscx") = lnAmtx - lnNonVat
+                    foMaster(0).Item("nNonVATxx") = lnAmtx / 1.12
+                    'commented this line  it is not necessary to add vat discount if sc
+                    'foMaster(0).Item("nVatDiscx") = lnAmtx - lnNonVat
 
                     lnDisc = (foDtaDisc(0).Item("nDiscRate") / 100) * lnNonVat
                     lnDisc += foDtaDisc(0).Item("nDiscAmtx")
 
                     foMaster(0).Item("nPWDDiscx") = lnDisc
                 Else
-                    lnDisc = (foDtaDisc(0).Item("nDiscRate") / 100) * lnDiscntbl
+                    lnDisc = (foDtaDisc(0).Item("nDiscRate") / 100) * (lnDiscntbl / 1.12)
                     lnDisc += foDtaDisc(0).Item("nDiscAmtx")
                     foMaster(0).Item("nDiscount") = lnDisc
                 End If
@@ -704,10 +704,24 @@ Module modMain
 
         'foMaster(0).Item("nVATSales") = Math.Round((lnTotlAmnt - (lnVoidTotl + lnZeroRatd + foMaster(0).Item("nNonVATxx") + foMaster(0).Item("nDiscount") + foMaster(0).Item("nPWDDiscx") + foMaster(0).Item("nVatDiscx"))) / lnVatPerc, 2)
         'foMaster(0).Item("nVATAmtxx") = (lnTotlAmnt - (lnVoidTotl + lnZeroRatd + foMaster(0).Item("nNonVATxx") + foMaster(0).Item("nDiscount") + foMaster(0).Item("nPWDDiscx") + foMaster(0).Item("nVatDiscx"))) - foMaster(0).Item("nVATSales")
+        Dim xnNonVATxx As Decimal = foMaster(0).Item("nNonVATxx") '
+        Dim xnDiscount As Decimal = foMaster(0).Item("nDiscount")
+        Dim xnVATSales As Decimal = foMaster(0).Item("nVATSales")
 
-        foMaster(0).Item("nVATSales") = Math.Round((lnTotlAmnt - (lnVoidTotl + lnZeroRatd + foMaster(0).Item("nNonVATxx") + foMaster(0).Item("nDiscount"))) / lnVatPerc, 2)
-        foMaster(0).Item("nVATAmtxx") = (lnTotlAmnt - (lnVoidTotl + lnZeroRatd + foMaster(0).Item("nNonVATxx") + foMaster(0).Item("nDiscount"))) - foMaster(0).Item("nVATSales")
-
+        foMaster(0).Item("nVATSales") = Math.Round((lnTotlAmnt / lnVatPerc - (lnVoidTotl + lnZeroRatd + xnNonVATxx + xnDiscount)), 2)
+        '
+        '
+        '
+        '
+        '
+        '("nvatsales " + Math.Round((lnTotlAmnt / lnVatPerc - (lnVoidTotl + lnZeroRatd + xnNonVATxx + xnDiscount)), 2).ToString)
+        If xnNonVATxx > 0 Then
+            foMaster(0).Item("nVATAmtxx") = ((lnTotlAmnt / lnVatPerc - (lnVoidTotl + lnZeroRatd + xnNonVATxx + xnDiscount)) - xnVATSales) * 0.12
+            'MsgBox("nVATAmtxx " + (((lnTotlAmnt / lnVatPerc - (lnVoidTotl + lnZeroRatd + xnNonVATxx + xnDiscount)) - xnVATSales) * 0.12).ToString)
+        Else
+            foMaster(0).Item("nVATAmtxx") = (lnTotlAmnt - (lnVoidTotl + lnZeroRatd + xnNonVATxx + xnDiscount)) - foMaster(0).Item("nVATSales")
+            'MsgBox("nVATAmtxx " + ((lnTotlAmnt - (lnVoidTotl + lnZeroRatd + xnNonVATxx + xnDiscount)) - xnVATSales).ToString)
+        End If
         Return True
     End Function
 

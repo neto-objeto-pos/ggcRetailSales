@@ -2,16 +2,21 @@
 Imports System.Threading
 Imports System.Windows.Forms
 Imports System.Drawing
+Imports System.Windows.Forms.VisualStyles.VisualStyleElement.Button
+Imports RadioButton = System.Windows.Forms.RadioButton
 
 Public Class frmSelectTable
     Private pnLoadx As Integer
     Private poControl As Control
 
-    Private p_oApp As Grider
+    Private p_oApp As GRider
 
     Private pbCancel As Boolean
     Private p_sTableNo As String
     Private p_bSChargex As Boolean
+    Private p_bDlvrServx As Boolean
+    Private p_sTranType As String
+    Private p_sTranNo As String
     Private p_sWaiterID As String
     Private p_nOccupants As String
 
@@ -20,7 +25,22 @@ Public Class frmSelectTable
             p_oApp = value
         End Set
     End Property
-
+    Property TranType()
+        Set(ByVal value)
+            p_sTranType = value
+        End Set
+        Get
+            Return p_sTranType
+        End Get
+    End Property
+    Property TransNo()
+        Set(ByVal value)
+            p_sTranNo = value
+        End Set
+        Get
+            Return p_sTranNo
+        End Get
+    End Property
     Property Waiter()
         Set(ByVal value)
             p_sWaiterID = value
@@ -61,6 +81,14 @@ Public Class frmSelectTable
             Return p_bSChargex
         End Get
     End Property
+    Property isDelivery()
+        Set(Value)
+            p_bDlvrServx = Value
+        End Set
+        Get
+            Return p_bDlvrServx
+        End Get
+    End Property
 
     Private Sub frmPayGC_KeyDown(sender As Object, e As System.Windows.Forms.KeyEventArgs) Handles Me.KeyDown
         Select Case e.KeyCode
@@ -79,6 +107,7 @@ Public Class frmSelectTable
         If pnLoadx = 0 Then
             clearFields()
             Call grpEventHandler(Me, GetType(Button), "cmdButton", "Click", AddressOf cmdButton_Click)
+            Call grpEventHandler(Me, GetType(RadioButton), "RDOButton", "Click", AddressOf RDOButton_Click)
 
             Call grpEventHandler(Me, GetType(TextBox), "txtField", "GotFocus", AddressOf txtField_GotFocus)
             Call grpEventHandler(Me, GetType(TextBox), "txtField", "LostFocus", AddressOf txtField_LostFocus)
@@ -92,6 +121,7 @@ Public Class frmSelectTable
 
             txtField00.Text = p_sTableNo
             chk00.CheckState = IIf(p_bSChargex, CheckState.Checked, CheckState.Unchecked)
+
             If p_sWaiterID <> "" Then
                 Dim loDT As DataTable
                 Dim lsSQL As String
@@ -104,7 +134,7 @@ Public Class frmSelectTable
                 End If
             End If
 
-        pnLoadx = 1
+            pnLoadx = 1
         End If
     End Sub
 
@@ -191,11 +221,23 @@ Public Class frmSelectTable
                 p_sWaiterID = txtField01.Tag
                 p_bSChargex = IIf(chk00.CheckState = CheckState.Checked, True, False)
 
+                Select Case True
+                    Case RDOButton00.Checked
+                        p_sTranType = "0" 'Dine In
+                    Case RDOButton01.Checked
+                        p_sTranType = "1" 'Take out
+                        p_bSChargex = False
+                    Case RDOButton02.Checked
+                        p_sTranType = "2" 'Delivery
+                        p_bSChargex = False
+                End Select
+
                 If IsNumeric(txtField02.Text) Then
                     p_nOccupants = CInt(txtField02.Text)
                 Else
                     p_nOccupants = 0
                 End If
+                'MsgBox(p_sTranNo.ToString)
                 pbCancel = False
             Case 1 'CANCEL
                 pbCancel = True
@@ -204,6 +246,27 @@ Public Class frmSelectTable
         Application.DoEvents()
         setVisible(False)
         Me.Hide()
+endProc:
+        Exit Sub
+    End Sub
+    Private Sub RDOButton_Click(ByVal sender As System.Object, ByVal e As System.EventArgs)
+        Dim loChk As RadioButton
+        loChk = CType(sender, System.Windows.Forms.RadioButton)
+
+        Dim lnIndex As Integer
+        lnIndex = Val(Mid(loChk.Name, 10))
+
+        Select Case lnIndex
+            Case 0 'Dine in
+                chk00.Enabled = True
+                chk00.Checked = True
+
+            Case 1, 2 'Delivery
+                chk00.Checked = False
+                chk00.Enabled = False
+        End Select
+
+        Application.DoEvents()
 endProc:
         Exit Sub
     End Sub
@@ -272,7 +335,7 @@ endProc:
     End Sub
 
     Private Sub txtField01_KeyDown(ByVal sender As Object, ByVal e As System.Windows.Forms.KeyEventArgs) Handles txtField01.KeyDown
-        
+
         If e.KeyCode = Keys.Return Or e.KeyCode = Keys.F3 Then
             Call getClient(txtField01.Text, False)
         End If
