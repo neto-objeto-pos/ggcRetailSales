@@ -811,6 +811,9 @@ Public Class New_Sales_Order
         p_nTranTotl = p_oDTMaster(0).Item("nTranTotl")
         p_sWaiterID = p_oDTMaster(0).Item("sWaiterID")
 
+
+
+
         p_bExisting = True
         Return True
     End Function
@@ -1007,7 +1010,7 @@ Public Class New_Sales_Order
                 p_oDTMaster(0).Item("dPrntBill") = loDta("dPrntBill")
                 p_oDTMaster(0).Item("sBillNmbr") = loDta("sBillNmbr")
                 p_nTableNo = loDT(0).Item("sTableNox")
-                p_sTrantype = loDT(0).Item("cTranType")
+                p_sTrantype = IFNull(loDT(0).Item("cTranType"), "")
             End If
         End If
 
@@ -2712,7 +2715,7 @@ Public Class New_Sales_Order
         Try
             lnRow = p_oApp.Execute(lsSQL, pxeMasTable)
             If lnRow <= 0 Then
-                MsgBox("Unable to Save Transaction!!!" & vbCrLf &
+                MsgBox("Unable to Post Charge Order Transaction!!!" & vbCrLf &
                         "Please contact GGC SSG/SEG for assistance!!!", MsgBoxStyle.Critical, "WARNING")
                 Return False
             End If
@@ -2720,22 +2723,23 @@ Public Class New_Sales_Order
             Throw ex
         End Try
 
-        lsSQL = "UPDATE Daily_Summary" &
-                    " SET nChrgAmnt = nChrgAmnt + " & CDbl(p_oDTMaster(0).Item("nTranTotl")) &
-                 " WHERE sTranDate = " & strParm(Format(p_dPOSDatex, "yyyyMMdd")) &
-                    " AND sCRMNumbr = " & strParm(p_sPOSNo) &
-                    " AND sCashierx = " & strParm(p_sCashierx)
+        'this required generate Daily_Summary first
+        'lsSQL = "UPDATE Daily_Summary" &
+        '            " SET nChrgAmnt = nChrgAmnt + " & CDbl(p_oDTMaster(0).Item("nTranTotl")) &
+        '         " WHERE sTranDate = " & strParm(Format(p_dPOSDatex, "yyyyMMdd")) &
+        '            " AND sCRMNumbr = " & strParm(p_sPOSNo) &
+        '            " AND sCashierx = " & strParm(p_oApp.UserID)
 
-        Try
-            lnRow = p_oApp.Execute(lsSQL, pxeMasTable)
-            If lnRow <= 0 Then
-                MsgBox("Unable to Save Transaction!!!" & vbCrLf &
-                        "Please contact GGC SSG/SEG for assistance!!!", MsgBoxStyle.Critical, "WARNING")
-                Return False
-            End If
-        Catch ex As Exception
-            Throw ex
-        End Try
+        'Try
+        '    lnRow = p_oApp.Execute(lsSQL, pxeMasTable)
+        '    If lnRow <= 0 Then
+        '        MsgBox("Unable to Post Charge Order Transaction!!" & vbCrLf &
+        '                "Please generate Daily Summary !!!", MsgBoxStyle.Critical, "WARNING")
+        '        Return False
+        '    End If
+        'Catch ex As Exception
+        '    Throw ex
+        'End Try
 
         Return True
     End Function
@@ -2914,6 +2918,7 @@ Public Class New_Sales_Order
             .Master("nDiscount") = p_oDTMaster(0)("nDiscount")
             .Master("nVatDiscx") = p_oDTMaster(0)("nVatDiscx")
             .Master("nPWDDiscx") = p_oDTMaster(0)("nPWDDiscx")
+            .Master("cCollectd") = 0
 
             .Cashier = p_sCashierx
             .SerialNo = p_sSerial
@@ -5356,7 +5361,7 @@ Public Class New_Sales_Order
                 ", cTranStat" &
                 ", dModified" &
                 " FROM " & pxeMasTable &
-            " WHERE cTranStat = '2'" &
+            " WHERE cTranStat = '5'" &
             " ORDER BY sTransNox ASC"
     End Function
 
@@ -6080,6 +6085,11 @@ Public Class New_Sales_Order
         End If
 
         If LoadChargeOrder(loRow("sSourceNo")) Then
+
+            p_nBill = p_oDTMaster(0).Item("nTranTotl")
+            p_nCharge = IFNull(p_oDTMaster(0).Item("nSChargex"), 0)
+
+
             If PayOrder() Then
                 lsSQL = "UPDATE Charge_Invoice SET " &
                             " cTranStat = " & strParm(xeTranStat.TRANS_CLOSED) &
