@@ -980,7 +980,7 @@ Public Class New_Sales_Order
             p_bSChargex = IIf(loDT(0).Item("cSChargex") = 1, True, False)
             p_oDTMaster(0).Item("cTranType") = loDT(0).Item("cTranType")
             p_nTableNo = loDT(0).Item("sTableNox")
-            p_sTrantype = loDT(0).Item("cTranType")
+            p_sTrantype = IFNull(loDT(0).Item("cTranType"), "0")
         Else
             'more than 1 order in a table
             Dim loDta As DataRow = KwikSearch(p_oApp _

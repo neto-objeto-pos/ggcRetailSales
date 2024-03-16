@@ -662,6 +662,8 @@ Public Class ChargeInvoice
                     p_oDTMstr(0).Item(lnCtr) = 0.0
                 Case "ctranstat"
                     p_oDTMstr(0).Item(lnCtr) = "0"
+                Case "csendstat"
+                    p_oDTMstr(0).Item(lnCtr) = "0"
                 Case "ccollectd"
                     p_oDTMstr(0).Item(lnCtr) = 0
                 Case "schargeno"
@@ -803,6 +805,7 @@ Public Class ChargeInvoice
                     ", a.nPWDDiscx" &
                     ", a.nAmtPaidx" &
                     ", a.cTranStat" &
+                    ", a.cSendStat" &
                     ", a.sClientNm" &
                     ", a.sAddressx" &
                     ", a.dModified" &
