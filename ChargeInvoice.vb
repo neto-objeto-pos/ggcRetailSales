@@ -662,6 +662,10 @@ Public Class ChargeInvoice
                     p_oDTMstr(0).Item(lnCtr) = 0.0
                 Case "ctranstat"
                     p_oDTMstr(0).Item(lnCtr) = "0"
+                Case "csendstat"
+                    p_oDTMstr(0).Item(lnCtr) = "0"
+                Case "ccollectd"
+                    p_oDTMstr(0).Item(lnCtr) = 0
                 Case "schargeno"
                     p_oDTMstr(0).Item(lnCtr) = Strings.Right("000000000000000" & getNextChargeNumber().ToString(), 15)
                 Case Else
@@ -780,29 +784,31 @@ Public Class ChargeInvoice
     End Function
 
     Private Function getSQ_Master() As String
-        Return "SELECT a.sTransNox" & _
-                    ", a.sClientID" & _
-                    ", a.sChargeNo" & _
-                    ", a.cBilledxx" & _
-                    ", a.dBilledxx" & _
-                    ", a.cPaidxxxx" & _
-                    ", a.dPaidxxxx" & _
-                    ", a.cWaivexxx" & _
-                    ", a.dWaivexxx" & _
-                    ", a.sWaivexxx" & _
-                    ", a.sSourceCd" & _
-                    ", a.sSourceNo" & _
-                    ", a.nAmountxx" & _
-                    ", a.nVATSales" & _
-                    ", a.nVATAmtxx" & _
-                    ", a.nDiscount" & _
-                    ", a.nVatDiscx" & _
-                    ", a.nPWDDiscx" & _
-                    ", a.nAmtPaidx" & _
-                    ", a.cTranStat" & _
-                    ", a.sClientNm" & _
-                    ", a.sAddressx" & _
-                    ", a.dModified" & _
+        Return "SELECT a.sTransNox" &
+                    ", a.sClientID" &
+                    ", a.sChargeNo" &
+                    ", a.cCollectd" &
+                    ", a.cBilledxx" &
+                    ", a.dBilledxx" &
+                    ", a.cPaidxxxx" &
+                    ", a.dPaidxxxx" &
+                    ", a.cWaivexxx" &
+                    ", a.dWaivexxx" &
+                    ", a.sWaivexxx" &
+                    ", a.sSourceCd" &
+                    ", a.sSourceNo" &
+                    ", a.nAmountxx" &
+                    ", a.nVATSales" &
+                    ", a.nVATAmtxx" &
+                    ", a.nDiscount" &
+                    ", a.nVatDiscx" &
+                    ", a.nPWDDiscx" &
+                    ", a.nAmtPaidx" &
+                    ", a.cTranStat" &
+                    ", a.cSendStat" &
+                    ", a.sClientNm" &
+                    ", a.sAddressx" &
+                    ", a.dModified" &
                 " FROM " & p_sMasTable & " a"
     End Function
 

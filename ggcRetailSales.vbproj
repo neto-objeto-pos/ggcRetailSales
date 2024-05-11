@@ -21,7 +21,7 @@
     <DebugType>full</DebugType>
     <DefineDebug>true</DefineDebug>
     <DefineTrace>true</DefineTrace>
-    <OutputPath>..\..\..\..\..\GGC_Systems\vb.net\RetMgtSys\</OutputPath>
+    <OutputPath>C:\GGC_Systems\vb.net\RetMgtSys\</OutputPath>
     <DocumentationFile>ggcRetailSales.xml</DocumentationFile>
     <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
     <Prefer32Bit>false</Prefer32Bit>
@@ -50,7 +50,9 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="adodb, Version=7.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <SpecificVersion>False</SpecificVersion>
       <EmbedInteropTypes>True</EmbedInteropTypes>
+      <HintPath>..\..\..\..\..\GGC_Systems\vb.net\RetMgtSys\adodb.dll</HintPath>
     </Reference>
     <Reference Include="MySql.Data, Version=6.7.4.0, Culture=neutral, PublicKeyToken=c5687fc88969c44d, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -58,7 +60,7 @@
     </Reference>
     <Reference Include="MySql.Data.Entity, Version=6.7.4.0, Culture=neutral, PublicKeyToken=c5687fc88969c44d, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>C:\Program Files (x86)\MySQL\MySQL Connector Net 6.7.4\Assemblies\v4.0\MySql.Data.Entity.dll</HintPath>
+      <HintPath>..\..\..\..\..\GGC_Systems\vb.net\RetMgtSys\MySql.Data.Entity.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
@@ -86,6 +88,12 @@
       <DependentUpon>frmManageTable.vb</DependentUpon>
     </Compile>
     <Compile Include="Forms\frmManageTable.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\frmSelectTable.designer.vb">
+      <DependentUpon>frmSelectTable.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\frmSelectTable.vb">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Forms\frmTables.Designer.vb">
@@ -199,12 +207,6 @@
     <Compile Include="Forms\frmMergeOrder.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Forms\frmSelectTable.designer.vb">
-      <DependentUpon>frmSelectTable.vb</DependentUpon>
-    </Compile>
-    <Compile Include="Forms\frmSelectTable.vb">
-      <SubType>Form</SubType>
-    </Compile>
     <Compile Include="MergeOrder.vb" />
     <Compile Include="modMain.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
@@ -230,6 +232,9 @@
   <ItemGroup>
     <EmbeddedResource Include="Forms\frmManageTable.resx">
       <DependentUpon>frmManageTable.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\frmSelectTable.resx">
+      <DependentUpon>frmSelectTable.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\frmTables.resx">
       <DependentUpon>frmTables.vb</DependentUpon>
@@ -272,9 +277,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\frmMergeOrder.resx">
       <DependentUpon>frmMergeOrder.vb</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Forms\frmSelectTable.resx">
-      <DependentUpon>frmSelectTable.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\frmCashPullout.resx">
       <DependentUpon>frmCashPullout.vb</DependentUpon>
@@ -366,7 +368,7 @@
       <Name>ggcAppDriver</Name>
     </ProjectReference>
     <ProjectReference Include="..\ggcClient\ggcClient.vbproj">
-      <Project>{D1B85464-9368-4354-B294-3B5E555B61C3}</Project>
+      <Project>{d1b85464-9368-4354-b294-3b5e555b61c3}</Project>
       <Name>ggcClient</Name>
     </ProjectReference>
     <ProjectReference Include="..\ggcPayment\ggcPayment.vbproj">
@@ -374,12 +376,9 @@
       <Name>ggcPayment</Name>
     </ProjectReference>
     <ProjectReference Include="..\ggcRetailParams\ggcRetailParams.vbproj">
-      <Project>{4883f473-c0b0-4266-a9ac-8e4bca3c4cb7}</Project>
+      <Project>{4883F473-C0B0-4266-A9AC-8E4BCA3C4CB7}</Project>
       <Name>ggcRetailParams</Name>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\LP Logo.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

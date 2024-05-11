@@ -28,7 +28,7 @@ Partial Class frmSelectTable
         Me.cmdButton01 = New System.Windows.Forms.Button()
         Me.pnlAmount = New System.Windows.Forms.Panel()
         Me.chk00 = New System.Windows.Forms.CheckBox()
-        Me.RadioButton1 = New System.Windows.Forms.RadioButton()
+        Me.RDOButton00 = New System.Windows.Forms.RadioButton()
         Me.txtField02 = New System.Windows.Forms.TextBox()
         Me.Label1 = New System.Windows.Forms.Label()
         Me.txtField01 = New System.Windows.Forms.TextBox()
@@ -36,6 +36,8 @@ Partial Class frmSelectTable
         Me.Label4 = New System.Windows.Forms.Label()
         Me.txtField00 = New System.Windows.Forms.TextBox()
         Me.Label6 = New System.Windows.Forms.Label()
+        Me.RDOButton01 = New System.Windows.Forms.RadioButton()
+        Me.RDOButton02 = New System.Windows.Forms.RadioButton()
         Me.pnlMain.SuspendLayout()
         Me.pnlButtons.SuspendLayout()
         Me.pnlAmount.SuspendLayout()
@@ -49,7 +51,7 @@ Partial Class frmSelectTable
         Me.pnlMain.Controls.Add(Me.pnlAmount)
         Me.pnlMain.Location = New System.Drawing.Point(2, 22)
         Me.pnlMain.Name = "pnlMain"
-        Me.pnlMain.Size = New System.Drawing.Size(350, 189)
+        Me.pnlMain.Size = New System.Drawing.Size(350, 225)
         Me.pnlMain.TabIndex = 2
         '
         'pnlButtons
@@ -57,7 +59,7 @@ Partial Class frmSelectTable
         Me.pnlButtons.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
         Me.pnlButtons.Controls.Add(Me.cmdButton00)
         Me.pnlButtons.Controls.Add(Me.cmdButton01)
-        Me.pnlButtons.Location = New System.Drawing.Point(3, 143)
+        Me.pnlButtons.Location = New System.Drawing.Point(3, 176)
         Me.pnlButtons.Margin = New System.Windows.Forms.Padding(2)
         Me.pnlButtons.Name = "pnlButtons"
         Me.pnlButtons.Size = New System.Drawing.Size(339, 40)
@@ -97,8 +99,10 @@ Partial Class frmSelectTable
         '
         Me.pnlAmount.BackColor = System.Drawing.Color.Transparent
         Me.pnlAmount.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
+        Me.pnlAmount.Controls.Add(Me.RDOButton02)
+        Me.pnlAmount.Controls.Add(Me.RDOButton01)
         Me.pnlAmount.Controls.Add(Me.chk00)
-        Me.pnlAmount.Controls.Add(Me.RadioButton1)
+        Me.pnlAmount.Controls.Add(Me.RDOButton00)
         Me.pnlAmount.Controls.Add(Me.txtField02)
         Me.pnlAmount.Controls.Add(Me.Label1)
         Me.pnlAmount.Controls.Add(Me.txtField01)
@@ -108,7 +112,7 @@ Partial Class frmSelectTable
         Me.pnlAmount.Location = New System.Drawing.Point(3, 2)
         Me.pnlAmount.Margin = New System.Windows.Forms.Padding(2)
         Me.pnlAmount.Name = "pnlAmount"
-        Me.pnlAmount.Size = New System.Drawing.Size(339, 137)
+        Me.pnlAmount.Size = New System.Drawing.Size(339, 171)
         Me.pnlAmount.TabIndex = 5
         '
         'chk00
@@ -116,26 +120,25 @@ Partial Class frmSelectTable
         Me.chk00.AutoSize = True
         Me.chk00.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.chk00.ForeColor = System.Drawing.Color.White
-        Me.chk00.Location = New System.Drawing.Point(63, 107)
+        Me.chk00.Location = New System.Drawing.Point(6, 107)
         Me.chk00.Name = "chk00"
-        Me.chk00.Size = New System.Drawing.Size(153, 20)
+        Me.chk00.Size = New System.Drawing.Size(152, 20)
         Me.chk00.TabIndex = 14
         Me.chk00.Text = "w/ Service Charge"
         Me.chk00.UseVisualStyleBackColor = True
         '
-        'RadioButton1
+        'RDOButton00
         '
-        Me.RadioButton1.AutoSize = True
-        Me.RadioButton1.Checked = True
-        Me.RadioButton1.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.RadioButton1.ForeColor = System.Drawing.Color.White
-        Me.RadioButton1.Location = New System.Drawing.Point(254, 107)
-        Me.RadioButton1.Name = "RadioButton1"
-        Me.RadioButton1.Size = New System.Drawing.Size(79, 20)
-        Me.RadioButton1.TabIndex = 7
-        Me.RadioButton1.TabStop = True
-        Me.RadioButton1.Text = "Dine- In"
-        Me.RadioButton1.UseVisualStyleBackColor = True
+        Me.RDOButton00.AutoSize = True
+        Me.RDOButton00.Checked = True
+        Me.RDOButton00.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.RDOButton00.ForeColor = System.Drawing.Color.White
+        Me.RDOButton00.Location = New System.Drawing.Point(188, 106)
+        Me.RDOButton00.Name = "RDOButton00"
+        Me.RDOButton00.Size = New System.Drawing.Size(78, 20)
+        Me.RDOButton00.TabIndex = 7
+        Me.RDOButton00.Text = "Dine- In"
+        Me.RDOButton00.UseVisualStyleBackColor = True
         '
         'txtField02
         '
@@ -155,7 +158,7 @@ Partial Class frmSelectTable
         Me.Label1.ForeColor = System.Drawing.Color.White
         Me.Label1.Location = New System.Drawing.Point(164, 78)
         Me.Label1.Name = "Label1"
-        Me.Label1.Size = New System.Drawing.Size(81, 16)
+        Me.Label1.Size = New System.Drawing.Size(80, 16)
         Me.Label1.TabIndex = 5
         Me.Label1.Text = "Occupants"
         '
@@ -176,7 +179,7 @@ Partial Class frmSelectTable
         Me.Label3.ForeColor = System.Drawing.Color.White
         Me.Label3.Location = New System.Drawing.Point(3, 50)
         Me.Label3.Name = "Label3"
-        Me.Label3.Size = New System.Drawing.Size(53, 16)
+        Me.Label3.Size = New System.Drawing.Size(52, 16)
         Me.Label3.TabIndex = 3
         Me.Label3.Text = "Waiter"
         '
@@ -210,9 +213,33 @@ Partial Class frmSelectTable
         Me.Label6.ForeColor = System.Drawing.Color.White
         Me.Label6.Location = New System.Drawing.Point(2, 3)
         Me.Label6.Name = "Label6"
-        Me.Label6.Size = New System.Drawing.Size(118, 16)
+        Me.Label6.Size = New System.Drawing.Size(117, 16)
         Me.Label6.TabIndex = 0
         Me.Label6.Text = "Table Selection"
+        '
+        'RDOButton01
+        '
+        Me.RDOButton01.AutoSize = True
+        Me.RDOButton01.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.RDOButton01.ForeColor = System.Drawing.Color.White
+        Me.RDOButton01.Location = New System.Drawing.Point(188, 126)
+        Me.RDOButton01.Name = "RDOButton01"
+        Me.RDOButton01.Size = New System.Drawing.Size(87, 20)
+        Me.RDOButton01.TabIndex = 15
+        Me.RDOButton01.Text = "Take-out"
+        Me.RDOButton01.UseVisualStyleBackColor = True
+        '
+        'RDOButton02
+        '
+        Me.RDOButton02.AutoSize = True
+        Me.RDOButton02.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.RDOButton02.ForeColor = System.Drawing.Color.White
+        Me.RDOButton02.Location = New System.Drawing.Point(188, 147)
+        Me.RDOButton02.Name = "RDOButton02"
+        Me.RDOButton02.Size = New System.Drawing.Size(83, 20)
+        Me.RDOButton02.TabIndex = 16
+        Me.RDOButton02.Text = "Delivery"
+        Me.RDOButton02.UseVisualStyleBackColor = True
         '
         'frmSelectTable
         '
@@ -223,7 +250,7 @@ Partial Class frmSelectTable
         Me.BackgroundImage = Global.ggcRetailSales.My.Resources.Resources.background
         Me.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch
         Me.CausesValidation = False
-        Me.ClientSize = New System.Drawing.Size(354, 213)
+        Me.ClientSize = New System.Drawing.Size(354, 252)
         Me.ControlBox = False
         Me.Controls.Add(Me.Label6)
         Me.Controls.Add(Me.pnlMain)
@@ -256,6 +283,8 @@ Partial Class frmSelectTable
     Friend WithEvents Label1 As System.Windows.Forms.Label
     Friend WithEvents txtField01 As System.Windows.Forms.TextBox
     Friend WithEvents Label3 As System.Windows.Forms.Label
-    Friend WithEvents RadioButton1 As System.Windows.Forms.RadioButton
+    Friend WithEvents RDOButton00 As System.Windows.Forms.RadioButton
     Friend WithEvents chk00 As Windows.Forms.CheckBox
+    Friend WithEvents RDOButton02 As Windows.Forms.RadioButton
+    Friend WithEvents RDOButton01 As Windows.Forms.RadioButton
 End Class
