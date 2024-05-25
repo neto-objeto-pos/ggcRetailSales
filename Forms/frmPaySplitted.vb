@@ -446,8 +446,9 @@ endProc:
             Else
                 Dim lnCtr As Integer
                 .RowCount = IIf(poSplit.ItemCount = 0, 1, poSplit.ItemCount)
-                For lnCtr = 0 To poSplit.ItemCount - 1
+                For lnCtr = 0 To poSplit.GroupNo - 1
                     If poSplit.Detail(lnCtr, "nGrpQt" & Format(poSplit.SetNo, "000")) > 0 Then
+
                         '.RowCount = .RowCount + 1
                         .Item(0, lnCtr).Value = lnCtr + 1
                         .Item(1, lnCtr).Value = poSplit.Detail(lnCtr, "sBarcodex")
@@ -481,7 +482,7 @@ endProc:
         lblMaster15.Text = FormatNumber(poSplit.Master("nNonVATxx"), 2) 'non vat
         lblMaster17.Text = FormatNumber(poSplit.Master("nDiscount") + poSplit.Master("nVatDiscx") + poSplit.Master("nPWDDiscx"), 2)
         lblAmount.Text = FormatNumber(CDbl(lblMaster04.Text) - CDbl(lblMaster17.Text), 2) 'amount due
-        lblAmount.Text = FormatNumber(IIf(poSplit.IsWithSCharge, poSplit.Master("nTranTotl") + (poSplit.Master("nVATSales") * (poSplit.SCharge / 100)), lblAmount.Text), 2)
+        lblAmount.Text = FormatNumber(poSplit.Master("nTranTotl"), 2)
     End Sub
 
     'Private Sub showComputationNew()

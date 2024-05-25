@@ -56,6 +56,7 @@ Public Class New_Sales_Order
     Public p_nTotalSales As Double
     Private p_nSChargex As Decimal
     Private p_sTrantype As String
+
     Public p_nBill As Double
     Public p_nCharge As Double
 
@@ -1255,11 +1256,14 @@ Public Class New_Sales_Order
                         ", a.cWthPromo" &
                         ", a.dModified" &
                         ", c.nAmountxx" &
+                        ", d.nTranTotl" &
                     " FROM SO_Detail a" &
                         ", Inventory b" &
                         ", Order_Split c" &
+                        ", SO_Master d" &
                     " WHERE a.sStockIDx = b.sStockIDx" &
                         " AND a.sTransNox = c.sReferNox" &
+                        " AND a.sTransNox = d.sTransNox" &
                         " AND c.sTransNox = " & strParm(fsSourceNo) &
                     " ORDER BY a.nEntryNox"
             'lsSQL = "SELECT" & _
@@ -1939,7 +1943,7 @@ Public Class New_Sales_Order
                             ", dPrntBill = " & dateParm(p_oApp.getSysDate) &
                         " WHERE sTransNox = " & strParm(p_oDTMaster(0)("sTransNox"))
 
-                .BillingNo = p_oDTMaster(0)("sBillNmbr")
+                .BillingNo = IFNull(p_oDTMaster(0)("sBillNmbr"), "")
                 lbReprint = True
             End If
 
@@ -1998,6 +2002,7 @@ Public Class New_Sales_Order
                 .Master("nSChargex") = IIf(p_bSChargex, (.Master("nSalesAmt")) * (p_nSChargex / 100), 0)
             Else
                 .Master("nSChargex") = IIf(p_bSChargex, (.Master("nSalesAmt") / 1.12) * (p_nSChargex / 100), 0)
+                Debug.Print("sales amt= " & .Master("nSalesAmt"))
             End If
 
             p_oDTMaster(0).Item("nPrntBill") = p_oDTMaster(0).Item("nPrntBill") + 1
@@ -2023,6 +2028,7 @@ Public Class New_Sales_Order
         Dim loPayment As Receipt
         loPayment = New Receipt(p_oApp)
         loPayment.myBill = p_nBill
+
         loPayment.myCharge = p_nCharge
         'Recompute total
         p_oDTMaster(0).Item("nDiscount") = 0.00
@@ -2149,7 +2155,6 @@ Public Class New_Sales_Order
             .ClientNo = p_nNoClient
             .WithDisc = p_nWithDisc
             .TableNo = p_nTableNo
-
             lbSuccess = .payTransaction()
             'MsgBox("2")
 
@@ -2344,8 +2349,10 @@ Public Class New_Sales_Order
                 p_oDTMaster(0).Item("nDiscount") = .Master("nDiscount")
                 p_oDTMaster(0).Item("nVatDiscx") = .Master("nVatDiscx")
                 p_oDTMaster(0).Item("nPWDDiscx") = .Master("nPWDDiscx")
-
+                Debug.Print(.Master("nAmountxx"))
                 p_oDTMaster(0).Item("nTranTotl") = .Master("nAmountxx")
+
+                Debug.Print(.Master("nAmountxx"))
                 p_oDTMaster(0).Item("nVoidTotl") = .Master("nVoidTotl")
                 p_oDTMaster(0).Item("nVATSales") = .Master("nVATSales")
                 p_oDTMaster(0).Item("nVATAmtxx") = .Master("nVATAmtxx")
@@ -5883,7 +5890,7 @@ Public Class New_Sales_Order
                                          , True _
                                          , "" _
                                          , "sORNumber»dTransact»nSalesAmt»sSourceNm" _
-                                         , "OR No»Date»Sales Amount»Source",
+                                         , "SI No»Date»Sales Amount»Source",
                                          , "sORNumber»dTransact»nSalesAmt»IF(sSourceCd = 'SO', 'Sales Order', 'Splitted Order')" _
                                          , 0)
         If IsNothing(loRow) Then
@@ -6045,7 +6052,7 @@ Public Class New_Sales_Order
             End If
         End If
 
-        p_oApp.SaveEvent("0010", "OR No. " & loRow("sORNumber") & "/Amount " & loRow("nSalesAmt"), p_sSerial)
+        p_oApp.SaveEvent("0010", "SI No. " & loRow("sORNumber") & "/Amount " & loRow("nSalesAmt"), p_sSerial)
         Dim lsSourceNo As String = ""
         If updateCashRegMachine(lsSourceNo, True) Then loPayment.printCancelled(lsSourceNo)
     End Sub
@@ -6122,7 +6129,7 @@ Public Class New_Sales_Order
                                          , True _
                                          , "" _
                                          , "sORNumber»dTransact»nSalesAmt»sSourceNm" _
-                                         , "OR No»Date»Sales Amount»Source",
+                                         , "SI No»Date»Sales Amount»Source",
                                          , "sORNumber»dTransact»nSalesAmt»IF(sSourceCd = 'SO', 'Sales Order', 'Splitted Order')" _
                                          , 0)
         If IsNothing(loRow) Then
@@ -6299,7 +6306,7 @@ Public Class New_Sales_Order
         '    loPayment.Master("nSChargex") = IIf(p_bSChargex, (loPayment.Master("nSalesAmt") / 1.12) * (p_nSChargex / 100), 0)
         'End If
 
-        p_oApp.SaveEvent("0014", "OR No. " & loRow("sORNumber"), p_sSerial)
+        p_oApp.SaveEvent("0014", "SI No. " & loRow("sORNumber"), p_sSerial)
 
         Dim lnRow As Integer
         lsSQL = "UPDATE Daily_Summary SET" &

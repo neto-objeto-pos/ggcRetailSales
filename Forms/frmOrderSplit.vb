@@ -103,6 +103,7 @@ endProc:
 
                 For lnCtr = 0 To DataGridView1.Rows.Count - 1
                     If DataGridView1.Item(4, lnCtr).Value > 0 Then
+                        Debug.Print(DataGridView1.Item(4, lnCtr).Value)
                         MsgBox("Items not splitted detected. Please verify your entry.", MsgBoxStyle.Critical, "Warning")
                         Return False
                     End If

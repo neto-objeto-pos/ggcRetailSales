@@ -746,8 +746,8 @@ Public Class DailySales
         builder.Append(" Shift End     :  " & Format(ldEndedSfht, "dd/MMM/yyyy hh:mm:ss") & Environment.NewLine & Environment.NewLine)
 
         'Print the begging and ending OR
-        builder.Append(" Beginning OR No.:  " & lsORNoFrom & Environment.NewLine)
-        builder.Append(" Ending OR No.   :  " & lsORNoThru & Environment.NewLine)
+        builder.Append(" Beginning SI No.:  " & lsORNoFrom & Environment.NewLine)
+        builder.Append(" Ending SI No.   :  " & lsORNoThru & Environment.NewLine)
 
         'MAC 2018.01.30
         '   Add Beginning and ending balance on report
@@ -813,8 +813,8 @@ Public Class DailySales
         'builder.Append(" Curr. Sales Amt.  : ".PadRight(24) & Format((lnSalesAmt + lnSChargex) - (lnDiscount + lnPWDDiscx + lnVatDiscx), xsDECIMAL).PadLeft(13) & Environment.NewLine)
         builder.Append(" Curr. Sales Amt.  : ".PadRight(24) & Format((lnSalesAmt) - (lnDiscount + lnPWDDiscx + lnVatDiscx), xsDECIMAL).PadLeft(13) & Environment.NewLine)
         builder.Append("-".PadLeft(40, "-") & Environment.NewLine)
-        builder.Append(" Void OR Count: ".PadRight(24) & Format(lnVoidCntx, xsDECIMAL).PadLeft(13) & Environment.NewLine)
-        builder.Append(" Void OR Amount: ".PadRight(24) & Format(lnVoidAmnt, xsDECIMAL).PadLeft(13) & Environment.NewLine)
+        builder.Append(" Void SI Count: ".PadRight(24) & Format(lnVoidCntx, xsDECIMAL).PadLeft(13) & Environment.NewLine)
+        builder.Append(" Void SI Amount: ".PadRight(24) & Format(lnVoidAmnt, xsDECIMAL).PadLeft(13) & Environment.NewLine)
 
         builder.Append("*".PadLeft(40, "*") & Environment.NewLine)
         builder.Append("/end-of-summary - " & Format(p_oApp.getSysDate(), "dd/MMM/yyyy hh:mm:ss") & Environment.NewLine)
@@ -975,8 +975,8 @@ Public Class DailySales
         builder.Append(" Shift End     :  " & Format(ldEndedSfht, "dd/MMM/yyyy hh:mm:ss") & Environment.NewLine & Environment.NewLine)
 
         'Print the begging and ending OR
-        builder.Append(" Beginning OR No.:  " & lsORNoFrom & Environment.NewLine)
-        builder.Append(" Ending OR No.   :  " & lsORNoThru & Environment.NewLine)
+        builder.Append(" Beginning SI No.:  " & lsORNoFrom & Environment.NewLine)
+        builder.Append(" Ending SI No.   :  " & lsORNoThru & Environment.NewLine)
 
         'MAC 2018.01.30
         '   Add Beginning and ending balance on report
@@ -1041,8 +1041,8 @@ Public Class DailySales
         'builder.Append(" Curr. Sales Amt.  : ".PadRight(24) & Format((lnSalesAmt + lnSChargex) - (lnDiscount + lnPWDDiscx + lnVatDiscx), xsDECIMAL).PadLeft(13) & Environment.NewLine)
         builder.Append(" Curr. Sales Amt.  : ".PadRight(24) & Format((lnSalesAmt) - (lnDiscount + lnPWDDiscx + lnVatDiscx), xsDECIMAL).PadLeft(13) & Environment.NewLine)
         builder.Append("-".PadLeft(40, "-") & Environment.NewLine)
-        builder.Append(" Void OR Count: ".PadRight(24) & Format(lnVoidCntx, xsDECIMAL).PadLeft(13) & Environment.NewLine)
-        builder.Append(" Void OR Amount: ".PadRight(24) & Format(lnVoidAmnt, xsDECIMAL).PadLeft(13) & Environment.NewLine)
+        builder.Append(" Void SI Count: ".PadRight(24) & Format(lnVoidCntx, xsDECIMAL).PadLeft(13) & Environment.NewLine)
+        builder.Append(" Void SI Amount: ".PadRight(24) & Format(lnVoidAmnt, xsDECIMAL).PadLeft(13) & Environment.NewLine)
 
         builder.Append("*".PadLeft(40, "*") & Environment.NewLine)
         builder.Append("/end-of-summary - " & Format(p_oApp.getSysDate(), "dd/MMM/yyyy hh:mm:ss") & Environment.NewLine)
@@ -1267,8 +1267,8 @@ Public Class DailySales
         builder.Append(" Shift End     :  " & Format(ldEndedSfht, "dd/MMM/yyyy hh:mm:ss") & Environment.NewLine & Environment.NewLine)
 
         'Print the begging and ending OR
-        builder.Append(" Beginning OR No.:  " & lsORNoFrom & Environment.NewLine)
-        builder.Append(" Ending OR No.   :  " & lsORNoThru & Environment.NewLine)
+        builder.Append(" Beginning SI No.:  " & lsORNoFrom & Environment.NewLine)
+        builder.Append(" Ending SI No.   :  " & lsORNoThru & Environment.NewLine)
 
         'builder.Append(" Beginning Balance  : ".PadRight(24) & Format(lnPrevSale, xsDECIMAL).PadLeft(13) & Environment.NewLine)
         'builder.Append("    Ending Balance  : ".PadRight(24) & Format(lnPrevSale + ((lnSalesAmt) - (lnDiscount + lnPWDDiscx + lnVatDiscx)), xsDECIMAL).PadLeft(13) & Environment.NewLine)
@@ -1341,8 +1341,8 @@ Public Class DailySales
         builder.Append(RawPrint.pxePRINT_EMP0)
         'builder.Append("        Z-Counter  : ".PadRight(24) & loDta(0).Item("nZReadCtr").ToString.PadLeft(13) & Environment.NewLine)
         builder.Append("-".PadLeft(40, "-") & Environment.NewLine)
-        builder.Append(" Void OR Count: ".PadRight(24) & Format(lnVoidCntx, xsINTEGER).PadLeft(13) & Environment.NewLine)
-        builder.Append(" Void OR Amount: ".PadRight(24) & Format(lnVoidAmnt, xsDECIMAL).PadLeft(13) & Environment.NewLine)
+        builder.Append(" Void SI Count: ".PadRight(24) & Format(lnVoidCntx, xsINTEGER).PadLeft(13) & Environment.NewLine)
+        builder.Append(" Void SI Amount: ".PadRight(24) & Format(lnVoidAmnt, xsDECIMAL).PadLeft(13) & Environment.NewLine)
 
         'Extract accumulated total sales...
         lsSQL = "SELECT" &
@@ -1593,8 +1593,8 @@ Public Class DailySales
         builder.Append(" Shift End     :  " & Format(ldEndedSfht, "dd/MMM/yyyy hh:mm:ss") & Environment.NewLine & Environment.NewLine)
 
         'Print the begging and ending OR
-        builder.Append(" Beginning OR No.:  " & lsORNoFrom & Environment.NewLine)
-        builder.Append(" Ending OR No.   :  " & lsORNoThru & Environment.NewLine)
+        builder.Append(" Beginning SI No.:  " & lsORNoFrom & Environment.NewLine)
+        builder.Append(" Ending SI No.   :  " & lsORNoThru & Environment.NewLine)
 
         'builder.Append(" Beginning Balance  : ".PadRight(24) & Format(lnPrevSale, xsDECIMAL).PadLeft(13) & Environment.NewLine)
         'builder.Append("    Ending Balance  : ".PadRight(24) & Format(lnPrevSale + ((lnSalesAmt) - (lnDiscount + lnPWDDiscx + lnVatDiscx)), xsDECIMAL).PadLeft(13) & Environment.NewLine)
@@ -1666,8 +1666,8 @@ Public Class DailySales
         builder.Append(RawPrint.pxePRINT_EMP0)
         'builder.Append("        Z-Counter  : ".PadRight(24) & loDta(0).Item("nZReadCtr").ToString.PadLeft(13) & Environment.NewLine)
         builder.Append("-".PadLeft(40, "-") & Environment.NewLine)
-        builder.Append(" Void OR Count: ".PadRight(24) & Format(lnVoidCntx, xsINTEGER).PadLeft(13) & Environment.NewLine)
-        builder.Append(" Void OR Amount: ".PadRight(24) & Format(lnVoidAmnt, xsDECIMAL).PadLeft(13) & Environment.NewLine)
+        builder.Append(" Void SI Count: ".PadRight(24) & Format(lnVoidCntx, xsINTEGER).PadLeft(13) & Environment.NewLine)
+        builder.Append(" Void SI Amount: ".PadRight(24) & Format(lnVoidAmnt, xsDECIMAL).PadLeft(13) & Environment.NewLine)
 
         'Extract accumulated total sales...
         lsSQL = "SELECT" &
@@ -1900,8 +1900,8 @@ Public Class DailySales
 
         builder.Append("TERMINAL #: " & p_sTermnl & Environment.NewLine & Environment.NewLine)
 
-        builder.Append(" Beginning OR  :  " & p_oDTMaster(0).Item("sORNoFrom") & Environment.NewLine)
-        builder.Append(" Ending OR     :  " & p_oDTMaster(0).Item("sORNoThru") & Environment.NewLine & Environment.NewLine)
+        builder.Append(" Beginning SI  :  " & p_oDTMaster(0).Item("sORNoFrom") & Environment.NewLine)
+        builder.Append(" Ending SI     :  " & p_oDTMaster(0).Item("sORNoThru") & Environment.NewLine & Environment.NewLine)
 
         'Print the Computation of NET Sales
         builder.Append(" GROSS SALES".PadRight(24) & Format(p_oDTMaster(0).Item("nSalesAmt") +

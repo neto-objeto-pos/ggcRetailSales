@@ -241,7 +241,6 @@ Public Class Complementary
 
     Private Function loadOrder() As Boolean
         Dim lnCtr As Integer
-
         Dim lsSourceNo As String = ""
         Dim lsSourceCd As String = ""
         Dim lsSplitType As String = ""
@@ -269,19 +268,25 @@ Public Class Complementary
         End If
 
         With p_oDTDetail
+
+            Dim lnRow As Integer
+            lnRow = 0
             For lnCtr = 0 To p_oDTOrder.Rows.Count - 1
-                If p_oDTOrder.Rows(lnCtr)("cReversex") = "+" And
+                Debug.Print(p_oDTOrder.Rows(lnCtr)("cReversex"))
+                Debug.Print(p_oDTOrder.Rows(lnCtr)("cDetailxx"))
+                If p_oDTOrder.Rows(lnCtr)("cReversex").Equals("+") And
                     p_oDTOrder.Rows(lnCtr)("cDetailxx") = "0" Then
                     .Rows.Add()
-                    .Rows(lnCtr)("sTransNox") = IFNull(p_oDTOrder.Rows(lnCtr)("sTransNox"), p_sSourceNo)
-                    .Rows(lnCtr)("nEntryNox") = p_oDTOrder.Rows(lnCtr)("nEntryNox")
-                    .Rows(lnCtr)("sStockIDx") = p_oDTOrder.Rows(lnCtr)("sStockIDx")
-                    .Rows(lnCtr)("nQuantity") = p_oDTOrder.Rows(lnCtr)("nQuantity")
-                    .Rows(lnCtr)("nComplmnt") = p_oDTOrder.Rows(lnCtr)("nComplmnt")
-                    .Rows(lnCtr)("nOrigValx") = p_oDTOrder.Rows(lnCtr)("nComplmnt")
-                    .Rows(lnCtr)("nUnitPrce") = p_oDTOrder.Rows(lnCtr)("nUnitPrce")
-                    .Rows(lnCtr)("sBarcodex") = p_oDTOrder.Rows(lnCtr)("sBarcodex")
-                    .Rows(lnCtr)("sDescript") = p_oDTOrder.Rows(lnCtr)("sDescript")
+                    .Rows(lnRow)("sTransNox") = IFNull(p_oDTOrder.Rows(lnCtr)("sTransNox"), p_sSourceNo)
+                    .Rows(lnRow)("nEntryNox") = p_oDTOrder.Rows(lnCtr)("nEntryNox")
+                    .Rows(lnRow)("sStockIDx") = p_oDTOrder.Rows(lnCtr)("sStockIDx")
+                    .Rows(lnRow)("nQuantity") = p_oDTOrder.Rows(lnCtr)("nQuantity")
+                    .Rows(lnRow)("nComplmnt") = p_oDTOrder.Rows(lnCtr)("nComplmnt")
+                    .Rows(lnRow)("nOrigValx") = p_oDTOrder.Rows(lnCtr)("nComplmnt")
+                    .Rows(lnRow)("nUnitPrce") = p_oDTOrder.Rows(lnCtr)("nUnitPrce")
+                    .Rows(lnRow)("sBarcodex") = p_oDTOrder.Rows(lnCtr)("sBarcodex")
+                    .Rows(lnRow)("sDescript") = p_oDTOrder.Rows(lnCtr)("sDescript")
+                    lnRow += 1
                 End If
             Next lnCtr
         End With
@@ -365,11 +370,11 @@ Public Class Complementary
 
                 If p_oDTDetail.Rows(lnCtr)("nOrigValx") <> p_oDTDetail.Rows(lnCtr)("nComplmnt") Then
                     lnTotal += p_oDTDetail.Rows(lnCtr)("nComplmnt") * p_oDTDetail.Rows(lnCtr)("nUnitPrce")
-                    lsSQL = "UPDATE " & pxeDetailTble & " SET" & _
-                                " nComplmnt = " & CDbl(p_oDTDetail.Rows(lnCtr)("nComplmnt")) & _
-                            " WHERE sTransNox = " & strParm(p_oDTDetail.Rows(lnCtr)("sTransNox")) & _
-                                " AND sStockIDx = " & strParm(p_oDTDetail.Rows(lnCtr)("sStockIDx")) & _
-                                " AND nEntryNox = " & CDbl(p_oDTDetail.Rows(lnCtr)("nEntryNox"))
+                    lsSQL = "UPDATE " & pxeDetailTble & " SET" &
+                                " nComplmnt = " & CDbl(p_oDTDetail.Rows(lnCtr)("nComplmnt")) &
+                            " WHERE sTransNox = " & strParm(p_oDTDetail.Rows(lnCtr)("sTransNox")) &
+                                " AND sStockIDx = " & strParm(p_oDTDetail.Rows(lnCtr)("sStockIDx")) &
+                                " AND nEntryNox = " & CDbl(p_oDTDetail.Rows(lnCtr)("nEntryNox")) + 1
 
                     Try
                         lnRow = p_oAppDrvr.Execute(lsSQL, pxeDetailTble)
