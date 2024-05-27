@@ -82,6 +82,8 @@ Public Class SplitOrder
         End Set
     End Property
 
+
+
     Property SalesTotal() As Double
         Get
             Return p_nSalesTotl
@@ -90,6 +92,7 @@ Public Class SplitOrder
             p_nSalesTotl = Value
         End Set
     End Property
+
 
     Property SplitType As xeSplitType
         Get
@@ -545,7 +548,7 @@ Public Class SplitOrder
                     .Rows(nCtr)("sTransNox") = loDT.Rows(nCtr)("sTransNox")
                     .Rows(nCtr)("cPaymForm") = loDT.Rows(nCtr)("cPaymForm")
                     .Rows(nCtr)("sReferNox") = loDT.Rows(nCtr)("sReferNox")
-                    .Rows(nCtr)("nAmountxx") = loDT.Rows(nCtr)("nAmountxx")
+                    .Rows(nCtr)("nAmountxx") = (IIf(IsWithSCharge, Math.Round(loDT.Rows(nCtr)("nAmountxx") / 1.17, 2), Math.Round(loDT.Rows(nCtr)("nAmountxx") / 1.12, 2)))
                     .Rows(nCtr)("cSplitTyp") = loDT.Rows(nCtr)("cSplitTyp")
                     .Rows(nCtr)("cPaidxxxx") = loDT.Rows(nCtr)("xPaidxxxx")
                     .Rows(nCtr)("nTranTotl") = loDT.Rows(nCtr)("nAmountxx")
@@ -1338,14 +1341,28 @@ Public Class SplitOrder
 
         If p_cSplitTyp <> xeSplitType.xeSplitByMenu Then
             p_oDTMaster.Rows(p_nSetNumbr - 1)("nDiscount") = Math.Round((((p_oDTMaster.Rows(p_nSetNumbr - 1)("nTranTotl") / p_nSalesTotl) * 100) / 100) * IFNull(loMaster.Rows(0)("nDiscount"), 0), 2)
-            p_oDTMaster.Rows(p_nSetNumbr - 1)("nNonVATxx") = Math.Round(loMaster.Rows(0)("nNonVATxx"), 2)
+
             p_oDTMaster.Rows(p_nSetNumbr - 1)("nTranTotl") = Math.Round(p_oDTDetail.Rows(0)("nGrpAm" & Format(p_nSetNumbr, "000")), 2)
-            Debug.Print("total = " & p_oDTMaster.Rows(p_nSetNumbr - 1)("nTranTotl") & "group = " & p_oDTDetail.Rows(0)("nGrpAm" & Format(p_nSetNumbr, "000")), 2)
-            Dim lnVatSale As Decimal = Math.Round(p_oDTMaster.Rows(p_nSetNumbr - 1)("nTranTotl") - p_oDTMaster.Rows(p_nSetNumbr - 1)("nNonVATxx"), 2)
-            Debug.Print("vatofsale = " & lnVatSale)
-            p_oDTMaster.Rows(p_nSetNumbr - 1)("nVATSales") = Math.Round(lnVatSale / 1.12, 2)
-            p_oDTMaster.Rows(p_nSetNumbr - 1)("nVATAmtxx") = Math.Round(lnVatSale - p_oDTMaster.Rows(p_nSetNumbr - 1)("nVATSales"), 2)
-        End If
+            Debug.Print("total = " & p_oDTMaster.Rows(p_nSetNumbr - 1)("nTranTotl") & " group = " & p_oDTDetail.Rows(0)("nGrpAm" & Format(p_nSetNumbr, "000")), 2)
+            Dim lnVatSale As Decimal
+            Dim lnServiceCharge As Decimal = 0
+            If (p_bSChargexx) Then
+                lnVatSale = Math.Round(p_oDTMaster.Rows(p_nSetNumbr - 1)("nTranTotl") / 1.17, 2)
+                lnServiceCharge = Math.Round(lnVatSale * 0.05, 2)
+                p_nSChargexx = lnServiceCharge
+            Else
+                lnVatSale = Math.Round(p_oDTMaster.Rows(p_nSetNumbr - 1)("nTranTotl") / 1.12, 2)
+            End If
+
+            Dim lnVatAmt As Decimal = Math.Round(p_oDTMaster.Rows(p_nSetNumbr - 1)("nTranTotl") - lnVatSale - lnServiceCharge, 2)
+                'p_oDTMaster.Rows(p_nSetNumbr - 1)("nAmountxx") = Math.Round(lnVatSale + lnVatAmt)
+                Dim lnSalesAmount As Decimal
+                'Dim lnVatSale As Decimal = Math.Round(p_oDTMaster.Rows(p_nSetNumbr - 1)("nTranTotl") - p_oDTMaster.Rows(p_nSetNumbr - 1)("nNonVATxx"), 2)
+                Debug.Print("vatofsale = " & lnVatSale)
+                p_oDTMaster.Rows(p_nSetNumbr - 1)("nNonVATxx") = Math.Round(loMaster.Rows(0)("nNonVATxx"), 2)
+                p_oDTMaster.Rows(p_nSetNumbr - 1)("nVATSales") = Math.Round(lnVatSale, 2)
+                p_oDTMaster.Rows(p_nSetNumbr - 1)("nVATAmtxx") = Math.Round(lnVatAmt, 2)
+            End If
     End Sub
 #End Region
 

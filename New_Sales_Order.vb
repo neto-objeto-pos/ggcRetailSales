@@ -2066,6 +2066,12 @@ Public Class New_Sales_Order
                 .SourceCd = "SOSp"
                 .SourceNo = lsSourceNo
                 .MasterNo = lsReferNo
+
+                Dim lnPartialRate As Decimal
+                lnPartialRate = p_nBill
+                loPayment.myBill = p_nBill
+
+
                 .SplitSource = p_oDTMaster(0)("sTransNox")
                 .BillingNo = lsBillNmbrx
 
@@ -2327,6 +2333,7 @@ Public Class New_Sales_Order
             .GroupNo = 1
             .POSNumbr = p_sTermnl
             .SourceNo = p_oDTMaster(0)("sTransNox")
+            Debug.Print(p_oDTMaster(0).Item("nTranTotl"))
             .SalesTotal = p_oDTMaster(0).Item("nTranTotl") - Math.Round((p_oDTMaster(0).Item("nDiscount") + p_oDTMaster(0).Item("nVatDiscx") + p_oDTMaster(0).Item("nPWDDiscx")), 2)
             .OrderDetail = p_oDTDetail
             .IsWithSCharge = IIf(p_oDTMaster(0)("cSChargex") = "x", False, p_oDTMaster(0)("cSChargex"))
@@ -2353,6 +2360,9 @@ Public Class New_Sales_Order
                 p_oDTMaster(0).Item("nTranTotl") = .Master("nAmountxx")
 
                 Debug.Print(.Master("nAmountxx"))
+                'total off split .Master("nAmountxx") + .Master("nVATAmtxx")
+                p_nBill = .Master("nAmountxx") + .Master("nVATAmtxx")
+                p_nCharge = .SCharge
                 p_oDTMaster(0).Item("nVoidTotl") = .Master("nVoidTotl")
                 p_oDTMaster(0).Item("nVATSales") = .Master("nVATSales")
                 p_oDTMaster(0).Item("nVATAmtxx") = .Master("nVATAmtxx")

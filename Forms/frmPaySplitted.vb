@@ -476,13 +476,28 @@ endProc:
     End Sub
 
     Private Sub showComputation()
-        lblMaster04.Text = FormatNumber(poSplit.Master("nTranTotl"), 2)
         lblMaster13.Text = FormatNumber(poSplit.Master("nVATSales"), 2) 'vat sales
         lblMaster14.Text = FormatNumber(poSplit.Master("nVATAmtxx"), 2) 'vat amount
         lblMaster15.Text = FormatNumber(poSplit.Master("nNonVATxx"), 2) 'non vat
+
+        lblMaster04.Text = FormatNumber(CDbl(lblMaster13.Text) + CDbl(lblMaster14.Text), 2)
         lblMaster17.Text = FormatNumber(poSplit.Master("nDiscount") + poSplit.Master("nVatDiscx") + poSplit.Master("nPWDDiscx"), 2)
         lblAmount.Text = FormatNumber(CDbl(lblMaster04.Text) - CDbl(lblMaster17.Text), 2) 'amount due
         lblAmount.Text = FormatNumber(poSplit.Master("nTranTotl"), 2)
+
+        lblServiceCharge.Text = FormatNumber(CDbl(lblAmount.Text) - CDbl(lblMaster04.Text), 2)
+    End Sub
+
+    Private Sub lblMaster13_Click(sender As Object, e As EventArgs) Handles lblMaster13.Click
+
+    End Sub
+
+    Private Sub Label3_Click(sender As Object, e As EventArgs) Handles Label3.Click
+
+    End Sub
+
+    Private Sub Label15_Click(sender As Object, e As EventArgs) Handles Label15.Click
+
     End Sub
 
     'Private Sub showComputationNew()
