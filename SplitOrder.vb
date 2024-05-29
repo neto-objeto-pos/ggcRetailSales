@@ -548,9 +548,13 @@ Public Class SplitOrder
                     .Rows(nCtr)("sTransNox") = loDT.Rows(nCtr)("sTransNox")
                     .Rows(nCtr)("cPaymForm") = loDT.Rows(nCtr)("cPaymForm")
                     .Rows(nCtr)("sReferNox") = loDT.Rows(nCtr)("sReferNox")
-                    .Rows(nCtr)("nAmountxx") = (IIf(IsWithSCharge, Math.Round(loDT.Rows(nCtr)("nAmountxx") / 1.17, 2), Math.Round(loDT.Rows(nCtr)("nAmountxx") / 1.12, 2)))
-                    .Rows(nCtr)("cSplitTyp") = loDT.Rows(nCtr)("cSplitTyp")
-                    .Rows(nCtr)("cPaidxxxx") = loDT.Rows(nCtr)("xPaidxxxx")
+                    If (loDT.Rows(nCtr)("cSplitTyp") <> 2) Then
+                        .Rows(nCtr)("nAmountxx") = (IIf(IsWithSCharge, Math.Round(loDT.Rows(nCtr)("nAmountxx") / 1.17, 2), Math.Round(loDT.Rows(nCtr)("nAmountxx") / 1.12, 2)))
+                    Else
+                    .Rows(nCtr)("nAmountxx") = loDT.Rows(nCtr)("nAmountxx")
+        End If
+        .Rows(nCtr)("cSplitTyp") = loDT.Rows(nCtr)("cSplitTyp")
+        .Rows(nCtr)("cPaidxxxx") = loDT.Rows(nCtr)("xPaidxxxx")
                     .Rows(nCtr)("nTranTotl") = loDT.Rows(nCtr)("nAmountxx")
                     .Rows(nCtr)("nDiscntbl") = 0.0
                     .Rows(nCtr)("nZeroRatd") = 0.0
@@ -923,13 +927,20 @@ Public Class SplitOrder
                 Next nCtr
 
                 If Not lbDelMas Then
-                    lsSQL = "INSERT INTO " & pxeMasterTble & " SET" & _
-                                "  sTransNox = " & strParm(lsTransNox(nCol - 1)) & _
-                                ", sReferNox = " & strParm(p_sSourceNo) & _
-                                ", nAmountxx = " & CDec(lnTotal) & _
-                                ", cSplitTyp = " & strParm(p_cSplitTyp) & _
-                            " ON DUPLICATE KEY UPDATE" & _
-                                "  nAmountxx = " & CDec(lnTotal) & _
+                    Dim lnVatSales As Decimal
+                    Dim lnServiceCharge As Decimal
+                    Dim lnAmountDue As Decimal
+                    lnVatSales = Math.Round(lnTotal / 1.12, 2)
+                    lnServiceCharge = Math.Round(lnVatSales * 0.05, 2)
+                    lnAmountDue = Math.Round(lnTotal + lnServiceCharge, 2)
+
+                    lsSQL = "INSERT INTO " & pxeMasterTble & " SET" &
+                                "  sTransNox = " & strParm(lsTransNox(nCol - 1)) &
+                                ", sReferNox = " & strParm(p_sSourceNo) &
+                                ", nAmountxx = " & CDec(lnAmountDue) &
+                                ", cSplitTyp = " & strParm(p_cSplitTyp) &
+                            " ON DUPLICATE KEY UPDATE" &
+                                "  nAmountxx = " & CDec(lnAmountDue) &
                                 ", cSplitTyp = " & strParm(p_cSplitTyp)
                 Else
                     lsSQL = "DELETE FROM " & pxeMasterTble & _
@@ -951,7 +962,6 @@ Public Class SplitOrder
             Next nCol
         End With
 
-        If Not cancelSODiscount() Then Return False
         If Not cancelSODiscount() Then Return False
 
         Return True
@@ -1319,7 +1329,7 @@ Public Class SplitOrder
             loDetailTemp = loDetail.Clone
             With loDetailTemp
                 .Rows.Add()
-                .Rows(0)("nUnitPrce") = p_oDTDetail.Rows(0)("nGrpAm" & Format(p_nSetNumbr, "000"))
+                .Rows(0)("nUnitPrce") = 0.0
                 .Rows(0)("nQuantity") = 1
                 .Rows(0)("nAddDiscx") = 0.0
                 .Rows(0)("nDiscount") = 0.0
@@ -1338,14 +1348,14 @@ Public Class SplitOrder
         p_oDTMaster.Rows(p_nSetNumbr - 1)("nTranTotl") = loMaster.Rows(0)("nTranTotl")
         p_oDTMaster.Rows(p_nSetNumbr - 1)("nVATSales") = loMaster.Rows(0)("nVATSales")
         p_oDTMaster.Rows(p_nSetNumbr - 1)("nVATAmtxx") = loMaster.Rows(0)("nVATAmtxx")
-
+        Dim lnVatSale As Decimal
+        Dim lnServiceCharge As Decimal = 0
         If p_cSplitTyp <> xeSplitType.xeSplitByMenu Then
             p_oDTMaster.Rows(p_nSetNumbr - 1)("nDiscount") = Math.Round((((p_oDTMaster.Rows(p_nSetNumbr - 1)("nTranTotl") / p_nSalesTotl) * 100) / 100) * IFNull(loMaster.Rows(0)("nDiscount"), 0), 2)
 
             p_oDTMaster.Rows(p_nSetNumbr - 1)("nTranTotl") = Math.Round(p_oDTDetail.Rows(0)("nGrpAm" & Format(p_nSetNumbr, "000")), 2)
             Debug.Print("total = " & p_oDTMaster.Rows(p_nSetNumbr - 1)("nTranTotl") & " group = " & p_oDTDetail.Rows(0)("nGrpAm" & Format(p_nSetNumbr, "000")), 2)
-            Dim lnVatSale As Decimal
-            Dim lnServiceCharge As Decimal = 0
+
             If (p_bSChargexx) Then
                 lnVatSale = Math.Round(p_oDTMaster.Rows(p_nSetNumbr - 1)("nTranTotl") / 1.17, 2)
                 lnServiceCharge = Math.Round(lnVatSale * 0.05, 2)
@@ -1355,14 +1365,43 @@ Public Class SplitOrder
             End If
 
             Dim lnVatAmt As Decimal = Math.Round(p_oDTMaster.Rows(p_nSetNumbr - 1)("nTranTotl") - lnVatSale - lnServiceCharge, 2)
-                'p_oDTMaster.Rows(p_nSetNumbr - 1)("nAmountxx") = Math.Round(lnVatSale + lnVatAmt)
-                Dim lnSalesAmount As Decimal
-                'Dim lnVatSale As Decimal = Math.Round(p_oDTMaster.Rows(p_nSetNumbr - 1)("nTranTotl") - p_oDTMaster.Rows(p_nSetNumbr - 1)("nNonVATxx"), 2)
-                Debug.Print("vatofsale = " & lnVatSale)
-                p_oDTMaster.Rows(p_nSetNumbr - 1)("nNonVATxx") = Math.Round(loMaster.Rows(0)("nNonVATxx"), 2)
-                p_oDTMaster.Rows(p_nSetNumbr - 1)("nVATSales") = Math.Round(lnVatSale, 2)
-                p_oDTMaster.Rows(p_nSetNumbr - 1)("nVATAmtxx") = Math.Round(lnVatAmt, 2)
-            End If
+            'p_oDTMaster.Rows(p_nSetNumbr - 1)("nAmountxx") = Math.Round(lnVatSale + lnVatAmt)
+            Dim lnSalesAmount As Decimal
+            'Dim lnVatSale As Decimal = Math.Round(p_oDTMaster.Rows(p_nSetNumbr - 1)("nTranTotl") - p_oDTMaster.Rows(p_nSetNumbr - 1)("nNonVATxx"), 2)
+            Debug.Print("vatofsale = " & lnVatSale)
+            p_oDTMaster.Rows(p_nSetNumbr - 1)("nNonVATxx") = Math.Round(loMaster.Rows(0)("nNonVATxx"), 2)
+            p_oDTMaster.Rows(p_nSetNumbr - 1)("nVATSales") = Math.Round(lnVatSale, 2)
+            p_oDTMaster.Rows(p_nSetNumbr - 1)("nVATAmtxx") = Math.Round(lnVatAmt, 2)
+
+            'Else
+            '    lnVatSale = Math.Round(p_oDTMaster.Rows(p_nSetNumbr - 1)("nTranTotl") / 1.12, 2)
+            '    lnServiceCharge = Math.Round(lnVatSale * 0.05, 2)
+            '    p_nSChargexx = lnServiceCharge
+            '    p_oDTMaster.Rows(p_nSetNumbr - 1)("nDiscount") = Math.Round((((p_oDTMaster.Rows(p_nSetNumbr - 1)("nTranTotl") / p_nSalesTotl) * 100) / 100) * IFNull(loMaster.Rows(0)("nDiscount"), 0), 2)
+
+            '    Debug.Print("total = " & p_oDTMaster.Rows(p_nSetNumbr - 1)("nTranTotl") & " group = " & p_oDTDetail.Rows(0)("nGrpAm" & Format(p_nSetNumbr, "000")), 2)
+            '    Dim lnVatSale As Decimal
+            '    Dim lnServiceCharge As Decimal = 0
+            '    If (p_bSChargexx) Then
+            '        lnVatSale = Math.Round(p_oDTMaster.Rows(p_nSetNumbr - 1)("nTranTotl") / 1.12, 2)
+            '        lnServiceCharge = Math.Round(lnVatSale * 0.05, 2)
+            '        p_nSChargexx = lnServiceCharge
+            '    Else
+            '        lnVatSale = Math.Round(p_oDTMaster.Rows(p_nSetNumbr - 1)("nTranTotl") / 1.12, 2)
+            '    End If
+
+            '    Dim lnVatAmt As Decimal = Math.Round(p_oDTMaster.Rows(p_nSetNumbr - 1)("nTranTotl") - lnVatSale - lnServiceCharge, 2)
+            '    'p_oDTMaster.Rows(p_nSetNumbr - 1)("nAmountxx") = Math.Round(lnVatSale + lnVatAmt)
+            '    Dim lnSalesAmount As Decimal
+            '    'Dim lnVatSale As Decimal = Math.Round(p_oDTMaster.Rows(p_nSetNumbr - 1)("nTranTotl") - p_oDTMaster.Rows(p_nSetNumbr - 1)("nNonVATxx"), 2)
+            '    Debug.Print("vatofsale = " & lnVatSale)
+            '    p_oDTMaster.Rows(p_nSetNumbr - 1)("nNonVATxx") = Math.Round(loMaster.Rows(0)("nNonVATxx"), 2)
+            '    p_oDTMaster.Rows(p_nSetNumbr - 1)("nVATSales") = Math.Round(lnVatSale, 2)
+            '    p_oDTMaster.Rows(p_nSetNumbr - 1)("nVATAmtxx") = Math.Round(lnVatAmt, 2)
+
+        End If
+
+
     End Sub
 #End Region
 

@@ -24,6 +24,7 @@ Imports MySql.Data.MySqlClient
 Imports ggcAppDriver
 Imports ggcReceipt
 Imports ggcRetailParams
+Imports System.Runtime.InteropServices
 
 Public Class New_Sales_Order
     Private Const xsSignature As String = "08220326"
@@ -2000,15 +2001,23 @@ Public Class New_Sales_Order
             .Master("nVATAmtxx") = Math.Round(p_oDTMaster(0).Item("nVATAmtxx"), 2)
             If p_oDTMaster(0).Item("nPWDDiscx") > 0 Then
                 .Master("nSChargex") = IIf(p_bSChargex, (.Master("nSalesAmt")) * (p_nSChargex / 100), 0)
-            Else
+            ElseIf Not (lbSplitted) Then 'regular order
                 .Master("nSChargex") = IIf(p_bSChargex, (.Master("nSalesAmt") / 1.12) * (p_nSChargex / 100), 0)
+                Debug.Print("totasales amt= " & .Master("nSalesAmt"))
+            ElseIf (lsSplitType <> 2) Then
+                .Master("nSChargex") = IIf(p_bSChargex, (p_nTotalSales / 1.17) * (p_nSChargex / 100), 0)
+                Debug.Print("totalsales amt= " & p_nTotalSales)
+            Else
+                .Master("nSChargex") = IIf(p_bSChargex, (.Master("nSalesAmt") / 1.17) * (p_nSChargex / 100), 0)
                 Debug.Print("sales amt= " & .Master("nSalesAmt"))
             End If
 
             p_oDTMaster(0).Item("nPrntBill") = p_oDTMaster(0).Item("nPrntBill") + 1
 
             p_oApp.SaveEvent("0013", "Order No. " & p_oDTMaster(0)("nContrlNo"), p_sSerial)
-
+            If (p_oDTMaster(0).Item("nPrntBill") = 0) Then
+                lbReprint = False
+            End If
             Return .printBilling(lbReprint)
         End With
     End Function
@@ -2066,22 +2075,36 @@ Public Class New_Sales_Order
                 .SourceCd = "SOSp"
                 .SourceNo = lsSourceNo
                 .MasterNo = lsReferNo
+                If (lsSplitType <> ggcRetailSales.SplitOrder.xeSplitType.xeSplitByMenu) Then
+                    loPayment.myBill = p_nBill
+                    If (p_bSChargex) Then
+                        loPayment.myCharge = p_nCharge
+                    End If
+                Else
+                    '1.17 with scharge / 1.2 w/o servicecharge
+                    Dim lnSales As Decimal
+                    Dim lnVatSales As Decimal
+                    Dim lnSalesAmt As Decimal
+                    Dim lnServiceCharge As Decimal
+                    lnSales = Math.Round(p_nBill / 0.05, 2)
+                    lnVatSales = Math.Round(p_nBill / 1.17, 2)
+                    lnSalesAmt = Math.Round(lnVatSales * 1.12, 2)
 
-                Dim lnPartialRate As Decimal
-                lnPartialRate = p_nBill
-                loPayment.myBill = p_nBill
+                    lnServiceCharge = Math.Round(lnVatSales * 0.05, 2)
+                    loPayment.myBill = Math.Round(lnSalesAmt, 2)
+                    loPayment.myCharge = lnServiceCharge
 
-
+                End If
                 .SplitSource = p_oDTMaster(0)("sTransNox")
-                .BillingNo = lsBillNmbrx
+                    .BillingNo = lsBillNmbrx
 
-                p_oDtaDiscx = LoadDiscount(.SourceCd, .SourceNo)
-                .Discounts = p_oDtaDiscx
+                    p_oDtaDiscx = LoadDiscount(.SourceCd, .SourceNo)
+                    .Discounts = p_oDtaDiscx
 
-                lbSplitted = True
-            Else
-                'assign the actual detail since in was not splitted
-                .SalesOrder = p_oDTDetail
+                    lbSplitted = True
+                Else
+                    'assign the actual detail since in was not splitted
+                    .SalesOrder = p_oDTDetail
                 .SplitType = 2
                 .SourceCd = pxeSourceCde
                 .SourceNo = p_oDTMaster(0)("sTransNox")
@@ -2407,16 +2430,20 @@ Public Class New_Sales_Order
             .OpenBySource()
             If .WasSplitted Then
 
+                MsgBox("Unable to Re-Split Order! Please Pay Transaction", MsgBoxStyle.Information, "Notice")
+
+                Return False
                 Dim lnCtr As Integer
 
                 For lnCtr = 1 To .GroupNo
                     .SetNo = lnCtr
 
-                    If .Master("cPaidxxxx") <> "0" Then
-                        MsgBox("Unable to Re-Split Order with Paid Transactions...", MsgBoxStyle.Information, "Notice")
 
-                        Return False
+                    If .Master("cPaidxxxx") <> "0" Then
+
                     End If
+
+
                 Next
             End If
 

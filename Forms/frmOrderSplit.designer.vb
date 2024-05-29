@@ -22,9 +22,9 @@ Partial Class frmOrderSplit
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Dim DataGridViewCellStyle7 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-        Dim DataGridViewCellStyle8 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-        Dim DataGridViewCellStyle9 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle1 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle2 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle3 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
         Me.pnlMain = New System.Windows.Forms.Panel()
         Me.Panel5 = New System.Windows.Forms.Panel()
         Me.picButton01 = New System.Windows.Forms.PictureBox()
@@ -47,11 +47,9 @@ Partial Class frmOrderSplit
         Me.DataGridView2 = New System.Windows.Forms.DataGridView()
         Me.txtDetail00 = New System.Windows.Forms.TextBox()
         Me.Panel2 = New System.Windows.Forms.Panel()
-        Me.Panel4 = New System.Windows.Forms.Panel()
-        Me.pnlButton = New System.Windows.Forms.Panel()
-        Me.cmdButton01 = New System.Windows.Forms.Button()
-        Me.cmdButton00 = New System.Windows.Forms.Button()
         Me.Panel3 = New System.Windows.Forms.Panel()
+        Me.lblServiceCharge = New System.Windows.Forms.Label()
+        Me.Label1 = New System.Windows.Forms.Label()
         Me.Label16 = New System.Windows.Forms.Label()
         Me.Label15 = New System.Windows.Forms.Label()
         Me.Label14 = New System.Windows.Forms.Label()
@@ -64,6 +62,10 @@ Partial Class frmOrderSplit
         Me.lblMaster14 = New System.Windows.Forms.Label()
         Me.lblMaster15 = New System.Windows.Forms.Label()
         Me.lblAmount = New System.Windows.Forms.Label()
+        Me.Panel4 = New System.Windows.Forms.Panel()
+        Me.pnlButton = New System.Windows.Forms.Panel()
+        Me.cmdButton01 = New System.Windows.Forms.Button()
+        Me.cmdButton00 = New System.Windows.Forms.Button()
         Me.pnlMain.SuspendLayout()
         Me.Panel5.SuspendLayout()
         CType(Me.picButton01, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -75,9 +77,9 @@ Partial Class frmOrderSplit
         Me.pnlAmount.SuspendLayout()
         CType(Me.DataGridView2, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.Panel2.SuspendLayout()
+        Me.Panel3.SuspendLayout()
         Me.Panel4.SuspendLayout()
         Me.pnlButton.SuspendLayout()
-        Me.Panel3.SuspendLayout()
         Me.SuspendLayout()
         '
         'pnlMain
@@ -90,7 +92,7 @@ Partial Class frmOrderSplit
         Me.pnlMain.Controls.Add(Me.pnlAmount)
         Me.pnlMain.Location = New System.Drawing.Point(504, 4)
         Me.pnlMain.Name = "pnlMain"
-        Me.pnlMain.Size = New System.Drawing.Size(408, 656)
+        Me.pnlMain.Size = New System.Drawing.Size(408, 674)
         Me.pnlMain.TabIndex = 2
         '
         'Panel5
@@ -99,9 +101,9 @@ Partial Class frmOrderSplit
         Me.Panel5.Controls.Add(Me.picButton01)
         Me.Panel5.Controls.Add(Me.picButton02)
         Me.Panel5.Controls.Add(Me.picButton00)
-        Me.Panel5.Location = New System.Drawing.Point(1, 606)
+        Me.Panel5.Location = New System.Drawing.Point(1, 621)
         Me.Panel5.Name = "Panel5"
-        Me.Panel5.Size = New System.Drawing.Size(400, 44)
+        Me.Panel5.Size = New System.Drawing.Size(400, 43)
         Me.Panel5.TabIndex = 37
         '
         'picButton01
@@ -208,7 +210,7 @@ Partial Class frmOrderSplit
         Me.pnlDetail.Location = New System.Drawing.Point(3, 155)
         Me.pnlDetail.Margin = New System.Windows.Forms.Padding(2)
         Me.pnlDetail.Name = "pnlDetail"
-        Me.pnlDetail.Size = New System.Drawing.Size(398, 448)
+        Me.pnlDetail.Size = New System.Drawing.Size(398, 463)
         Me.pnlDetail.TabIndex = 8
         '
         'DataGridView1
@@ -218,40 +220,40 @@ Partial Class frmOrderSplit
         Me.DataGridView1.AllowUserToResizeColumns = False
         Me.DataGridView1.AllowUserToResizeRows = False
         Me.DataGridView1.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
-        DataGridViewCellStyle7.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
-        DataGridViewCellStyle7.BackColor = System.Drawing.SystemColors.Control
-        DataGridViewCellStyle7.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        DataGridViewCellStyle7.ForeColor = System.Drawing.SystemColors.WindowText
-        DataGridViewCellStyle7.SelectionBackColor = System.Drawing.SystemColors.Highlight
-        DataGridViewCellStyle7.SelectionForeColor = System.Drawing.SystemColors.HighlightText
-        DataGridViewCellStyle7.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
-        Me.DataGridView1.ColumnHeadersDefaultCellStyle = DataGridViewCellStyle7
+        DataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
+        DataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control
+        DataGridViewCellStyle1.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        DataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText
+        DataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight
+        DataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText
+        DataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
+        Me.DataGridView1.ColumnHeadersDefaultCellStyle = DataGridViewCellStyle1
         Me.DataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.DisableResizing
-        DataGridViewCellStyle8.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
-        DataGridViewCellStyle8.BackColor = System.Drawing.SystemColors.Window
-        DataGridViewCellStyle8.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        DataGridViewCellStyle8.ForeColor = System.Drawing.Color.White
-        DataGridViewCellStyle8.SelectionBackColor = System.Drawing.SystemColors.Highlight
-        DataGridViewCellStyle8.SelectionForeColor = System.Drawing.SystemColors.HighlightText
-        DataGridViewCellStyle8.WrapMode = System.Windows.Forms.DataGridViewTriState.[False]
-        Me.DataGridView1.DefaultCellStyle = DataGridViewCellStyle8
+        DataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
+        DataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Window
+        DataGridViewCellStyle2.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        DataGridViewCellStyle2.ForeColor = System.Drawing.Color.White
+        DataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight
+        DataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText
+        DataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.[False]
+        Me.DataGridView1.DefaultCellStyle = DataGridViewCellStyle2
         Me.DataGridView1.Dock = System.Windows.Forms.DockStyle.Fill
         Me.DataGridView1.Location = New System.Drawing.Point(0, 0)
         Me.DataGridView1.Margin = New System.Windows.Forms.Padding(2)
         Me.DataGridView1.MultiSelect = False
         Me.DataGridView1.Name = "DataGridView1"
         Me.DataGridView1.ReadOnly = True
-        DataGridViewCellStyle9.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
-        DataGridViewCellStyle9.BackColor = System.Drawing.SystemColors.Control
-        DataGridViewCellStyle9.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        DataGridViewCellStyle9.ForeColor = System.Drawing.SystemColors.WindowText
-        DataGridViewCellStyle9.SelectionBackColor = System.Drawing.SystemColors.Highlight
-        DataGridViewCellStyle9.SelectionForeColor = System.Drawing.SystemColors.HighlightText
-        DataGridViewCellStyle9.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
-        Me.DataGridView1.RowHeadersDefaultCellStyle = DataGridViewCellStyle9
+        DataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
+        DataGridViewCellStyle3.BackColor = System.Drawing.SystemColors.Control
+        DataGridViewCellStyle3.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        DataGridViewCellStyle3.ForeColor = System.Drawing.SystemColors.WindowText
+        DataGridViewCellStyle3.SelectionBackColor = System.Drawing.SystemColors.Highlight
+        DataGridViewCellStyle3.SelectionForeColor = System.Drawing.SystemColors.HighlightText
+        DataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
+        Me.DataGridView1.RowHeadersDefaultCellStyle = DataGridViewCellStyle3
         Me.DataGridView1.RowHeadersVisible = False
         Me.DataGridView1.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect
-        Me.DataGridView1.Size = New System.Drawing.Size(394, 444)
+        Me.DataGridView1.Size = New System.Drawing.Size(394, 459)
         Me.DataGridView1.TabIndex = 21
         '
         'pnlAmount
@@ -357,7 +359,7 @@ Partial Class frmOrderSplit
         '
         Me.txtDetail00.Enabled = False
         Me.txtDetail00.Font = New System.Drawing.Font("Microsoft Sans Serif", 26.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.txtDetail00.Location = New System.Drawing.Point(5, 4)
+        Me.txtDetail00.Location = New System.Drawing.Point(5, 6)
         Me.txtDetail00.Name = "txtDetail00"
         Me.txtDetail00.ReadOnly = True
         Me.txtDetail00.Size = New System.Drawing.Size(487, 47)
@@ -371,67 +373,17 @@ Partial Class frmOrderSplit
         Me.Panel2.Controls.Add(Me.Panel3)
         Me.Panel2.Controls.Add(Me.Panel4)
         Me.Panel2.Controls.Add(Me.txtDetail00)
-        Me.Panel2.Location = New System.Drawing.Point(3, 4)
+        Me.Panel2.Location = New System.Drawing.Point(2, 3)
         Me.Panel2.Name = "Panel2"
-        Me.Panel2.Size = New System.Drawing.Size(501, 656)
+        Me.Panel2.Size = New System.Drawing.Size(498, 675)
         Me.Panel2.TabIndex = 41
-        '
-        'Panel4
-        '
-        Me.Panel4.BackColor = System.Drawing.Color.Transparent
-        Me.Panel4.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
-        Me.Panel4.Controls.Add(Me.DataGridView2)
-        Me.Panel4.Location = New System.Drawing.Point(5, 53)
-        Me.Panel4.Name = "Panel4"
-        Me.Panel4.Size = New System.Drawing.Size(487, 440)
-        Me.Panel4.TabIndex = 43
-        '
-        'pnlButton
-        '
-        Me.pnlButton.BackColor = System.Drawing.Color.Transparent
-        Me.pnlButton.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
-        Me.pnlButton.Controls.Add(Me.cmdButton01)
-        Me.pnlButton.Controls.Add(Me.cmdButton00)
-        Me.pnlButton.Location = New System.Drawing.Point(914, 4)
-        Me.pnlButton.Margin = New System.Windows.Forms.Padding(2)
-        Me.pnlButton.Name = "pnlButton"
-        Me.pnlButton.Size = New System.Drawing.Size(108, 656)
-        Me.pnlButton.TabIndex = 42
-        '
-        'cmdButton01
-        '
-        Me.cmdButton01.BackColor = System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(128, Byte), Integer), CType(CType(0, Byte), Integer))
-        Me.cmdButton01.FlatAppearance.BorderSize = 0
-        Me.cmdButton01.FlatStyle = System.Windows.Forms.FlatStyle.Flat
-        Me.cmdButton01.Font = New System.Drawing.Font("Microsoft Sans Serif", 6.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.cmdButton01.ForeColor = System.Drawing.Color.White
-        Me.cmdButton01.Location = New System.Drawing.Point(2, 49)
-        Me.cmdButton01.Margin = New System.Windows.Forms.Padding(2)
-        Me.cmdButton01.Name = "cmdButton01"
-        Me.cmdButton01.Size = New System.Drawing.Size(100, 40)
-        Me.cmdButton01.TabIndex = 35
-        Me.cmdButton01.Text = "CANCEL"
-        Me.cmdButton01.UseVisualStyleBackColor = False
-        '
-        'cmdButton00
-        '
-        Me.cmdButton00.BackColor = System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(128, Byte), Integer), CType(CType(0, Byte), Integer))
-        Me.cmdButton00.FlatAppearance.BorderSize = 0
-        Me.cmdButton00.FlatStyle = System.Windows.Forms.FlatStyle.Flat
-        Me.cmdButton00.Font = New System.Drawing.Font("Microsoft Sans Serif", 6.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.cmdButton00.ForeColor = System.Drawing.Color.White
-        Me.cmdButton00.Location = New System.Drawing.Point(2, 4)
-        Me.cmdButton00.Margin = New System.Windows.Forms.Padding(2)
-        Me.cmdButton00.Name = "cmdButton00"
-        Me.cmdButton00.Size = New System.Drawing.Size(100, 40)
-        Me.cmdButton00.TabIndex = 33
-        Me.cmdButton00.Text = "OKAY"
-        Me.cmdButton00.UseVisualStyleBackColor = False
         '
         'Panel3
         '
         Me.Panel3.BackColor = System.Drawing.Color.Gainsboro
         Me.Panel3.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.Panel3.Controls.Add(Me.lblServiceCharge)
+        Me.Panel3.Controls.Add(Me.Label1)
         Me.Panel3.Controls.Add(Me.Label16)
         Me.Panel3.Controls.Add(Me.Label15)
         Me.Panel3.Controls.Add(Me.Label14)
@@ -444,10 +396,33 @@ Partial Class frmOrderSplit
         Me.Panel3.Controls.Add(Me.lblMaster14)
         Me.Panel3.Controls.Add(Me.lblMaster15)
         Me.Panel3.Controls.Add(Me.lblAmount)
-        Me.Panel3.Location = New System.Drawing.Point(4, 498)
+        Me.Panel3.Location = New System.Drawing.Point(3, 499)
         Me.Panel3.Name = "Panel3"
-        Me.Panel3.Size = New System.Drawing.Size(488, 150)
+        Me.Panel3.Size = New System.Drawing.Size(488, 167)
         Me.Panel3.TabIndex = 304
+        '
+        'lblServiceCharge
+        '
+        Me.lblServiceCharge.BackColor = System.Drawing.Color.Gainsboro
+        Me.lblServiceCharge.Font = New System.Drawing.Font("Courier New", 12.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblServiceCharge.ForeColor = System.Drawing.Color.ForestGreen
+        Me.lblServiceCharge.Location = New System.Drawing.Point(184, 140)
+        Me.lblServiceCharge.Name = "lblServiceCharge"
+        Me.lblServiceCharge.Size = New System.Drawing.Size(297, 25)
+        Me.lblServiceCharge.TabIndex = 316
+        Me.lblServiceCharge.Text = "0.00"
+        Me.lblServiceCharge.TextAlign = System.Drawing.ContentAlignment.MiddleRight
+        '
+        'Label1
+        '
+        Me.Label1.AutoSize = True
+        Me.Label1.Font = New System.Drawing.Font("Courier New", 12.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label1.ForeColor = System.Drawing.Color.ForestGreen
+        Me.Label1.Location = New System.Drawing.Point(33, 143)
+        Me.Label1.Name = "Label1"
+        Me.Label1.Size = New System.Drawing.Size(148, 18)
+        Me.Label1.TabIndex = 315
+        Me.Label1.Text = "Service Charge"
         '
         'Label16
         '
@@ -587,6 +562,58 @@ Partial Class frmOrderSplit
         Me.lblAmount.Text = "0.00"
         Me.lblAmount.TextAlign = System.Drawing.ContentAlignment.MiddleRight
         '
+        'Panel4
+        '
+        Me.Panel4.BackColor = System.Drawing.Color.Transparent
+        Me.Panel4.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
+        Me.Panel4.Controls.Add(Me.DataGridView2)
+        Me.Panel4.Location = New System.Drawing.Point(5, 53)
+        Me.Panel4.Name = "Panel4"
+        Me.Panel4.Size = New System.Drawing.Size(487, 440)
+        Me.Panel4.TabIndex = 43
+        '
+        'pnlButton
+        '
+        Me.pnlButton.BackColor = System.Drawing.Color.Transparent
+        Me.pnlButton.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
+        Me.pnlButton.Controls.Add(Me.cmdButton01)
+        Me.pnlButton.Controls.Add(Me.cmdButton00)
+        Me.pnlButton.Location = New System.Drawing.Point(914, 4)
+        Me.pnlButton.Margin = New System.Windows.Forms.Padding(2)
+        Me.pnlButton.Name = "pnlButton"
+        Me.pnlButton.Size = New System.Drawing.Size(108, 674)
+        Me.pnlButton.TabIndex = 42
+        '
+        'cmdButton01
+        '
+        Me.cmdButton01.BackColor = System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(128, Byte), Integer), CType(CType(0, Byte), Integer))
+        Me.cmdButton01.FlatAppearance.BorderSize = 0
+        Me.cmdButton01.FlatStyle = System.Windows.Forms.FlatStyle.Flat
+        Me.cmdButton01.Font = New System.Drawing.Font("Microsoft Sans Serif", 6.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.cmdButton01.ForeColor = System.Drawing.Color.White
+        Me.cmdButton01.Location = New System.Drawing.Point(2, 49)
+        Me.cmdButton01.Margin = New System.Windows.Forms.Padding(2)
+        Me.cmdButton01.Name = "cmdButton01"
+        Me.cmdButton01.Size = New System.Drawing.Size(100, 40)
+        Me.cmdButton01.TabIndex = 35
+        Me.cmdButton01.Text = "CANCEL"
+        Me.cmdButton01.UseVisualStyleBackColor = False
+        '
+        'cmdButton00
+        '
+        Me.cmdButton00.BackColor = System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(128, Byte), Integer), CType(CType(0, Byte), Integer))
+        Me.cmdButton00.FlatAppearance.BorderSize = 0
+        Me.cmdButton00.FlatStyle = System.Windows.Forms.FlatStyle.Flat
+        Me.cmdButton00.Font = New System.Drawing.Font("Microsoft Sans Serif", 6.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.cmdButton00.ForeColor = System.Drawing.Color.White
+        Me.cmdButton00.Location = New System.Drawing.Point(2, 4)
+        Me.cmdButton00.Margin = New System.Windows.Forms.Padding(2)
+        Me.cmdButton00.Name = "cmdButton00"
+        Me.cmdButton00.Size = New System.Drawing.Size(100, 40)
+        Me.cmdButton00.TabIndex = 33
+        Me.cmdButton00.Text = "OKAY"
+        Me.cmdButton00.UseVisualStyleBackColor = False
+        '
         'frmOrderSplit
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -596,7 +623,7 @@ Partial Class frmOrderSplit
         Me.BackgroundImage = Global.ggcRetailSales.My.Resources.Resources.mainbackground
         Me.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch
         Me.CausesValidation = False
-        Me.ClientSize = New System.Drawing.Size(1024, 662)
+        Me.ClientSize = New System.Drawing.Size(1024, 680)
         Me.Controls.Add(Me.pnlButton)
         Me.Controls.Add(Me.pnlMain)
         Me.Controls.Add(Me.Panel2)
@@ -625,10 +652,10 @@ Partial Class frmOrderSplit
         CType(Me.DataGridView2, System.ComponentModel.ISupportInitialize).EndInit()
         Me.Panel2.ResumeLayout(False)
         Me.Panel2.PerformLayout()
-        Me.Panel4.ResumeLayout(False)
-        Me.pnlButton.ResumeLayout(False)
         Me.Panel3.ResumeLayout(False)
         Me.Panel3.PerformLayout()
+        Me.Panel4.ResumeLayout(False)
+        Me.pnlButton.ResumeLayout(False)
         Me.ResumeLayout(False)
 
     End Sub
@@ -671,4 +698,6 @@ Partial Class frmOrderSplit
     Friend WithEvents lblMaster14 As System.Windows.Forms.Label
     Friend WithEvents lblMaster15 As System.Windows.Forms.Label
     Friend WithEvents lblAmount As System.Windows.Forms.Label
+    Friend WithEvents Label1 As Windows.Forms.Label
+    Friend WithEvents lblServiceCharge As Windows.Forms.Label
 End Class
