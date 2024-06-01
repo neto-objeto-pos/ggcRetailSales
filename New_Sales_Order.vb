@@ -104,8 +104,13 @@ Public Class New_Sales_Order
     Private p_nWithDisc As Integer
     Private p_nTableNo As Integer
     Private p_sMergeTb As String
-
     Private pnCharge As Integer
+
+
+
+    Protected p_bCancelled As Boolean
+    Protected p_sQRCode As String
+    Protected p_oFormQRScanner As frmQRCode
 
     Public Event MasterRetreived(ByVal Index As Integer,
                                  ByVal Value As Object)
@@ -830,7 +835,7 @@ Public Class New_Sales_Order
         Else
             lsSQL = AddCondition(getSQ_Order, "sTransNox LIKE " & strParm("%" & fsTransNo & "%"))
         End If
-
+        Debug.Print(lsSQL)
         loDT = p_oApp.ExecuteQuery(lsSQL)
 
         If loDT.Rows.Count = 0 Then
@@ -855,7 +860,7 @@ Public Class New_Sales_Order
         p_oDTMaster(0).Item("cSChargex") = loDT(0).Item("cSChargex")
         p_bSChargex = IIf(IIf(loDT(0).Item("cSChargex") = "x", 0, loDT(0).Item("cSChargex")) = 1, True, False)
         p_nTableNo = IIf(p_oDTMaster(0).Item("sTableNox") = "", 0, p_oDTMaster(0).Item("sTableNox"))
-        p_sTrantype = loDT(0).Item("cTranType")
+        p_sTrantype = IFNull(loDT(0).Item("cTranType"), "")
         p_sTrantype = p_oDTMaster(0).Item("cTranType")
 
         lsSQL = AddCondition(getSQ_Discount, "sSourceNo = " & strParm(p_oDTMaster(0).Item("sTransNox")))
@@ -1707,6 +1712,7 @@ Public Class New_Sales_Order
         lsSQL = AddCondition(getSQ_neoOpenOrder, "a.cTranStat = '0'")
 
         loDT = p_oApp.ExecuteQuery(lsSQL)
+        Debug.Print(lsSQL)
 
         If loDT.Rows.Count = 1 Then
             Return LoadOrder(loDT.Rows(0)("sTransNox"))
@@ -2917,104 +2923,125 @@ Public Class New_Sales_Order
 
         If p_oDTMaster(0).Item("sTransNox") = "" Then Return False
 
+
         lnRep = MsgBox("Are you sure you want to charge order?", vbQuestion & vbYesNo, "CONFIRMATION")
         If lnRep = vbNo Then Return False
 
-        If Not getUserApproval() Then Return False
+        'If Not getUserApproval() Then Return False
 
-        If p_oDTMaster(0).Item("nPrntBill") = 0 Then
-            lnRep = MsgBox("Do you want to print bill transaction?", vbQuestion & vbYesNo, "CONFIRMATION")
-            If lnRep = vbYes Then PrintBill()
+        ShowQRForm()
+        If p_bCancelled Then
+            Return False
         End If
+        If p_sQRCode <> "" Then
 
-        'If IFNull(p_oDTMaster(0).Item("nSChargex"), 0) <> 0 Then
-        '    MsgBox("Transaction with service charge cannot entry at charge invoice..." & vbCrLf & _
-        '                    "Please continue for  paying order..", vbCritical)
-        'Return False
-        'Exit Function
-        'End If
-
-        Dim lbSuccess As Boolean
-        Dim loCharge As ChargeInvoice
-
-        loCharge = New ChargeInvoice(p_oApp)
-
-        'Recompute total
-        p_oDTMaster(0).Item("nDiscount") = 0.00
-        p_oDTMaster(0).Item("nVatDiscx") = 0.00
-        p_oDTMaster(0).Item("nPWDDiscx") = 0.00
-
-        p_oDTMaster(0).Item("nVATSales") = 0.00
-        p_oDTMaster(0).Item("nVATAmtxx") = 0.00
-        p_oDTMaster(0).Item("nNonVATxx") = 0.00
-
-        p_oDtaDiscx = LoadDiscount(pxeSourceCde, p_oDTMaster(0).Item("sTransNox"))
-
-        'Recompute total
-        Call computeTotal(p_oDTMaster, p_oDTDetail, p_oDtaDiscx, p_oDiscount)
-
-        With loCharge
-            .POSNo = p_sTermnl
-            .NewTransaction()
-            .Master("sSourceCd") = pxeSourceCde
-            .Master("sSourceNo") = p_oDTMaster(0)("sTransNox")
-            .Master("nAmountxx") = p_oDTMaster(0)("nTranTotl")
-            .Master("nDiscount") = p_oDTMaster(0)("nDiscount")
-            .Master("nVatDiscx") = p_oDTMaster(0)("nVatDiscx")
-            .Master("nPWDDiscx") = p_oDTMaster(0)("nPWDDiscx")
-            .Master("cCollectd") = 0
-
-            .Cashier = p_sCashierx
-            .SerialNo = p_sSerial
-            .TranMode = p_cTrnMde
-            .AccrdNumber = p_sAccrdt
-            .ClientNo = p_nNoClient
-            .WithDisc = p_nWithDisc
-            .TableNo = p_nTableNo
-            .LogName = p_sLogName
-
-            .SalesTotal = Math.Round(p_oDTMaster(0).Item("nTranTotl"), 2) - Math.Round((p_oDTMaster(0).Item("nDiscount") + p_oDTMaster(0).Item("nVatDiscx") + p_oDTMaster(0).Item("nPWDDiscx")), 2)
-            .Discounts = Math.Round((p_oDTMaster(0).Item("nDiscount") + p_oDTMaster(0).Item("nVatDiscx") + p_oDTMaster(0).Item("nPWDDiscx")), 2)
-
-            'for printing
-            If CDate(Format(p_oDTMaster(0)("dTransact"), xsDATE_SHORT)) < CDate(Format(p_oApp.getSysDate, xsDATE_SHORT)) Then
-                .DateTransact = p_oDTMaster(0)("dTransact")
-            Else
-                .DateTransact = p_oApp.getSysDate
+            If p_oDTMaster(0).Item("nPrntBill") = 0 Then
+                lnRep = MsgBox("Do you want to print bill transaction?", vbQuestion & vbYesNo, "CONFIRMATION")
+                If lnRep = vbYes Then PrintBill()
             End If
 
-            .DateTransact = p_oDTMaster(0)("dTransact")
-            .SalesOrder = p_oDTDetail
-            .NonVAT = p_oDTMaster(0).Item("nNonVATxx") - p_oDTMaster(0).Item("nVatDiscx")
+            'If IFNull(p_oDTMaster(0).Item("nSChargex"), 0) <> 0 Then
+            '    MsgBox("Transaction with service charge cannot entry at charge invoice..." & vbCrLf & _
+            '                    "Please continue for  paying order..", vbCritical)
+            'Return False
+            'Exit Function
+            'End If
 
-            'jovan 2021-04-17
-            .Discount = p_oDtaDiscx
+            Dim lbSuccess As Boolean
+            Dim loCharge As ChargeInvoice
 
-            If p_oDiscount.HasDiscount Then
-                '.Discount = p_oDiscount.DiscountsMaster
+            loCharge = New ChargeInvoice(p_oApp)
 
-                If p_oDiscount.Master("cNoneVATx") = "1" Then
-                    .DiscAmount = p_oDTMaster(0).Item("nVatDiscx") + p_oDTMaster(0).Item("nPWDDiscx")
+            'Recompute total
+            p_oDTMaster(0).Item("nDiscount") = 0.00
+            p_oDTMaster(0).Item("nVatDiscx") = 0.00
+            p_oDTMaster(0).Item("nPWDDiscx") = 0.00
+
+            p_oDTMaster(0).Item("nVATSales") = 0.00
+            p_oDTMaster(0).Item("nVATAmtxx") = 0.00
+            p_oDTMaster(0).Item("nNonVATxx") = 0.00
+
+            p_oDtaDiscx = LoadDiscount(pxeSourceCde, p_oDTMaster(0).Item("sTransNox"))
+
+            'Recompute total
+            Call computeTotal(p_oDTMaster, p_oDTDetail, p_oDtaDiscx, p_oDiscount)
+
+            With loCharge
+                .POSNo = p_sTermnl
+                .NewTransaction()
+                .Master("sSourceCd") = pxeSourceCde
+                .Master("sSourceNo") = p_oDTMaster(0)("sTransNox")
+                .Master("nAmountxx") = p_oDTMaster(0)("nTranTotl")
+                .Master("nDiscount") = p_oDTMaster(0)("nDiscount")
+                .Master("nVatDiscx") = p_oDTMaster(0)("nVatDiscx")
+                .Master("nPWDDiscx") = p_oDTMaster(0)("nPWDDiscx")
+                .Master("cCollectd") = 0
+
+                .Cashier = p_sCashierx
+                .SerialNo = p_sSerial
+                .TranMode = p_cTrnMde
+                .AccrdNumber = p_sAccrdt
+                .ClientNo = p_nNoClient
+                .WithDisc = p_nWithDisc
+                .TableNo = p_nTableNo
+                .LogName = p_sLogName
+
+                .SalesTotal = Math.Round(p_oDTMaster(0).Item("nTranTotl"), 2) - Math.Round((p_oDTMaster(0).Item("nDiscount") + p_oDTMaster(0).Item("nVatDiscx") + p_oDTMaster(0).Item("nPWDDiscx")), 2)
+                .Discounts = Math.Round((p_oDTMaster(0).Item("nDiscount") + p_oDTMaster(0).Item("nVatDiscx") + p_oDTMaster(0).Item("nPWDDiscx")), 2)
+
+                'for printing
+                If CDate(Format(p_oDTMaster(0)("dTransact"), xsDATE_SHORT)) < CDate(Format(p_oApp.getSysDate, xsDATE_SHORT)) Then
+                    .DateTransact = p_oDTMaster(0)("dTransact")
                 Else
-                    .DiscAmount = p_oDTMaster(0).Item("nDiscount")
+                    .DateTransact = p_oApp.getSysDate
+                End If
+
+                .DateTransact = p_oDTMaster(0)("dTransact")
+                .SalesOrder = p_oDTDetail
+                .NonVAT = p_oDTMaster(0).Item("nNonVATxx") - p_oDTMaster(0).Item("nVatDiscx")
+
+                'jovan 2021-04-17
+                .Discount = p_oDtaDiscx
+
+                If p_oDiscount.HasDiscount Then
+                    '.Discount = p_oDiscount.DiscountsMaster
+
+                    If p_oDiscount.Master("cNoneVATx") = "1" Then
+                        .DiscAmount = p_oDTMaster(0).Item("nVatDiscx") + p_oDTMaster(0).Item("nPWDDiscx")
+                    Else
+                        .DiscAmount = p_oDTMaster(0).Item("nDiscount")
+                    End If
+                End If
+
+                .ShowChargeInvoice()
+
+                lbSuccess = Not .Cancelled
+            End With
+
+            If lbSuccess Then
+                If PostOrder() Then
+                    If Not PostChargeOrder() Then
+                        MsgBox("Unable to post charge invoice", vbCritical)
+                    End If
                 End If
             End If
 
-            .ShowChargeInvoice()
 
-            lbSuccess = Not .Cancelled
-        End With
 
-        If lbSuccess Then
-            If PostOrder() Then
-                If Not PostChargeOrder() Then
-                    MsgBox("Unable to post charge invoice", vbCritical)
-                End If
-            End If
+            Return lbSuccess
         End If
-
-        Return lbSuccess
     End Function
+
+    Sub ShowQRForm()
+        p_oFormQRScanner = New frmQRCode(p_oApp)
+        With p_oFormQRScanner
+            .TopMost = True
+            .ShowDialog()
+
+            p_bCancelled = .Cancelled
+            p_sQRCode = .QRCodeResult
+        End With
+    End Sub
 
     Public Function neoChargeOrder() As Boolean
         Dim loDT As DataTable

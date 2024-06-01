@@ -325,3 +325,4 @@ C:\Users\Maynard\Documents\GitHub\ggcRetailSales\obj\Debug\ggcRetailSales.vbproj
 C:\Users\Maynard\Documents\GitHub\ggcRetailSales\obj\Debug\ggcRetailSales.dll
 C:\Users\Maynard\Documents\GitHub\ggcRetailSales\obj\Debug\ggcRetailSales.xml
 C:\Users\Maynard\Documents\GitHub\ggcRetailSales\obj\Debug\ggcRetailSales.pdb
+C:\Users\Maynard\Documents\GitHub\ggcRetailSales\obj\Debug\ggcRetailSales.frmQRCode.resources
