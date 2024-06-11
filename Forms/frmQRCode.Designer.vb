@@ -28,9 +28,10 @@ Partial Class frmQRCode
         '
         'PictureBox1
         '
-        Me.PictureBox1.Location = New System.Drawing.Point(12, 12)
+        Me.PictureBox1.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.PictureBox1.Location = New System.Drawing.Point(10, 10)
         Me.PictureBox1.Name = "PictureBox1"
-        Me.PictureBox1.Size = New System.Drawing.Size(426, 426)
+        Me.PictureBox1.Size = New System.Drawing.Size(460, 360)
         Me.PictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage
         Me.PictureBox1.TabIndex = 0
         Me.PictureBox1.TabStop = False
@@ -40,7 +41,7 @@ Partial Class frmQRCode
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.BackgroundImage = Global.ggcRetailSales.My.Resources.Resources.mainbackground
-        Me.ClientSize = New System.Drawing.Size(450, 450)
+        Me.ClientSize = New System.Drawing.Size(480, 380)
         Me.Controls.Add(Me.PictureBox1)
         Me.DoubleBuffered = True
         Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None
@@ -48,6 +49,7 @@ Partial Class frmQRCode
         Me.MaximizeBox = False
         Me.MinimizeBox = False
         Me.Name = "frmQRCode"
+        Me.Padding = New System.Windows.Forms.Padding(10)
         Me.ShowIcon = False
         Me.ShowInTaskbar = False
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen

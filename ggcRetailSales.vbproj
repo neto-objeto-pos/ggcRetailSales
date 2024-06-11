@@ -105,6 +105,12 @@
     <Compile Include="Forms\frmManageTable.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Forms\frmQRResult.Designer.vb">
+      <DependentUpon>frmQRResult.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\frmQRResult.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Forms\frmSelectTable.designer.vb">
       <DependentUpon>frmSelectTable.vb</DependentUpon>
     </Compile>
@@ -253,6 +259,9 @@
   <ItemGroup>
     <EmbeddedResource Include="Forms\frmManageTable.resx">
       <DependentUpon>frmManageTable.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\frmQRResult.resx">
+      <DependentUpon>frmQRResult.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\frmSelectTable.resx">
       <DependentUpon>frmSelectTable.vb</DependentUpon>

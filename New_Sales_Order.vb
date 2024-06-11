@@ -111,6 +111,7 @@ Public Class New_Sales_Order
     Protected p_bCancelled As Boolean
     Protected p_sQRCode As String
     Protected p_oFormQRScanner As frmQRCode
+    Protected p_oFormQRResult As frmQRResult
 
     Public Event MasterRetreived(ByVal Index As Integer,
                                  ByVal Value As Object)
@@ -2934,6 +2935,7 @@ Public Class New_Sales_Order
             Return False
         End If
         If p_sQRCode <> "" Then
+            validateQR(p_sQRCode)
 
             If p_oDTMaster(0).Item("nPrntBill") = 0 Then
                 lnRep = MsgBox("Do you want to print bill transaction?", vbQuestion & vbYesNo, "CONFIRMATION")
@@ -3040,8 +3042,47 @@ Public Class New_Sales_Order
 
             p_bCancelled = .Cancelled
             p_sQRCode = .QRCodeResult
+            Debug.Print("QR Result =  " & p_sQRCode)
         End With
     End Sub
+
+    Sub ShowQRResult(ByVal fsCryptQR() As String)
+        p_oFormQRResult = New frmQRResult(p_oApp)
+        With p_oFormQRResult
+            .TopMost = True
+            .ChargeInformation = fsCryptQR
+
+            .ShowDialog()
+
+            p_bCancelled = .Cancelled
+
+        End With
+    End Sub
+
+    Public Function validateQR(ByVal fsQRResult As String) As Boolean
+        Dim lsCryptQR = DecryptQR(fsQRResult)
+
+        If Not lsCryptQR = "" Then
+            Dim splitQRResult() As String = lsCryptQR.Split("»"c)
+            Debug.Print(splitQRResult.ToString)
+
+            ShowQRResult(splitQRResult)
+        End If
+
+        Return p_bCancelled
+    End Function
+
+    Public Function DecryptQR(ByVal fsQRResult As String) As String
+        Dim lsCryptQR As String = ""
+
+
+
+
+
+
+        Return lsCryptQR
+
+    End Function
 
     Public Function neoChargeOrder() As Boolean
         Dim loDT As DataTable

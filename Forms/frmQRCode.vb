@@ -35,7 +35,7 @@ Public Class frmQRCode
         p_sQRResult = ""
 
         ' Set up the timer
-        scanTimer.Interval = 1000 ' Set the interval to 1 second
+        scanTimer.Interval = 750 ' Set the interval to 1 second
     End Sub
     Private Sub Form_Keydown(sender As Object, e As KeyEventArgs) Handles Me.KeyDown
         Select Case e.KeyCode
