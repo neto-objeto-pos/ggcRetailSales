@@ -9,8 +9,14 @@ Public Class frmQRResult
     Private p_bCancelled As Boolean
     Private p_sChargeInfo() As String
     Private p_sRunningTotal As String
+    Private WithEvents poChargeMeal As ChargeInvoiceMeal
 
 
+    WriteOnly Property ChargeInvoiceMeal() As ChargeInvoiceMeal
+        Set(ByVal oChargeInvoiceMeal As ChargeInvoiceMeal)
+            poChargeMeal = oChargeInvoiceMeal
+        End Set
+    End Property
     ReadOnly Property Cancelled As Boolean
         Get
             Return p_bCancelled
@@ -23,6 +29,15 @@ Public Class frmQRResult
         End Set
         Get
             Return p_sChargeInfo
+        End Get
+    End Property
+
+    Public Property SummaryTotal As String
+        Set(value As String)
+            p_sRunningTotal = value
+        End Set
+        Get
+            Return p_sRunningTotal
         End Get
     End Property
 
@@ -61,8 +76,8 @@ Public Class frmQRResult
                 Dim loTextField As TextBox = Me.Controls.Find("txtField" & lnRow.ToString("00"), True).FirstOrDefault()
                 If loTextField IsNot Nothing Then
                     Select Case lnRow
-                        Case 4
-                            p_sRunningTotal = p_sChargeInfo(lnRow)
+
+                        Case 0
 
                         Case Else
                             loTextField.Text = p_sChargeInfo(lnRow)
@@ -75,24 +90,29 @@ Public Class frmQRResult
     End Sub
 
     Private Sub loadMessage()
-        lblMessage.Text = "Hi " & p_sChargeInfo(0) & "! Thank you for ordering here is your running balance ₱ " & p_sRunningTotal
+        lblMessage.Text = "Hi " & p_sChargeInfo(1) & "! Thank you for ordering, Here is your running balance ₱ " & p_sRunningTotal
 
     End Sub
 
     Private Sub clearFields()
 
-        txtField00.Text = ""
         txtField01.Text = ""
         txtField02.Text = ""
         txtField03.Text = ""
-        p_sRunningTotal = "0.00"
+        txtField04.Text = ""
+        'p_sRunningTotal = "0.00"
         lblMessage.Text = ""
 
 
     End Sub
 
     Private Sub cmdButton00_Click(sender As Object, e As EventArgs) Handles cmdButton00.Click
-        Me.Dispose()
-        Me.Close()
+        p_bCancelled = Not poChargeMeal.SaveTransaction()
+
+        If Not p_bCancelled Then
+            Me.Close()
+            Me.Dispose()
+        End If
     End Sub
+
 End Class

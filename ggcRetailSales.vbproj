@@ -99,6 +99,7 @@
   <ItemGroup>
     <Compile Include="CashPullout.vb" />
     <Compile Include="ChargeInvoiceCollection.vb" />
+    <Compile Include="ChargeInvoiceMeal.vb" />
     <Compile Include="Forms\frmManageTable.designer.vb">
       <DependentUpon>frmManageTable.vb</DependentUpon>
     </Compile>

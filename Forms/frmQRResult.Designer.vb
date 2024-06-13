@@ -23,10 +23,10 @@ Partial Class frmQRResult
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
         Me.GroupBox1 = New System.Windows.Forms.GroupBox()
+        Me.txtField04 = New System.Windows.Forms.TextBox()
         Me.txtField03 = New System.Windows.Forms.TextBox()
         Me.txtField02 = New System.Windows.Forms.TextBox()
         Me.txtField01 = New System.Windows.Forms.TextBox()
-        Me.txtField00 = New System.Windows.Forms.TextBox()
         Me.Label4 = New System.Windows.Forms.Label()
         Me.Label3 = New System.Windows.Forms.Label()
         Me.Label2 = New System.Windows.Forms.Label()
@@ -48,10 +48,10 @@ Partial Class frmQRResult
         Me.GroupBox1.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink
         Me.GroupBox1.BackColor = System.Drawing.Color.Transparent
         Me.GroupBox1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center
+        Me.GroupBox1.Controls.Add(Me.txtField04)
         Me.GroupBox1.Controls.Add(Me.txtField03)
         Me.GroupBox1.Controls.Add(Me.txtField02)
         Me.GroupBox1.Controls.Add(Me.txtField01)
-        Me.GroupBox1.Controls.Add(Me.txtField00)
         Me.GroupBox1.Controls.Add(Me.Label4)
         Me.GroupBox1.Controls.Add(Me.Label3)
         Me.GroupBox1.Controls.Add(Me.Label2)
@@ -69,33 +69,33 @@ Partial Class frmQRResult
         Me.GroupBox1.TabStop = False
         Me.GroupBox1.Text = "Charge Order Information"
         '
+        'txtField04
+        '
+        Me.txtField04.Location = New System.Drawing.Point(125, 104)
+        Me.txtField04.Name = "txtField04"
+        Me.txtField04.Size = New System.Drawing.Size(315, 22)
+        Me.txtField04.TabIndex = 9
+        '
         'txtField03
         '
-        Me.txtField03.Location = New System.Drawing.Point(125, 104)
+        Me.txtField03.Location = New System.Drawing.Point(125, 79)
         Me.txtField03.Name = "txtField03"
         Me.txtField03.Size = New System.Drawing.Size(315, 22)
-        Me.txtField03.TabIndex = 9
+        Me.txtField03.TabIndex = 8
         '
         'txtField02
         '
-        Me.txtField02.Location = New System.Drawing.Point(125, 79)
+        Me.txtField02.Location = New System.Drawing.Point(125, 54)
         Me.txtField02.Name = "txtField02"
         Me.txtField02.Size = New System.Drawing.Size(315, 22)
-        Me.txtField02.TabIndex = 8
+        Me.txtField02.TabIndex = 7
         '
         'txtField01
         '
-        Me.txtField01.Location = New System.Drawing.Point(125, 54)
+        Me.txtField01.Location = New System.Drawing.Point(125, 29)
         Me.txtField01.Name = "txtField01"
         Me.txtField01.Size = New System.Drawing.Size(315, 22)
-        Me.txtField01.TabIndex = 7
-        '
-        'txtField00
-        '
-        Me.txtField00.Location = New System.Drawing.Point(125, 29)
-        Me.txtField00.Name = "txtField00"
-        Me.txtField00.Size = New System.Drawing.Size(315, 22)
-        Me.txtField00.TabIndex = 6
+        Me.txtField01.TabIndex = 6
         '
         'Label4
         '
@@ -247,10 +247,10 @@ Partial Class frmQRResult
     Friend WithEvents Label4 As Windows.Forms.Label
     Friend WithEvents Label3 As Windows.Forms.Label
     Friend WithEvents Label2 As Windows.Forms.Label
+    Friend WithEvents txtField04 As Windows.Forms.TextBox
     Friend WithEvents txtField03 As Windows.Forms.TextBox
     Friend WithEvents txtField02 As Windows.Forms.TextBox
     Friend WithEvents txtField01 As Windows.Forms.TextBox
-    Friend WithEvents txtField00 As Windows.Forms.TextBox
     Friend WithEvents lblMessage As Windows.Forms.Label
     Friend WithEvents Panel2 As Windows.Forms.Panel
     Friend WithEvents Panel3 As Windows.Forms.Panel
