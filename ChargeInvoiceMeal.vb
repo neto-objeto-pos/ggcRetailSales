@@ -811,15 +811,19 @@ Public Class ChargeInvoiceMeal
     Public Function getRunningTotal() As String
         Dim loDT As DataTable
         Dim lsSQL As String
-        lsSQL = "SELECT nTranTotl
-                 FROM Employee_Meal_Summary" &
-                    " WHERE sEmployID = " & strParm(p_oDTMstr.Rows(0)("sEmployID"))
+        lsSQL = "SELECT IFNULL(SUM(nTranTotl), 0.0) nTranTotl " &
+                 " FROM Employee_Meal_Summary " &
+                    " WHERE sEmployID = " & strParm(p_oDTMstr.Rows(0)("sEmployID")) &
+                    " AND cTranStat = " & strParm(xeTranStat.TRANS_OPEN)
+
+        'Debug.Print(lsSQL)
+
         loDT = p_oApp.ExecuteQuery(lsSQL)
 
         If loDT.Rows.Count > 0 Then
             Return CDec(loDT(0).Item("nTranTotl"))
         Else
-            Return "0.0"
+            Return "0.00"
         End If
 
     End Function

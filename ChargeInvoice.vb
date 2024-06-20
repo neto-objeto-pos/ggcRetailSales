@@ -965,25 +965,25 @@ Public Class ChargeInvoice
 
             .NonVatSales = p_nNonVATxx
 
-            .AddFooter("")
-            .AddFooter("Thank you, and please come again.")
-            .AddFooter("")
+            '.AddFooter("")
+            '.AddFooter("Thank you, and please come again.")
+            '.AddFooter("")
 
-            .AddFooter("RMJ Business Solutions")
-            .AddFooter("32 Pogo Grande")
-            .AddFooter("Dagupan City, Pangasinan 2400")
-            .AddFooter("VAT REG TIN #: 469-083-682-00000")
-            .AddFooter("ACC NO.: XXXXXXXXXXXXXXXXXXXXXX")
-            .AddFooter("ACC Validity: XX/XX/XXXX - XX/XX/XXXX")
-            .AddFooter("PTU NO.: XXXXXXXXXXXXXXXXXXXXXX")
-            .AddFooter("PTU Validity: XX/XX/XXXX - XX/XX/XXXX")
+            '.AddFooter("RMJ Business Solutions")
+            '.AddFooter("32 Pogo Grande")
+            '.AddFooter("Dagupan City, Pangasinan 2400")
+            '.AddFooter("VAT REG TIN #: 469-083-682-00000")
+            '.AddFooter("ACC NO.: XXXXXXXXXXXXXXXXXXXXXX")
+            '.AddFooter("ACC Validity: XX/XX/XXXX - XX/XX/XXXX")
+            '.AddFooter("PTU NO.: XXXXXXXXXXXXXXXXXXXXXX")
+            '.AddFooter("PTU Validity: XX/XX/XXXX - XX/XX/XXXX")
 
-            .AddFooter("")
-            .AddFooter("THIS DOCUMENT SHALL BE VALID")
-            .AddFooter("FOR FIVE(5) YEARS FROM THE DATE OF")
-            .AddFooter("THE PERMIT TO USE")
-            .AddFooter("THIS DOCUMENT IS NOT VALID ")
-            .AddFooter("FOR CLAIM OF INPUT TAX")
+            '.AddFooter("")
+            '.AddFooter("THIS DOCUMENT SHALL BE VALID")
+            '.AddFooter("FOR FIVE(5) YEARS FROM THE DATE OF")
+            '.AddFooter("THE PERMIT TO USE")
+            '.AddFooter("THIS DOCUMENT IS NOT VALID ")
+            '.AddFooter("FOR CLAIM OF INPUT TAX")
 
             Return .PrintOR
         End With

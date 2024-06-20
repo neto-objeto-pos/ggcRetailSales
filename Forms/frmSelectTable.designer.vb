@@ -27,6 +27,8 @@ Partial Class frmSelectTable
         Me.cmdButton00 = New System.Windows.Forms.Button()
         Me.cmdButton01 = New System.Windows.Forms.Button()
         Me.pnlAmount = New System.Windows.Forms.Panel()
+        Me.RDOButton02 = New System.Windows.Forms.RadioButton()
+        Me.RDOButton01 = New System.Windows.Forms.RadioButton()
         Me.chk00 = New System.Windows.Forms.CheckBox()
         Me.RDOButton00 = New System.Windows.Forms.RadioButton()
         Me.txtField02 = New System.Windows.Forms.TextBox()
@@ -36,8 +38,6 @@ Partial Class frmSelectTable
         Me.Label4 = New System.Windows.Forms.Label()
         Me.txtField00 = New System.Windows.Forms.TextBox()
         Me.Label6 = New System.Windows.Forms.Label()
-        Me.RDOButton01 = New System.Windows.Forms.RadioButton()
-        Me.RDOButton02 = New System.Windows.Forms.RadioButton()
         Me.pnlMain.SuspendLayout()
         Me.pnlButtons.SuspendLayout()
         Me.pnlAmount.SuspendLayout()
@@ -115,6 +115,30 @@ Partial Class frmSelectTable
         Me.pnlAmount.Size = New System.Drawing.Size(339, 171)
         Me.pnlAmount.TabIndex = 5
         '
+        'RDOButton02
+        '
+        Me.RDOButton02.AutoSize = True
+        Me.RDOButton02.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.RDOButton02.ForeColor = System.Drawing.Color.White
+        Me.RDOButton02.Location = New System.Drawing.Point(188, 147)
+        Me.RDOButton02.Name = "RDOButton02"
+        Me.RDOButton02.Size = New System.Drawing.Size(83, 20)
+        Me.RDOButton02.TabIndex = 16
+        Me.RDOButton02.Text = "Delivery"
+        Me.RDOButton02.UseVisualStyleBackColor = True
+        '
+        'RDOButton01
+        '
+        Me.RDOButton01.AutoSize = True
+        Me.RDOButton01.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.RDOButton01.ForeColor = System.Drawing.Color.White
+        Me.RDOButton01.Location = New System.Drawing.Point(188, 126)
+        Me.RDOButton01.Name = "RDOButton01"
+        Me.RDOButton01.Size = New System.Drawing.Size(87, 20)
+        Me.RDOButton01.TabIndex = 15
+        Me.RDOButton01.Text = "Take-out"
+        Me.RDOButton01.UseVisualStyleBackColor = True
+        '
         'chk00
         '
         Me.chk00.AutoSize = True
@@ -137,6 +161,7 @@ Partial Class frmSelectTable
         Me.RDOButton00.Name = "RDOButton00"
         Me.RDOButton00.Size = New System.Drawing.Size(78, 20)
         Me.RDOButton00.TabIndex = 7
+        Me.RDOButton00.TabStop = True
         Me.RDOButton00.Text = "Dine- In"
         Me.RDOButton00.UseVisualStyleBackColor = True
         '
@@ -216,30 +241,6 @@ Partial Class frmSelectTable
         Me.Label6.Size = New System.Drawing.Size(117, 16)
         Me.Label6.TabIndex = 0
         Me.Label6.Text = "Table Selection"
-        '
-        'RDOButton01
-        '
-        Me.RDOButton01.AutoSize = True
-        Me.RDOButton01.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.RDOButton01.ForeColor = System.Drawing.Color.White
-        Me.RDOButton01.Location = New System.Drawing.Point(188, 126)
-        Me.RDOButton01.Name = "RDOButton01"
-        Me.RDOButton01.Size = New System.Drawing.Size(87, 20)
-        Me.RDOButton01.TabIndex = 15
-        Me.RDOButton01.Text = "Take-out"
-        Me.RDOButton01.UseVisualStyleBackColor = True
-        '
-        'RDOButton02
-        '
-        Me.RDOButton02.AutoSize = True
-        Me.RDOButton02.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.RDOButton02.ForeColor = System.Drawing.Color.White
-        Me.RDOButton02.Location = New System.Drawing.Point(188, 147)
-        Me.RDOButton02.Name = "RDOButton02"
-        Me.RDOButton02.Size = New System.Drawing.Size(83, 20)
-        Me.RDOButton02.TabIndex = 16
-        Me.RDOButton02.Text = "Delivery"
-        Me.RDOButton02.UseVisualStyleBackColor = True
         '
         'frmSelectTable
         '

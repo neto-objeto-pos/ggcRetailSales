@@ -31,7 +31,6 @@ Partial Class frmManageTable
         Me.RadioButton3 = New System.Windows.Forms.RadioButton()
         Me.RadioButton2 = New System.Windows.Forms.RadioButton()
         Me.RadioButton1 = New System.Windows.Forms.RadioButton()
-        Me.chk00 = New System.Windows.Forms.CheckBox()
         Me.txtField04 = New System.Windows.Forms.TextBox()
         Me.Label5 = New System.Windows.Forms.Label()
         Me.txtField03 = New System.Windows.Forms.TextBox()
@@ -40,13 +39,14 @@ Partial Class frmManageTable
         Me.txtField02 = New System.Windows.Forms.TextBox()
         Me.Label3 = New System.Windows.Forms.Label()
         Me.Panel1 = New System.Windows.Forms.Panel()
+        Me.RDOButton02 = New System.Windows.Forms.RadioButton()
+        Me.RDOButton01 = New System.Windows.Forms.RadioButton()
+        Me.RDOButton00 = New System.Windows.Forms.RadioButton()
+        Me.chk00 = New System.Windows.Forms.CheckBox()
         Me.Label6 = New System.Windows.Forms.Label()
         Me.pnlBill = New System.Windows.Forms.Panel()
         Me.Label2 = New System.Windows.Forms.Label()
         Me.lblBill = New System.Windows.Forms.Label()
-        Me.RDOButton02 = New System.Windows.Forms.RadioButton()
-        Me.RDOButton01 = New System.Windows.Forms.RadioButton()
-        Me.RDOButton00 = New System.Windows.Forms.RadioButton()
         Me.pnlMain.SuspendLayout()
         Me.pnlButtons.SuspendLayout()
         Me.pnlAmount.SuspendLayout()
@@ -172,17 +172,6 @@ Partial Class frmManageTable
         Me.RadioButton1.Text = "Vacant"
         Me.RadioButton1.UseVisualStyleBackColor = True
         '
-        'chk00
-        '
-        Me.chk00.AutoSize = True
-        Me.chk00.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.chk00.Location = New System.Drawing.Point(3, 9)
-        Me.chk00.Name = "chk00"
-        Me.chk00.Size = New System.Drawing.Size(152, 20)
-        Me.chk00.TabIndex = 13
-        Me.chk00.Text = "w/ Service Charge"
-        Me.chk00.UseVisualStyleBackColor = True
-        '
         'txtField04
         '
         Me.txtField04.Font = New System.Drawing.Font("Microsoft Sans Serif", 14.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
@@ -276,6 +265,57 @@ Partial Class frmManageTable
         Me.Panel1.Size = New System.Drawing.Size(347, 75)
         Me.Panel1.TabIndex = 26
         '
+        'RDOButton02
+        '
+        Me.RDOButton02.AutoSize = True
+        Me.RDOButton02.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.RDOButton02.ForeColor = System.Drawing.Color.White
+        Me.RDOButton02.Location = New System.Drawing.Point(217, 49)
+        Me.RDOButton02.Name = "RDOButton02"
+        Me.RDOButton02.Size = New System.Drawing.Size(83, 20)
+        Me.RDOButton02.TabIndex = 19
+        Me.RDOButton02.Text = "Delivery"
+        Me.RDOButton02.UseVisualStyleBackColor = True
+        Me.RDOButton02.Visible = False
+        '
+        'RDOButton01
+        '
+        Me.RDOButton01.AutoSize = True
+        Me.RDOButton01.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.RDOButton01.ForeColor = System.Drawing.Color.White
+        Me.RDOButton01.Location = New System.Drawing.Point(217, 28)
+        Me.RDOButton01.Name = "RDOButton01"
+        Me.RDOButton01.Size = New System.Drawing.Size(87, 20)
+        Me.RDOButton01.TabIndex = 18
+        Me.RDOButton01.Text = "Take-out"
+        Me.RDOButton01.UseVisualStyleBackColor = True
+        '
+        'RDOButton00
+        '
+        Me.RDOButton00.AutoSize = True
+        Me.RDOButton00.Checked = True
+        Me.RDOButton00.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.RDOButton00.ForeColor = System.Drawing.Color.White
+        Me.RDOButton00.Location = New System.Drawing.Point(217, 8)
+        Me.RDOButton00.Name = "RDOButton00"
+        Me.RDOButton00.Size = New System.Drawing.Size(78, 20)
+        Me.RDOButton00.TabIndex = 17
+        Me.RDOButton00.TabStop = True
+        Me.RDOButton00.Text = "Dine- In"
+        Me.RDOButton00.UseVisualStyleBackColor = True
+        '
+        'chk00
+        '
+        Me.chk00.AutoSize = True
+        Me.chk00.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.chk00.Location = New System.Drawing.Point(3, 9)
+        Me.chk00.Name = "chk00"
+        Me.chk00.Size = New System.Drawing.Size(152, 20)
+        Me.chk00.TabIndex = 13
+        Me.chk00.Text = "w/ Service Charge"
+        Me.chk00.UseVisualStyleBackColor = True
+        Me.chk00.Visible = False
+        '
         'Label6
         '
         Me.Label6.AutoSize = True
@@ -321,43 +361,6 @@ Partial Class frmManageTable
         Me.lblBill.Size = New System.Drawing.Size(366, 67)
         Me.lblBill.TabIndex = 1
         Me.lblBill.TextAlign = System.Drawing.ContentAlignment.MiddleRight
-        '
-        'RDOButton02
-        '
-        Me.RDOButton02.AutoSize = True
-        Me.RDOButton02.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.RDOButton02.ForeColor = System.Drawing.Color.White
-        Me.RDOButton02.Location = New System.Drawing.Point(217, 49)
-        Me.RDOButton02.Name = "RDOButton02"
-        Me.RDOButton02.Size = New System.Drawing.Size(83, 20)
-        Me.RDOButton02.TabIndex = 19
-        Me.RDOButton02.Text = "Delivery"
-        Me.RDOButton02.UseVisualStyleBackColor = True
-        '
-        'RDOButton01
-        '
-        Me.RDOButton01.AutoSize = True
-        Me.RDOButton01.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.RDOButton01.ForeColor = System.Drawing.Color.White
-        Me.RDOButton01.Location = New System.Drawing.Point(217, 28)
-        Me.RDOButton01.Name = "RDOButton01"
-        Me.RDOButton01.Size = New System.Drawing.Size(87, 20)
-        Me.RDOButton01.TabIndex = 18
-        Me.RDOButton01.Text = "Take-out"
-        Me.RDOButton01.UseVisualStyleBackColor = True
-        '
-        'RDOButton00
-        '
-        Me.RDOButton00.AutoSize = True
-        Me.RDOButton00.Checked = True
-        Me.RDOButton00.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.RDOButton00.ForeColor = System.Drawing.Color.White
-        Me.RDOButton00.Location = New System.Drawing.Point(217, 8)
-        Me.RDOButton00.Name = "RDOButton00"
-        Me.RDOButton00.Size = New System.Drawing.Size(78, 20)
-        Me.RDOButton00.TabIndex = 17
-        Me.RDOButton00.Text = "Dine- In"
-        Me.RDOButton00.UseVisualStyleBackColor = True
         '
         'frmManageTable
         '

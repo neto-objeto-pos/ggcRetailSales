@@ -263,6 +263,7 @@ Public Class TableMaster
         loForm = New frmManageTable
         With loForm
             .TableMaster = Me
+            .AppDriver = p_oApp
             .ShowDialog()
 
             Return Not .Cancelled

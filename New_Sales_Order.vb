@@ -1589,7 +1589,12 @@ Public Class New_Sales_Order
             .TableNo = p_oDTMaster(0).Item("sTableNox")
             .TransNo = p_oDTMaster(0).Item("sTransNox")
             .TranType = If(Convert.IsDBNull(p_oDTMaster(0).Item("cTranType")), "0", p_oDTMaster(0).Item("cTranType").ToString())
-            .isWSCharge = IIf(p_oDTMaster(0).Item("cSChargex") = "x", True, p_oDTMaster(0).Item("cSChargex"))
+            If (p_oApp.BranchCode = "P013") Then
+                .isWSCharge = IIf(p_oDTMaster(0).Item("cSChargex") = "x", False, p_oDTMaster(0).Item("cSChargex"))
+            Else
+
+                .isWSCharge = IIf(p_oDTMaster(0).Item("cSChargex") = "x", True, p_oDTMaster(0).Item("cSChargex"))
+            End If
             .Occupants = IFNull(p_oDTMaster(0).Item("nOccupnts"), 0)
             .ShowDialog()
             If .Cancel Then Return False
