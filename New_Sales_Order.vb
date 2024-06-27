@@ -300,8 +300,8 @@ Public Class New_Sales_Order
                     Return p_oDTMaster(0).Item("nNonVATxx")
                 Case "nvoidtotl"
                     Return p_oDTMaster(0).Item("nVoidTotl")
-                Case "cTrantype"
-                    Return p_oDTMaster(0).Item("cTrantype")
+                Case "ctrantype"
+                    Return p_oDTMaster(0).Item("cTranType")
                 Case "scashrnme"
                     If p_oDTMaster(0).Item("sCashrNme") = "" Then
                         If p_oDTMaster(0).Item("sCashierx") <> "" Then
@@ -869,7 +869,6 @@ Public Class New_Sales_Order
         p_bSChargex = IIf(IIf(loDT(0).Item("cSChargex") = "x", 0, loDT(0).Item("cSChargex")) = 1, True, False)
         p_nTableNo = IIf(p_oDTMaster(0).Item("sTableNox") = "", 0, p_oDTMaster(0).Item("sTableNox"))
         p_sTrantype = IFNull(loDT(0).Item("cTranType"), "")
-        p_sTrantype = p_oDTMaster(0).Item("cTranType")
 
         lsSQL = AddCondition(getSQ_Discount, "sSourceNo = " & strParm(p_oDTMaster(0).Item("sTransNox")))
         loDT = p_oApp.ExecuteQuery(lsSQL)
@@ -1620,7 +1619,7 @@ Public Class New_Sales_Order
 
             lsSQL = lsSQL & ", nOccupnts = " & p_oDTMaster(0).Item("nOccupnts")
             lsSQL = lsSQL & ", cSChargex = " & p_oDTMaster(0).Item("cSChargex")
-            lsSQL = lsSQL & ", cTrantype = " & p_oDTMaster(0).Item("cTrantype")
+            lsSQL = lsSQL & ", cTranType = " & p_oDTMaster(0).Item("cTranType")
 
             If lsTableNo <> p_oDTMaster(0).Item("sTableNox") Then
                 Dim lasDetail() As String
@@ -2015,20 +2014,27 @@ Public Class New_Sales_Order
             .Master("nVatDiscx") = Math.Round(p_oDTMaster(0).Item("nVatDiscx"), 2)
             .Master("nPWDDiscx") = Math.Round(p_oDTMaster(0).Item("nPWDDiscx"), 2)
 
-            .Master("nSalesAmt") = Math.Round(p_oDTMaster(0).Item("nTranTotl"), 2) - Math.Round((p_oDTMaster(0).Item("nVoidTotl") + p_oDTMaster(0).Item("nDiscount") + p_oDTMaster(0).Item("nVatDiscx") + p_oDTMaster(0).Item("nPWDDiscx")), 2)
+            '.Master("nSalesAmt") = Math.Round(p_oDTMaster(0).Item("nTranTotl"), 2) - Math.Round((p_oDTMaster(0).Item("nVoidTotl") + p_oDTMaster(0).Item("nDiscount") + p_oDTMaster(0).Item("nVatDiscx") + p_oDTMaster(0).Item("nPWDDiscx")), 2)
+            .Master("nSalesAmt") = Math.Round((p_oDTMaster(0).Item("nTranTotl") - p_oDTMaster(0).Item("nVoidTotl")) / 1.12, 2)
+            Debug.Print("totasales amt= " & .Master("nSalesAmt"))
             .Master("nVATSales") = Math.Round(p_oDTMaster(0).Item("nVATSales"), 2)
             .Master("nVATAmtxx") = Math.Round(p_oDTMaster(0).Item("nVATAmtxx"), 2)
             If p_oDTMaster(0).Item("nPWDDiscx") > 0 Then
-                .Master("nSChargex") = IIf(p_bSChargex, (.Master("nSalesAmt")) * (p_nSChargex / 100), 0)
+                .Master("nSChargex") = IIf(p_bSChargex, (.Master("nSalesAmt") - (.Master("nDiscount") + .Master("nVatDiscx") + .Master("nPWDDiscx"))) * (p_nSChargex / 100), 0)
+
+                Debug.Print("service charge amt= " & .Master("nSChargex"))
             ElseIf Not (lbSplitted) Then 'regular order
-                .Master("nSChargex") = IIf(p_bSChargex, (.Master("nSalesAmt") / 1.12) * (p_nSChargex / 100), 0)
+                .Master("nSChargex") = IIf(p_bSChargex, (.Master("nSalesAmt") - (.Master("nDiscount") + .Master("nVatDiscx") + .Master("nPWDDiscx"))) * (p_nSChargex / 100), 0)
                 Debug.Print("totasales amt= " & .Master("nSalesAmt"))
+                Debug.Print("service charge amt= " & .Master("nSChargex"))
             ElseIf (lsSplitType <> 2) Then
-                .Master("nSChargex") = IIf(p_bSChargex, (p_nTotalSales / 1.17) * (p_nSChargex / 100), 0)
+                .Master("nSChargex") = IIf(p_bSChargex, ((p_nTotalSales / 1.17) - (.Master("nDiscount") + .Master("nVatDiscx") + .Master("nPWDDiscx"))) * (p_nSChargex / 100), 0)
                 Debug.Print("totalsales amt= " & p_nTotalSales)
+                Debug.Print("service charge amt= " & .Master("nSChargex"))
             Else
-                .Master("nSChargex") = IIf(p_bSChargex, (.Master("nSalesAmt") / 1.17) * (p_nSChargex / 100), 0)
+                .Master("nSChargex") = IIf(p_bSChargex, ((.Master("nSalesAmt") / 1.17) - (.Master("nDiscount") + .Master("nVatDiscx") + .Master("nPWDDiscx"))) * (p_nSChargex / 100), 0)
                 Debug.Print("sales amt= " & .Master("nSalesAmt"))
+                Debug.Print("service charge amt= " & .Master("nSChargex"))
             End If
 
             p_oDTMaster(0).Item("nPrntBill") = p_oDTMaster(0).Item("nPrntBill") + 1
