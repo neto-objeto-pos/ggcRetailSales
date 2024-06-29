@@ -767,7 +767,7 @@ Public Class DailySales
             builder.Append(" Less : Regular Discnt".PadRight(24) & Format(lnDiscount, xsDECIMAL).PadLeft(13) & Environment.NewLine)
         End If
 
-        builder.Append("        VAT SC/PWD".PadRight(24) & Format(lnVatDiscx, xsDECIMAL).PadLeft(13) & Environment.NewLine)
+        'builder.Append("        VAT SC/PWD".PadRight(24) & Format(lnVatDiscx, xsDECIMAL).PadLeft(13) & Environment.NewLine)
         builder.Append("        20% SC/PWD Disc.".PadRight(24) & Format(lnPWDDiscx, xsDECIMAL).PadLeft(13) & Environment.NewLine)
         builder.Append("        Returns".PadRight(24) & Format(lnReturnsx, xsDECIMAL).PadLeft(13) & Environment.NewLine)
         builder.Append(" ".PadRight(24) & "-".PadLeft(13, "-") & Environment.NewLine)
@@ -776,7 +776,7 @@ Public Class DailySales
         'builder.Append(" NET SALES".PadRight(24) & Format(lnSalesAmt - (lnDiscount + lnPWDDiscx + lnVatDiscx), xsDECIMAL).PadLeft(13) & Environment.NewLine)
 
         'Display a space in between NEW Sales and VAT Related Info
-        builder.Append(Environment.NewLine)
+        builder.Append(" ".PadRight(24) & "-".PadLeft(13, "-") & Environment.NewLine)
 
         builder.Append(" VATABLE Sales".PadRight(24) & Format(lnVATSales, xsDECIMAL).PadLeft(13) & Environment.NewLine)
         builder.Append(" VAT Amount".PadRight(24) & Format(lnVATAmtxx, xsDECIMAL).PadLeft(13) & Environment.NewLine)
@@ -798,10 +798,12 @@ Public Class DailySales
         ' ''Display a space in between SENIOR/PWD Discount Info & Collection Info
         builder.Append(Environment.NewLine)
 
+        builder.Append("-".PadLeft(40, "-") & Environment.NewLine)
         builder.Append(" Collection Info:" & Environment.NewLine)
         builder.Append("  Petty Cash".PadRight(24) & Format(lnOpenBalx, xsDECIMAL).PadLeft(13) & Environment.NewLine)
         builder.Append("  Withdrawal".PadRight(24) & Format(lnCPullOut, xsDECIMAL).PadLeft(13) & Environment.NewLine & Environment.NewLine)
 
+        builder.Append("-".PadLeft(40, "-") & Environment.NewLine)
         'builder.Append("  Cashbox Amount".PadRight(24) & Format(lnOpenBalx + (lnCashAmnt + lnSChargex) - lnCPullOut - lnReturnsx, xsDECIMAL).PadLeft(13) & Environment.NewLine)
         builder.Append("  Cash".PadRight(24) & Format((lnOpenBalx + lnCashAmnt) - (lnCPullOut + lnReturnsx), xsDECIMAL).PadLeft(13) & Environment.NewLine)
         builder.Append("  Cheque".PadRight(24) & Format(lnChckAmnt, xsDECIMAL).PadLeft(13) & Environment.NewLine)
@@ -811,7 +813,7 @@ Public Class DailySales
 
         builder.Append("-".PadLeft(40, "-") & Environment.NewLine)
         'builder.Append(" Curr. Sales Amt.  : ".PadRight(24) & Format((lnSalesAmt + lnSChargex) - (lnDiscount + lnPWDDiscx + lnVatDiscx), xsDECIMAL).PadLeft(13) & Environment.NewLine)
-        builder.Append(" Curr. Sales Amt.  : ".PadRight(24) & Format((lnSalesAmt) - (lnDiscount + lnPWDDiscx + lnVatDiscx), xsDECIMAL).PadLeft(13) & Environment.NewLine)
+        builder.Append(" Curr. Sales Amt.  : ".PadRight(24) & Format(lnSalesAmt, xsDECIMAL).PadLeft(13) & Environment.NewLine)
         builder.Append("-".PadLeft(40, "-") & Environment.NewLine)
         builder.Append(" Void SI Count: ".PadRight(24) & Format(lnVoidCntx, xsDECIMAL).PadLeft(13) & Environment.NewLine)
         builder.Append(" Void SI Amount: ".PadRight(24) & Format(lnVoidAmnt, xsDECIMAL).PadLeft(13) & Environment.NewLine)
@@ -1131,6 +1133,7 @@ Public Class DailySales
                                       " AND sCashierx = " & strParm(p_oDTMaster(0).Item("sCashierx")) &
                                       " AND cTranStat <> '3'")
 
+        Debug.Print("this is the query of x reading =  " + lsSQL)
         loDta = p_oApp.ExecuteQuery(lsSQL)
 
         'iMac 2018.02.10
@@ -1237,7 +1240,7 @@ Public Class DailySales
         lnZeroRatd = loDta(0).Item("nZeroRatd")
 
         'Compute Discounts
-        lnDiscount = loDta(0).Item("nDiscount")
+        lnDiscount = CDbl(loDta(0).Item("nDiscount")) - CDbl(loDta(0).Item("nPWDDiscx"))
         lnVatDiscx = loDta(0).Item("nVatDiscx")
         lnPWDDiscx = loDta(0).Item("nPWDDiscx")
 
@@ -2385,9 +2388,9 @@ Public Class DailySales
 
         'lnNonVATxx = lnSalesAmt - (lnVATSales + lnZeroRatd + lnVATAmtxx)
 
-        lnNonVATxx = lnSalesAmt + lnVatDiscx + lnPWDDiscx
-        lnNonVATxx = lnNonVATxx - (lnVATSales + lnVATAmtxx)
-        lnNonVATxx = lnNonVATxx / 1.12
+        'lnNonVATxx = lnSalesAmt + lnVatDiscx + lnPWDDiscx
+        lnNonVATxx = lnSalesAmt - (lnVATSales + lnVATAmtxx)
+        'lnNonVATxx = lnNonVATxx / 1.12
 
         'p_oDTMaster(0).Item("nSalesAmt") = (lnSalesAmt + lnDiscount + lnVatDiscx + lnPWDDiscx) - p_oDTMaster(0).Item("nReturnsx")
         p_oDTMaster(0).Item("nSalesAmt") = lnSalesAmt - p_oDTMaster(0).Item("nReturnsx")

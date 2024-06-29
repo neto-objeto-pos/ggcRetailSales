@@ -6283,10 +6283,11 @@ Public Class New_Sales_Order
         If loRow("sSourceCD") = "SO" Then loPayment.SplitType = 2
         loPayment.OpenBySource()
 
-        Dim lnNotVat As Decimal
-        lnNotVat = loDTMaster(0).Item("nSalesAmt") + loDTMaster(0).Item("nVatDiscx") + loDTMaster(0).Item("nPWDDiscx")
-        lnNotVat = lnNotVat - (loDTMaster(0).Item("nVatSales") + loDTMaster(0).Item("nVatAmtxx"))
-        loPayment.NonVAT = lnNotVat / 1.12
+        'unknownpurpose already setted in openbysource
+        'Dim lnNotVat As Decimal
+        'lnNotVat = loDTMaster(0).Item("nSalesAmt") + loDTMaster(0).Item("nVatDiscx") + loDTMaster(0).Item("nPWDDiscx")
+        'lnNotVat = lnNotVat - (loDTMaster(0).Item("nVatSales") + loDTMaster(0).Item("nVatAmtxx"))
+        ''loPayment.NonVAT = lnNotVat
 
         Dim loDiscDtl As DataTable
         loDiscDtl = LoadDiscount(loDTMaster(0).Item("sSourceCD"), loDTMaster(0).Item("sSourceNo"))
@@ -6304,7 +6305,7 @@ Public Class New_Sales_Order
             End If
         End If
 
-        p_oApp.SaveEvent("0010", "SI No. " & loRow("sORNumber") & "/Amount " & loRow("nSalesAmt"), p_sSerial)
+        p_oApp.SaveEvent("0010", "Cancelled SI No. " & loRow("sORNumber") & "/Amount " & loRow("nSalesAmt"), p_sSerial)
         Dim lsSourceNo As String = ""
         If updateCashRegMachine(lsSourceNo, True) Then loPayment.printCancelled(lsSourceNo)
     End Sub
