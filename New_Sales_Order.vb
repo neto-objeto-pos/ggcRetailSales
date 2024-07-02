@@ -583,9 +583,11 @@ Public Class New_Sales_Order
 
         Call computeTotal(p_oDTMaster, p_oDTDetail, p_oDtaDiscx, p_oDiscount)
         If p_oDTMaster(0).Item("nPWDDiscx") > 0 Then
-            p_oDTMaster.Rows(0)("nSChargex") = IIf(p_bSChargex, ((Math.Round(p_oDTMaster(0).Item("nTranTotl"), 2) - Math.Round((p_oDTMaster(0).Item("nVoidTotl") + p_oDTMaster(0).Item("nDiscount") + p_oDTMaster(0).Item("nVatDiscx") + p_oDTMaster(0).Item("nPWDDiscx")), 2))) * (p_nSChargex / 100), 0)
+            p_oDTMaster.Rows(0)("nSChargex") = IIf(p_bSChargex, ((Math.Round(p_oDTMaster(0).Item("nTranTotl"), 2) - Math.Round((p_oDTMaster(0).Item("nVoidTotl") + (p_oDTMaster(0).Item("nDiscount") - p_oDTMaster(0).Item("nPWDDiscx")) + p_oDTMaster(0).Item("nVatDiscx") + p_oDTMaster(0).Item("nPWDDiscx")), 2))) * (p_nSChargex / 100), 0)
         Else
-            p_oDTMaster.Rows(0)("nSChargex") = IIf(p_bSChargex, ((Math.Round(p_oDTMaster(0).Item("nTranTotl"), 2) - Math.Round((p_oDTMaster(0).Item("nVoidTotl") + p_oDTMaster(0).Item("nDiscount") + p_oDTMaster(0).Item("nVatDiscx") + p_oDTMaster(0).Item("nPWDDiscx")), 2)) / 1.12) * (p_nSChargex / 100), 0)
+            p_oDTMaster.Rows(0)("nSChargex") = IIf(p_bSChargex, ((Math.Round(p_oDTMaster(0).Item("nTranTotl"), 2) - Math.Round((p_oDTMaster(0).Item("nVoidTotl") + (p_oDTMaster(0).Item("nDiscount") - p_oDTMaster(0).Item("nPWDDiscx")) + p_oDTMaster(0).Item("nVatDiscx") + p_oDTMaster(0).Item("nPWDDiscx")), 2))) * (p_nSChargex / 100), 0)
+
+            'p_oDTMaster.Rows(0)("nSChargex") = IIf(p_bSChargex, ((Math.Round(p_oDTMaster(0).Item("nTranTotl"), 2) - Math.Round((p_oDTMaster(0).Item("nVoidTotl") + (p_oDTMaster(0).Item("nDiscount") - p_oDTMaster(0).Item("nPWDDiscx")) + p_oDTMaster(0).Item("nVatDiscx") + p_oDTMaster(0).Item("nPWDDiscx")), 2)) / 1.12) * (p_nSChargex / 100), 0)
         End If
 
         p_nTranTotl = p_oDTMaster(0).Item("nTranTotl")
@@ -5081,7 +5083,7 @@ Public Class New_Sales_Order
                 p_nNoClient = 0
                 p_nWithDisc = 0
                 p_nTableNo = 0
-                p_sTrantype = ""
+                'p_sTrantype = ""
 
                 If loDiscDtl.Rows.Count = 0 Then
                     lsSQL = "SELECT" &
@@ -6525,9 +6527,9 @@ Public Class New_Sales_Order
         Call updateCashRegMachine(lsNeoTrans, True)
 
         Dim lnNotVat As Decimal
-        lnNotVat = loDTMaster(0).Item("nSalesAmt") + loDTMaster(0).Item("nVatDiscx") + loDTMaster(0).Item("nPWDDiscx")
-        lnNotVat = lnNotVat - (loDTMaster(0).Item("nVatSales") + loDTMaster(0).Item("nVatAmtxx"))
-        loPayment.NonVAT = lnNotVat / 1.12
+        'lnNotVat = loDTMaster(0).Item("nSalesAmt") + loDTMaster(0).Item("nVatDiscx") + loDTMaster(0).Item("nPWDDiscx")
+        'lnNotVat = lnNotVat - (loDTMaster(0).Item("nVatSales") + loDTMaster(0).Item("nVatAmtxx"))
+        'loPayment.NonVAT = lnNotVat / 1.12
 
         Dim loDiscDtl As DataTable
         loDiscDtl = LoadDiscount(loDTMaster(0).Item("sSourceCD"), loDTMaster(0).Item("sSourceNo"))
