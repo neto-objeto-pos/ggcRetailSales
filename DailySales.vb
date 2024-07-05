@@ -1925,8 +1925,8 @@ Public Class DailySales
         Else
             builder.Append(" Less : Regular Discnt".PadRight(24) & Format(p_oDTMaster(0).Item("nDiscount"), xsDECIMAL).PadLeft(13) & Environment.NewLine)
         End If
-        builder.Append("        VAT SC/PWD".PadRight(24) & Format(p_oDTMaster(0).Item("nVatDiscx") + p_oDTMaster(0).Item("nPWDDiscx"), xsDECIMAL).PadLeft(13) & Environment.NewLine)
-        builder.Append("        20% SC/PWD Disc.".PadRight(24) & Format(p_oDTMaster(0).Item("nPWDDiscx") + p_oDTMaster(0).Item("nPWDDiscx"), xsDECIMAL).PadLeft(13) & Environment.NewLine)
+        'builder.Append("        VAT SC/PWD".PadRight(24) & Format(p_oDTMaster(0).Item("nVatDiscx") + p_oDTMaster(0).Item("nPWDDiscx"), xsDECIMAL).PadLeft(13) & Environment.NewLine)
+        builder.Append("        20% SC/PWD Disc.".PadRight(24) & Format(p_oDTMaster(0).Item("nPWDDiscx"), xsDECIMAL).PadLeft(13) & Environment.NewLine)
         builder.Append("        Returns".PadRight(24) & Format(p_oDTMaster(0).Item("nReturnsx"), xsDECIMAL).PadLeft(13) & Environment.NewLine)
         builder.Append("        Void".PadRight(24) & Format(p_oDTMaster(0).Item("nVoidAmnt"), xsDECIMAL).PadLeft(13) & Environment.NewLine)
 
