@@ -276,7 +276,6 @@ Partial Class frmManageTable
         Me.RDOButton02.TabIndex = 19
         Me.RDOButton02.Text = "Delivery"
         Me.RDOButton02.UseVisualStyleBackColor = True
-        Me.RDOButton02.Visible = False
         '
         'RDOButton01
         '
@@ -314,7 +313,6 @@ Partial Class frmManageTable
         Me.chk00.TabIndex = 13
         Me.chk00.Text = "w/ Service Charge"
         Me.chk00.UseVisualStyleBackColor = True
-        Me.chk00.Visible = False
         '
         'Label6
         '

@@ -2187,7 +2187,7 @@ Public Class New_Sales_Order
             'use the transaction date of that sales order
             If p_nSaleStat = 0 Then .Master("dTransact") = p_oDTMaster(0).Item("dTransact")
 
-            .Master("nDiscount") = Math.Round(p_oDTMaster(0).Item("nDiscount"), 2)
+            .Master("nDiscount") = Math.Round(p_oDTMaster(0).Item("nDiscount") + 0.00001, 2)
             .Master("nVatDiscx") = Math.Round(p_oDTMaster(0).Item("nVatDiscx"), 2)
             .Master("nPWDDiscx") = Math.Round(p_oDTMaster(0).Item("nPWDDiscx"), 2)
             'MsgBox(pnCharge.ToString)
