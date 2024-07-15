@@ -2188,10 +2188,10 @@ Public Class New_Sales_Order
             If p_nSaleStat = 0 Then .Master("dTransact") = p_oDTMaster(0).Item("dTransact")
 
             .Master("nDiscount") = Math.Round(p_oDTMaster(0).Item("nDiscount") + 0.00001, 2)
-            .Master("nVatDiscx") = Math.Round(p_oDTMaster(0).Item("nVatDiscx"), 2)
-            .Master("nPWDDiscx") = Math.Round(p_oDTMaster(0).Item("nPWDDiscx"), 2)
+            .Master("nVatDiscx") = Math.Round(p_oDTMaster(0).Item("nVatDiscx") + 0.00001, 2)
+            .Master("nPWDDiscx") = Math.Round(p_oDTMaster(0).Item("nPWDDiscx") + 0.00001, 2)
             'MsgBox(pnCharge.ToString)
-            .Master("nSalesAmt") = Math.Round(p_oDTMaster(0).Item("nTranTotl") / 1.12, 2) - Math.Round((p_oDTMaster(0).Item("nVoidTotl") + p_oDTMaster(0).Item("nDiscount") + p_oDTMaster(0).Item("nVatDiscx") + p_oDTMaster(0).Item("nPWDDiscx")) + pnCharge, 2)
+            .Master("nSalesAmt") = Math.Round(p_oDTMaster(0).Item("nTranTotl") / 1.12, 2) - Math.Round((p_oDTMaster(0).Item("nVoidTotl") + p_oDTMaster(0).Item("nDiscount") + p_oDTMaster(0).Item("nVatDiscx") + p_oDTMaster(0).Item("nPWDDiscx")) + pnCharge + 0.00001, 2)
             'MsgBox((p_oDTMaster(0).Item("nTranTotl") / 1.12 - (p_oDTMaster(0).Item("nPWDDiscx")).ToString))
             '.Master("nSalesAmt") = Math.Round(p_oDTMaster(0).Item("nTranTotl"), 2) - Math.Round((p_oDTMaster(0).Item("nVoidTotl") + .Master("nDiscount") + .Master("nVatDiscx") + .Master("nPWDDiscx")), 2)
 
