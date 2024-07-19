@@ -563,6 +563,7 @@ Public Class New_Sales_Order
             p_oDTDetail(lnCtr).Item("cReversed") = loDT(lnCtr).Item("cReversed")
             p_oDTDetail(lnCtr).Item("cComboMlx") = loDT(lnCtr).Item("cComboMlx")
             p_oDTDetail(lnCtr).Item("cWthPromo") = loDT(lnCtr).Item("cWthPromo")
+            p_oDTDetail(lnCtr).Item("sPrntPath") = IFNull(loDT(lnCtr).Item("sPrntPath"),)
 
             'p_oDTDetail(lnCtr).Item("nDiscAmtx") = loDT(lnCtr).Item("nDiscAmtx") 
             'p_oDTDetail(lnCtr).Item("nDealrDsc") = loDT(lnCtr).Item("nDealrDsc")
@@ -681,6 +682,7 @@ Public Class New_Sales_Order
             p_oDTDetail(lnCtr).Item("cReversed") = loDT(lnCtr).Item("cReversed")
             p_oDTDetail(lnCtr).Item("cComboMlx") = loDT(lnCtr).Item("cComboMlx")
             p_oDTDetail(lnCtr).Item("cWthPromo") = loDT(lnCtr).Item("cWthPromo")
+            p_oDTDetail(lnCtr).Item("sPrntPath") = IFNull(loDT(lnCtr).Item("sPrntPath"),)
 
             'p_oDTDetail(lnCtr).Item("nDiscAmtx") = loDT(lnCtr).Item("nDiscAmtx") 
             'p_oDTDetail(lnCtr).Item("nDealrDsc") = loDT(lnCtr).Item("nDealrDsc")
@@ -815,6 +817,7 @@ Public Class New_Sales_Order
 
             p_oDTDetail(lnCtr).Item("cWthPromo") = loDT(lnCtr).Item("cWthPromo")
 
+            p_oDTDetail(lnCtr).Item("sPrntPath") = IFNull(loDT(lnCtr).Item("sPrntPath"),)
             p_oDTDetail(lnCtr).Item("dModified") = loDT(lnCtr).Item("dModified")
             'p_oDTDetail(lnCtr).Item("nDiscAmtx") = loDT(lnCtr).Item("nDiscAmtx")
             'p_oDTDetail(lnCtr).Item("nDealrDsc") = loDT(lnCtr).Item("nDealrDsc")
@@ -929,6 +932,7 @@ Public Class New_Sales_Order
             p_oDTDetail(lnCtr).Item("cReversed") = loDT(lnCtr).Item("cReversed")
 
             p_oDTDetail(lnCtr).Item("cComboMlx") = loDT(lnCtr).Item("cComboMlx")
+            p_oDTDetail(lnCtr).Item("sPrntPath") = IFNull(loDT(lnCtr).Item("sPrntPath"),)
 
             p_oDTDetail(lnCtr).Item("cWthPromo") = loDT(lnCtr).Item("cWthPromo")
 
@@ -1089,6 +1093,7 @@ Public Class New_Sales_Order
 
             p_oDTDetail(lnCtr).Item("cComboMlx") = loDT(lnCtr).Item("cComboMlx")
 
+            p_oDTDetail(lnCtr).Item("sPrntPath") = IFNull(loDT(lnCtr).Item("sPrntPath"),)
             p_oDTDetail(lnCtr).Item("cWthPromo") = loDT(lnCtr).Item("cWthPromo")
 
             p_oDTDetail(lnCtr).Item("dModified") = loDT(lnCtr).Item("dModified")
@@ -1479,6 +1484,8 @@ Public Class New_Sales_Order
         p_oDTDetail(p_nRow).Item("cComboMlx") = p_oDTDetail(fnRow).Item("cComboMlx")
         p_oDTDetail(p_nRow).Item("cWthPromo") = p_oDTDetail(fnRow).Item("cWthPromo")
         p_oDTDetail(p_nRow).Item("sCategrID") = p_oDTDetail(fnRow).Item("sCategrID")
+        'Debug.Print(p_oDTDetail(fnRow).Item("sPrntPath"))
+        p_oDTDetail(p_nRow).Item("sPrntPath") = p_oDTDetail(fnRow).Item("sPrntPath")
         p_oDTDetail(p_nRow).Item("nQuantity") = fnQuantity
         p_oDTDetail(p_nRow).Item("cReversex") = "-"
         p_oDTDetail(p_nRow).Item("cReversed") = "1"
@@ -4631,7 +4638,9 @@ Public Class New_Sales_Order
         p_oDTDetail(p_nRow).Item("cComboMlx") = foDT(0).Item("cComboMlx")
         p_oDTDetail(p_nRow).Item("cWthPromo") = foDT(0).Item("cWthPromo")
         p_oDTDetail(p_nRow).Item("sCategrID") = foDT(0).Item("sCategrID")
+
         p_oDTDetail(p_nRow).Item("sPrntPath") = foDT(0).Item("sPrntPath")
+        Debug.Print(IFNull(p_oDTDetail(p_nRow).Item("sPrntPath"),))
         p_oDTDetail(p_nRow).Item("dModified") = p_oApp.SysDate
 
         Return True
@@ -5771,6 +5780,7 @@ Public Class New_Sales_Order
                 ", a.dModified" &
                 ", c.sTableNox" &
                 ", c.sMergeIDx" &
+                ", d.sPrntPath" &
             " FROM " & pxeDetTable & " a" &
                 ", Inventory b" &
                     " LEFT JOIN Product_Category d" &
