@@ -94,7 +94,7 @@ endProc:
                     lnAmount += poSplit.Detail(0, "nGrpAm" & Format(lnIndex + 1, "000"))
                 Next
 
-                If lnAmount <> .SalesTotal Then
+                If Math.Round(lnAmount, 2) <> .SalesTotal Then
                     MsgBox("Split has invalid amount total. Please verify your entry.", MsgBoxStyle.Critical, "Warning")
                     Return False
                 End If
@@ -103,6 +103,7 @@ endProc:
 
                 For lnCtr = 0 To DataGridView1.Rows.Count - 1
                     If DataGridView1.Item(4, lnCtr).Value > 0 Then
+                        Debug.Print(DataGridView1.Item(4, lnCtr).Value)
                         MsgBox("Items not splitted detected. Please verify your entry.", MsgBoxStyle.Critical, "Warning")
                         Return False
                     End If
@@ -300,13 +301,43 @@ endProc:
     End Sub
 
     Private Sub showComputation()
-        lblMaster04.Text = FormatNumber(IFNull(poSplit.Master("nTranTotl"), 0), 2)
-        lblMaster13.Text = FormatNumber(IFNull(poSplit.Master("nVATSales"), 0), 2) 'vat sales
-        lblMaster14.Text = FormatNumber(IFNull(poSplit.Master("nVATAmtxx"), 0), 2) 'vat amount
-        lblMaster15.Text = FormatNumber(IFNull(poSplit.Master("nNonVATxx"), 0), 2) 'non vat
-        lblMaster17.Text = FormatNumber(IFNull(poSplit.Master("nDiscount"), 0) + IFNull(poSplit.Master("nVatDiscx"), 0) + IFNull(poSplit.Master("nPWDDiscx"), 0), 2)
-        lblAmount.Text = FormatNumber(CDbl(lblMaster04.Text) - CDbl(lblMaster17.Text), 2) 'amount due
+        If (poSplit.SplitType <> ggcRetailSales.SplitOrder.xeSplitType.xeSplitByMenu) Then
+            lblMaster13.Text = FormatNumber(poSplit.Master("nVATSales"), 2) 'vat sales
+            lblMaster14.Text = FormatNumber(poSplit.Master("nVATAmtxx"), 2) 'vat amount
+            lblMaster15.Text = FormatNumber(poSplit.Master("nNonVATxx"), 2) 'non vat
+
+            lblMaster04.Text = FormatNumber(CDbl(lblMaster13.Text) + CDbl(lblMaster14.Text), 2)
+            lblMaster17.Text = FormatNumber(poSplit.Master("nDiscount") + poSplit.Master("nVatDiscx") + poSplit.Master("nPWDDiscx"), 2)
+            lblAmount.Text = FormatNumber(CDbl(poSplit.Master("nTranTotl")) - CDbl(lblMaster17.Text), 2) 'amount due
+            'lblAmount.Text = FormatNumber(poSplit.Master("nTranTotl"), 2)
+
+            lblServiceCharge.Text = FormatNumber(CDbl(poSplit.Master("nTranTotl")) - CDbl(lblMaster04.Text), 2)
+
+            'lblServiceCharge.Text = FormatNumber(poSplit.Master("nVATSales") * 0.05, 2)
+
+        Else
+            lblMaster13.Text = FormatNumber(poSplit.Master("nVATSales"), 2) 'vat sales
+            lblMaster14.Text = FormatNumber(poSplit.Master("nVATAmtxx"), 2) 'vat amount
+            lblMaster15.Text = FormatNumber(poSplit.Master("nNonVATxx"), 2) 'non vat
+
+            lblMaster04.Text = FormatNumber(CDbl(lblMaster13.Text) + CDbl(lblMaster14.Text), 2)
+            lblMaster17.Text = FormatNumber(poSplit.Master("nDiscount") + poSplit.Master("nVatDiscx") + poSplit.Master("nPWDDiscx"), 2)
+
+            lblServiceCharge.Text = IIf(poSplit.IsWithSCharge, FormatNumber(poSplit.Master("nVATSales") * 0.05, 2), FormatNumber(0, 2))
+            lblAmount.Text = FormatNumber((CDbl(poSplit.Master("nTranTotl")) - CDbl(lblMaster17.Text)) + CDbl(lblServiceCharge.Text), 2) 'amount due
+        End If
+
     End Sub
+    'Private Sub showComputation()
+    '    lblMaster04.Text = FormatNumber(IFNull(poSplit.Master("nTranTotl"), 0), 2)
+    '    lblMaster13.Text = FormatNumber(IFNull(poSplit.Master("nVATSales"), 0), 2) 'vat sales
+    '    lblMaster14.Text = FormatNumber(IFNull(poSplit.Master("nVATAmtxx"), 0), 2) 'vat amount
+    '    lblMaster15.Text = FormatNumber(IFNull(poSplit.Master("nNonVATxx"), 0), 2) 'non vat
+    '    lblMaster17.Text = FormatNumber(IFNull(poSplit.Master("nDiscount"), 0) + IFNull(poSplit.Master("nVatDiscx"), 0) + IFNull(poSplit.Master("nPWDDiscx"), 0), 2)
+    '    lblAmount.Text = FormatNumber(CDbl(lblMaster04.Text) - CDbl(lblMaster17.Text), 2) 'amount due
+    'End Sub
+
+
 
     'Private Sub showComputationNew()
     '    ''jovan - 2020.10.15 revised presentation of discount in interface

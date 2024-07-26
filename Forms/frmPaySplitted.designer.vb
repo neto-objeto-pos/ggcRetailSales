@@ -22,9 +22,9 @@ Partial Class frmPaySplitted
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Dim DataGridViewCellStyle1 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-        Dim DataGridViewCellStyle2 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-        Dim DataGridViewCellStyle3 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle4 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle5 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle6 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
         Me.pnlMain = New System.Windows.Forms.Panel()
         Me.pnlBill = New System.Windows.Forms.Panel()
         Me.Label2 = New System.Windows.Forms.Label()
@@ -41,6 +41,8 @@ Partial Class frmPaySplitted
         Me.cmdButton00 = New System.Windows.Forms.Button()
         Me.Panel2 = New System.Windows.Forms.Panel()
         Me.Panel3 = New System.Windows.Forms.Panel()
+        Me.Label3 = New System.Windows.Forms.Label()
+        Me.lblServiceCharge = New System.Windows.Forms.Label()
         Me.Label16 = New System.Windows.Forms.Label()
         Me.Label15 = New System.Windows.Forms.Label()
         Me.Label14 = New System.Windows.Forms.Label()
@@ -77,7 +79,7 @@ Partial Class frmPaySplitted
         Me.pnlMain.Controls.Add(Me.pnlDetail)
         Me.pnlMain.Location = New System.Drawing.Point(502, 3)
         Me.pnlMain.Name = "pnlMain"
-        Me.pnlMain.Size = New System.Drawing.Size(410, 656)
+        Me.pnlMain.Size = New System.Drawing.Size(410, 675)
         Me.pnlMain.TabIndex = 2
         '
         'pnlBill
@@ -190,7 +192,7 @@ Partial Class frmPaySplitted
         Me.pnlDetail.Location = New System.Drawing.Point(3, 178)
         Me.pnlDetail.Margin = New System.Windows.Forms.Padding(2)
         Me.pnlDetail.Name = "pnlDetail"
-        Me.pnlDetail.Size = New System.Drawing.Size(400, 473)
+        Me.pnlDetail.Size = New System.Drawing.Size(400, 488)
         Me.pnlDetail.TabIndex = 8
         '
         'DataGridView1
@@ -200,40 +202,40 @@ Partial Class frmPaySplitted
         Me.DataGridView1.AllowUserToResizeColumns = False
         Me.DataGridView1.AllowUserToResizeRows = False
         Me.DataGridView1.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
-        DataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
-        DataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control
-        DataGridViewCellStyle1.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        DataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText
-        DataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight
-        DataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText
-        DataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
-        Me.DataGridView1.ColumnHeadersDefaultCellStyle = DataGridViewCellStyle1
+        DataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
+        DataGridViewCellStyle4.BackColor = System.Drawing.SystemColors.Control
+        DataGridViewCellStyle4.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        DataGridViewCellStyle4.ForeColor = System.Drawing.SystemColors.WindowText
+        DataGridViewCellStyle4.SelectionBackColor = System.Drawing.SystemColors.Highlight
+        DataGridViewCellStyle4.SelectionForeColor = System.Drawing.SystemColors.HighlightText
+        DataGridViewCellStyle4.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
+        Me.DataGridView1.ColumnHeadersDefaultCellStyle = DataGridViewCellStyle4
         Me.DataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.DisableResizing
-        DataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
-        DataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Window
-        DataGridViewCellStyle2.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        DataGridViewCellStyle2.ForeColor = System.Drawing.Color.White
-        DataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight
-        DataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText
-        DataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.[False]
-        Me.DataGridView1.DefaultCellStyle = DataGridViewCellStyle2
+        DataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
+        DataGridViewCellStyle5.BackColor = System.Drawing.SystemColors.Window
+        DataGridViewCellStyle5.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        DataGridViewCellStyle5.ForeColor = System.Drawing.Color.White
+        DataGridViewCellStyle5.SelectionBackColor = System.Drawing.SystemColors.Highlight
+        DataGridViewCellStyle5.SelectionForeColor = System.Drawing.SystemColors.HighlightText
+        DataGridViewCellStyle5.WrapMode = System.Windows.Forms.DataGridViewTriState.[False]
+        Me.DataGridView1.DefaultCellStyle = DataGridViewCellStyle5
         Me.DataGridView1.Dock = System.Windows.Forms.DockStyle.Fill
         Me.DataGridView1.Location = New System.Drawing.Point(0, 0)
         Me.DataGridView1.Margin = New System.Windows.Forms.Padding(2)
         Me.DataGridView1.MultiSelect = False
         Me.DataGridView1.Name = "DataGridView1"
         Me.DataGridView1.ReadOnly = True
-        DataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
-        DataGridViewCellStyle3.BackColor = System.Drawing.SystemColors.Control
-        DataGridViewCellStyle3.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        DataGridViewCellStyle3.ForeColor = System.Drawing.SystemColors.WindowText
-        DataGridViewCellStyle3.SelectionBackColor = System.Drawing.SystemColors.Highlight
-        DataGridViewCellStyle3.SelectionForeColor = System.Drawing.SystemColors.HighlightText
-        DataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
-        Me.DataGridView1.RowHeadersDefaultCellStyle = DataGridViewCellStyle3
+        DataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
+        DataGridViewCellStyle6.BackColor = System.Drawing.SystemColors.Control
+        DataGridViewCellStyle6.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        DataGridViewCellStyle6.ForeColor = System.Drawing.SystemColors.WindowText
+        DataGridViewCellStyle6.SelectionBackColor = System.Drawing.SystemColors.Highlight
+        DataGridViewCellStyle6.SelectionForeColor = System.Drawing.SystemColors.HighlightText
+        DataGridViewCellStyle6.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
+        Me.DataGridView1.RowHeadersDefaultCellStyle = DataGridViewCellStyle6
         Me.DataGridView1.RowHeadersVisible = False
         Me.DataGridView1.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect
-        Me.DataGridView1.Size = New System.Drawing.Size(396, 469)
+        Me.DataGridView1.Size = New System.Drawing.Size(396, 484)
         Me.DataGridView1.TabIndex = 21
         '
         'pnlButton
@@ -245,7 +247,7 @@ Partial Class frmPaySplitted
         Me.pnlButton.Location = New System.Drawing.Point(913, 4)
         Me.pnlButton.Margin = New System.Windows.Forms.Padding(2)
         Me.pnlButton.Name = "pnlButton"
-        Me.pnlButton.Size = New System.Drawing.Size(106, 656)
+        Me.pnlButton.Size = New System.Drawing.Size(106, 674)
         Me.pnlButton.TabIndex = 43
         '
         'cmdButton01
@@ -287,13 +289,15 @@ Partial Class frmPaySplitted
         Me.Panel2.Controls.Add(Me.txtDetail00)
         Me.Panel2.Location = New System.Drawing.Point(2, 3)
         Me.Panel2.Name = "Panel2"
-        Me.Panel2.Size = New System.Drawing.Size(498, 656)
+        Me.Panel2.Size = New System.Drawing.Size(498, 675)
         Me.Panel2.TabIndex = 44
         '
         'Panel3
         '
         Me.Panel3.BackColor = System.Drawing.Color.Gainsboro
         Me.Panel3.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.Panel3.Controls.Add(Me.Label3)
+        Me.Panel3.Controls.Add(Me.lblServiceCharge)
         Me.Panel3.Controls.Add(Me.Label16)
         Me.Panel3.Controls.Add(Me.Label15)
         Me.Panel3.Controls.Add(Me.Label14)
@@ -308,8 +312,31 @@ Partial Class frmPaySplitted
         Me.Panel3.Controls.Add(Me.lblAmount)
         Me.Panel3.Location = New System.Drawing.Point(3, 499)
         Me.Panel3.Name = "Panel3"
-        Me.Panel3.Size = New System.Drawing.Size(488, 150)
+        Me.Panel3.Size = New System.Drawing.Size(488, 167)
         Me.Panel3.TabIndex = 303
+        '
+        'Label3
+        '
+        Me.Label3.AutoSize = True
+        Me.Label3.Font = New System.Drawing.Font("Courier New", 12.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label3.ForeColor = System.Drawing.Color.ForestGreen
+        Me.Label3.Location = New System.Drawing.Point(33, 143)
+        Me.Label3.Name = "Label3"
+        Me.Label3.Size = New System.Drawing.Size(148, 18)
+        Me.Label3.TabIndex = 314
+        Me.Label3.Text = "Service Charge"
+        '
+        'lblServiceCharge
+        '
+        Me.lblServiceCharge.BackColor = System.Drawing.Color.Gainsboro
+        Me.lblServiceCharge.Font = New System.Drawing.Font("Courier New", 12.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblServiceCharge.ForeColor = System.Drawing.Color.ForestGreen
+        Me.lblServiceCharge.Location = New System.Drawing.Point(184, 140)
+        Me.lblServiceCharge.Name = "lblServiceCharge"
+        Me.lblServiceCharge.Size = New System.Drawing.Size(297, 25)
+        Me.lblServiceCharge.TabIndex = 313
+        Me.lblServiceCharge.Text = "0.00"
+        Me.lblServiceCharge.TextAlign = System.Drawing.ContentAlignment.MiddleRight
         '
         'Label16
         '
@@ -454,9 +481,9 @@ Partial Class frmPaySplitted
         Me.Panel4.BackColor = System.Drawing.Color.Transparent
         Me.Panel4.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
         Me.Panel4.Controls.Add(Me.DataGridView2)
-        Me.Panel4.Location = New System.Drawing.Point(5, 56)
+        Me.Panel4.Location = New System.Drawing.Point(5, 53)
         Me.Panel4.Name = "Panel4"
-        Me.Panel4.Size = New System.Drawing.Size(487, 439)
+        Me.Panel4.Size = New System.Drawing.Size(487, 440)
         Me.Panel4.TabIndex = 43
         '
         'DataGridView2
@@ -474,7 +501,7 @@ Partial Class frmPaySplitted
         Me.DataGridView2.ReadOnly = True
         Me.DataGridView2.RowHeadersVisible = False
         Me.DataGridView2.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect
-        Me.DataGridView2.Size = New System.Drawing.Size(483, 435)
+        Me.DataGridView2.Size = New System.Drawing.Size(483, 436)
         Me.DataGridView2.TabIndex = 38
         Me.DataGridView2.TabStop = False
         '
@@ -498,7 +525,7 @@ Partial Class frmPaySplitted
         Me.BackgroundImage = Global.ggcRetailSales.My.Resources.Resources.mainbackground
         Me.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch
         Me.CausesValidation = False
-        Me.ClientSize = New System.Drawing.Size(1024, 663)
+        Me.ClientSize = New System.Drawing.Size(1024, 682)
         Me.Controls.Add(Me.Panel2)
         Me.Controls.Add(Me.pnlButton)
         Me.Controls.Add(Me.pnlMain)
@@ -561,4 +588,6 @@ Partial Class frmPaySplitted
     Friend WithEvents lblMaster14 As System.Windows.Forms.Label
     Friend WithEvents lblMaster15 As System.Windows.Forms.Label
     Friend WithEvents lblAmount As System.Windows.Forms.Label
+    Friend WithEvents Label3 As Windows.Forms.Label
+    Friend WithEvents lblServiceCharge As Windows.Forms.Label
 End Class

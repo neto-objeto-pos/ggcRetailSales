@@ -91,6 +91,7 @@
 
 Imports ADODB
 Imports ggcAppDriver
+Imports System
 Imports System.Drawing
 
 Public Class PRN_Receipt
@@ -666,6 +667,25 @@ Public Class PRN_Receipt
 
         builder.Append(Chr(&H1D) & "V" & Chr(66) & Chr(0))
         RawPrint.SendStringToPrinter(Printer_Name, builder.ToString())
+        'Dim Printer_Name As String = "\\192.168.10.14\EPSON LX-310 ESC/P"
+        Dim cashier_printer As String = Environment.GetEnvironmentVariable("RMS_PRN_CS")
+        Dim cashier_printer1 As String = Environment.GetEnvironmentVariable("RMS_PRN_KN")
+        Dim cashier_printer2 As String = Environment.GetEnvironmentVariable("RMS_PRN_TK")
+        Dim cashier_printer3 As String = Environment.GetEnvironmentVariable("RMS_PRN_BR")
+        'Dim cashier_printer As String = "\\192.168.10.12\EPSON TM-U220 Receipt"
+
+        'Print the designation printer location...
+        RawPrint.SendStringToPrinter(cashier_printer, builder.ToString())
+        If cashier_printer1 <> "" Then
+            RawPrint.SendStringToPrinter(cashier_printer1, builder.ToString())
+        End If
+        If cashier_printer2 <> "" Then
+            RawPrint.SendStringToPrinter(cashier_printer2, builder.ToString())
+        End If
+        If cashier_printer3 <> "" Then
+            RawPrint.SendStringToPrinter(cashier_printer3, builder.ToString())
+        End If
+
 
         Return True
     End Function

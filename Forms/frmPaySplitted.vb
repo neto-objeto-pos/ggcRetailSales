@@ -104,6 +104,8 @@ endProc:
                 RadioButton2.Checked = True
             Else
                 RadioButton3.Checked = True
+
+                lblBill.Text = Format(poSplit.Master("nAmountxx"), "#,##0.00")
             End If
         End With
     End Sub
@@ -131,7 +133,10 @@ endProc:
                     .Item(0, lnCtr).Value = lnCtr + 1
                     .Item(1, lnCtr).Value = "SET " & lnCtr + 1
                     .Item(2, lnCtr).Value = Format(poSplit.Master("nAmountxx"), "#,##0.00")
-                    .Item(3, lnCtr).Value = Math.Round((poSplit.Master("nAmountxx") / poSplit.SalesTotal) * 100, 2) & "%"
+                    Dim lnVatSales = Math.Round(poSplit.SalesTotal / 1.12, 2)
+                    Dim lnServiceCharge = Math.Round(lnVatSales * 0.05, 2)
+                    Dim lntotaldue = Math.Round(poSplit.SalesTotal + lnServiceCharge, 2)
+                    .Item(3, lnCtr).Value = Math.Round(CDbl(poSplit.Master("nAmountxx") / lntotaldue * 100), 2) & "%"
 
                     Select Case poSplit.Master("cPaidxxxx")
                         Case 0
@@ -313,8 +318,8 @@ endProc:
             pnActiveRow = .CurrentCell.RowIndex
 
             poSplit.SetNo = pnActiveRow + 1
-
-            lblBill.Text = Format(poSplit.Master("nTranTotl"), "#,##0.00")
+            Debug.Print("trantotal = " & poSplit.Master("nTranTotl"))
+            lblBill.Text = IIf(poSplit.Master("nTranTotl") > 0, Format(poSplit.Master("nTranTotl"), "#,##0.00"), Format(poSplit.Master("nAmountxx"), "#,##0.00"))
             p_sTransNox = poSplit.Master("sTransNox") 'sReferNox 2018-03-01
 
             loadDetailSplitted()
@@ -446,8 +451,9 @@ endProc:
             Else
                 Dim lnCtr As Integer
                 .RowCount = IIf(poSplit.ItemCount = 0, 1, poSplit.ItemCount)
-                For lnCtr = 0 To poSplit.ItemCount - 1
+                For lnCtr = 0 To poSplit.GroupNo - 1
                     If poSplit.Detail(lnCtr, "nGrpQt" & Format(poSplit.SetNo, "000")) > 0 Then
+
                         '.RowCount = .RowCount + 1
                         .Item(0, lnCtr).Value = lnCtr + 1
                         .Item(1, lnCtr).Value = poSplit.Detail(lnCtr, "sBarcodex")
@@ -475,14 +481,46 @@ endProc:
     End Sub
 
     Private Sub showComputation()
-        lblMaster04.Text = FormatNumber(poSplit.Master("nTranTotl"), 2)
-        lblMaster13.Text = FormatNumber(poSplit.Master("nVATSales"), 2) 'vat sales
-        lblMaster14.Text = FormatNumber(poSplit.Master("nVATAmtxx"), 2) 'vat amount
-        lblMaster15.Text = FormatNumber(poSplit.Master("nNonVATxx"), 2) 'non vat
-        lblMaster17.Text = FormatNumber(poSplit.Master("nDiscount") + poSplit.Master("nVatDiscx") + poSplit.Master("nPWDDiscx"), 2)
-        lblAmount.Text = FormatNumber(CDbl(lblMaster04.Text) - CDbl(lblMaster17.Text), 2) 'amount due
-        lblAmount.Text = FormatNumber(IIf(poSplit.IsWithSCharge, poSplit.Master("nTranTotl") + (poSplit.Master("nVATSales") * (poSplit.SCharge / 100)), lblAmount.Text), 2)
+        If (poSplit.SplitType <> poSplit.xeSplitType.xeSplitByMenu) Then
+            lblMaster13.Text = FormatNumber(poSplit.Master("nVATSales"), 2) 'vat sales
+            lblMaster14.Text = FormatNumber(poSplit.Master("nVATAmtxx"), 2) 'vat amount
+            lblMaster15.Text = FormatNumber(poSplit.Master("nNonVATxx"), 2) 'non vat
+
+            lblMaster04.Text = FormatNumber(CDbl(lblMaster13.Text) + CDbl(lblMaster14.Text), 2)
+            lblMaster17.Text = FormatNumber(poSplit.Master("nDiscount") + poSplit.Master("nVatDiscx") + poSplit.Master("nPWDDiscx"), 2)
+            lblAmount.Text = FormatNumber(CDbl(poSplit.Master("nTranTotl")) - CDbl(lblMaster17.Text), 2) 'amount due
+            'lblAmount.Text = FormatNumber(poSplit.Master("nTranTotl"), 2)
+
+            lblServiceCharge.Text = FormatNumber(CDbl(poSplit.Master("nTranTotl")) - CDbl(lblMaster04.Text), 2)
+
+        Else
+            'PER DETAIL COMPUTATION ITO
+            Dim lnVatSales As Decimal
+            Dim lnVATAmtxx As Decimal
+            Dim lnNonVATxx As Decimal
+            Dim lnTranTotl As Decimal
+            Dim lnSCharge As Decimal
+            lnTranTotl = CDbl(poSplit.Master("nAmountxx"))
+            lnVatSales = Math.Round(lnTranTotl / 1.17, 2) 'get the vatable sales 
+            lnNonVATxx = Math.Round(lnVatSales / 1.12, 2)
+            lnSCharge = Math.Round(lnVatSales * 0.05, 2)
+            lnVATAmtxx = Math.Round(lnTranTotl - lnVatSales - lnSCharge, 2)
+
+            lblMaster13.Text = FormatNumber(lnVatSales, 2) 'vat sales
+            lblMaster14.Text = FormatNumber(lnVATAmtxx, 2) 'vat amount
+            lblMaster15.Text = FormatNumber(poSplit.Master("nNonVATxx"), 2) 'non vat
+
+            lblMaster04.Text = FormatNumber(CDbl(lblMaster13.Text) + CDbl(lblMaster14.Text), 2)
+            lblMaster17.Text = FormatNumber(poSplit.Master("nDiscount") + poSplit.Master("nVatDiscx") + poSplit.Master("nPWDDiscx"), 2)
+            lblAmount.Text = FormatNumber(CDbl(poSplit.Master("nAmountxx")) - CDbl(lblMaster17.Text), 2) 'amount due
+            'lblAmount.Text = FormatNumber(poSplit.Master("nTranTotl"), 2)
+
+            lblServiceCharge.Text = FormatNumber(lnSCharge, 2)
+
+        End If
+
     End Sub
+
 
     'Private Sub showComputationNew()
     '    ''jovan - 2020.10.15 revised presentation of discount in interface

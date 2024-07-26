@@ -82,6 +82,8 @@ Public Class SplitOrder
         End Set
     End Property
 
+
+
     Property SalesTotal() As Double
         Get
             Return p_nSalesTotl
@@ -90,6 +92,7 @@ Public Class SplitOrder
             p_nSalesTotl = Value
         End Set
     End Property
+
 
     Property SplitType As xeSplitType
         Get
@@ -143,6 +146,7 @@ Public Class SplitOrder
 
     Property SetNo As Integer
         Get
+
             Return p_nSetNumbr
         End Get
         Set(ByVal Value As Integer)
@@ -312,7 +316,7 @@ Public Class SplitOrder
                         If Left(Index, 6) = "ngrpqt" Then
                             For nCtr As Integer = 1 To p_nGroupNox
                                 If Index = "ngrpqt" & Format(nCtr, "000") Then
-                                    Index = (((nCtr - 1) * 3) + 3) + 27
+                                    Index = (((nCtr - 1) * 3) + 4) + 27
                                     Exit For
                                 Else
                                     If nCtr = p_nGroupNox Then
@@ -324,7 +328,7 @@ Public Class SplitOrder
                         ElseIf Left(Index, 6) = "ngrpam" Then
                             For nCtr As Integer = 1 To p_nGroupNox
                                 If Index = "ngrpam" & Format(nCtr, "000") Then
-                                    Index = (((nCtr - 1) * 3) + 4) + 27
+                                    Index = (((nCtr - 1) * 3) + 5) + 27
                                     Exit For
                                 Else
                                     If nCtr = p_nGroupNox Then
@@ -367,7 +371,7 @@ Public Class SplitOrder
                         If Left(Index, 6) = "ngrpqt" Then
                             For nCtr As Integer = 1 To p_nGroupNox
                                 If Index = "ngrpqt" & Format(nCtr, "000") Then
-                                    Index = (((nCtr - 1) * 3) + 3) + 27
+                                    Index = (((nCtr - 1) * 3) + 4) + 27
                                     Exit For
                                 Else
                                     If nCtr = p_nGroupNox Then
@@ -383,7 +387,7 @@ Public Class SplitOrder
                         ElseIf Left(Index, 6) = "ngrpam" Then
                             For nCtr As Integer = 1 To p_nGroupNox
                                 If Index = "ngrpam" & Format(nCtr, "000") Then
-                                    Index = (((nCtr - 1) * 3) + 4) + 27
+                                    Index = (((nCtr - 1) * 3) + 5) + 27
                                     Exit For
                                 Else
                                     If nCtr = p_nGroupNox Then
@@ -537,16 +541,20 @@ Public Class SplitOrder
             p_nSetNumbr = 1
             p_oDTTempxx = p_oDTOrder
             procDataTable(p_oDTTempxx)
-            createMasterTable()
+            'createMasterTable()
             With p_oDTMaster
                 For nCtr As Integer = 0 To loDT.Rows.Count - 1
                     .Rows.Add()
                     .Rows(nCtr)("sTransNox") = loDT.Rows(nCtr)("sTransNox")
                     .Rows(nCtr)("cPaymForm") = loDT.Rows(nCtr)("cPaymForm")
                     .Rows(nCtr)("sReferNox") = loDT.Rows(nCtr)("sReferNox")
+                    If (loDT.Rows(nCtr)("cSplitTyp") <> 2) Then
+                        .Rows(nCtr)("nAmountxx") = (IIf(IsWithSCharge, Math.Round(loDT.Rows(nCtr)("nAmountxx") / 1.17, 2), Math.Round(loDT.Rows(nCtr)("nAmountxx") / 1.12, 2)))
+                    Else
                     .Rows(nCtr)("nAmountxx") = loDT.Rows(nCtr)("nAmountxx")
-                    .Rows(nCtr)("cSplitTyp") = loDT.Rows(nCtr)("cSplitTyp")
-                    .Rows(nCtr)("cPaidxxxx") = loDT.Rows(nCtr)("xPaidxxxx")
+        End If
+        .Rows(nCtr)("cSplitTyp") = loDT.Rows(nCtr)("cSplitTyp")
+        .Rows(nCtr)("cPaidxxxx") = loDT.Rows(nCtr)("xPaidxxxx")
                     .Rows(nCtr)("nTranTotl") = loDT.Rows(nCtr)("nAmountxx")
                     .Rows(nCtr)("nDiscntbl") = 0.0
                     .Rows(nCtr)("nZeroRatd") = 0.0
@@ -797,14 +805,14 @@ Public Class SplitOrder
                         " AND b.sStockIDx = " & strParm(fsStockIDx) & _
                     " ORDER BY a.sTransNox"
         Else
-            lsSQL = "SELECT" & _
-                        "  b.nQuantity" & _
-                        ", b.sTransNox" & _
-                        ", b.nUnitPrce" & _
-                    " FROM Order_Split a" & _
-                        ", Order_Split_Detail b" & _
-                    " WHERE a.sTransNox = b.sTransNox" & _
-                        " AND a.sReferNox = " & strParm(p_sSourceNo) & _
+            lsSQL = "SELECT" &
+                        "  b.nQuantity" &
+                        ", b.sTransNox" &
+                        ", b.nUnitPrce" &
+                    " FROM Order_Split a" &
+                        ", Order_Split_Detail b" &
+                    " WHERE a.sTransNox = b.sTransNox" &
+                        " AND a.sReferNox = " & strParm(p_sSourceNo) &
                     " ORDER BY a.sTransNox"
         End If
         Debug.Print(lsSQL)
@@ -883,14 +891,31 @@ Public Class SplitOrder
                         If lbDelMas Then lbDelMas = False
                     Else
                         If p_oDTDetail.Rows(nCtr)("sTrans" & Format(nCol, "000")) <> "x" Then
-                            lsSQL = "DELETE FROM " & pxeDetailTble & _
-                                    " WHERE sTransNox = " & strParm(p_oDTDetail.Rows(nCtr)("sTrans" & Format(nCol, "000"))) & _
-                                        " AND nEntryNox = " & CDbl(p_oDTDetail.Rows(nCtr)("nEntryNox")) '"sGrpRw" & Format(nCol, "000")
+                            lsSQL = "DELETE FROM " & pxeDetailTble &
+                                    " WHERE sTransNox = " & strParm(p_oDTDetail.Rows(nCtr)("sTrans" & Format(nCol, "000")))
+                            '& " AND nEntryNox = " & CDbl(p_oDTDetail.Rows(nCtr)("nEntryNox") + 1) '"sGrpRw" & Format(nCol, "000")
 
                             Try
                                 lnRow = p_oAppDrvr.Execute(lsSQL, pxeDetailTble)
                                 If lnRow <= 0 Then
-                                    MsgBox("Unable to Save Transaction!!!" & vbCrLf & _
+                                    MsgBox("Unable to Save Transaction!!!" & vbCrLf &
+                                            "Please contact GGC SSG/SEG for assistance!!!", MsgBoxStyle.Critical, "WARNING")
+                                    Return False
+                                End If
+                            Catch ex As Exception
+                                Throw ex
+                            End Try
+
+
+                            If lbDelMas Then
+                                lsSQL = "DELETE FROM " & pxeMasterTble &
+                                        " WHERE sTransNox = " & strParm(p_oDTDetail.Rows(nCtr)("sTrans" & Format(nCol, "000")))
+                            End If
+
+                            Try
+                                lnRow = p_oAppDrvr.Execute(lsSQL, pxeMasterTble)
+                                If lnRow <= 0 Then
+                                    MsgBox("Unable to Save Transaction!!!" & vbCrLf &
                                             "Please contact GGC SSG/SEG for assistance!!!", MsgBoxStyle.Critical, "WARNING")
                                     Return False
                                 End If
@@ -902,13 +927,20 @@ Public Class SplitOrder
                 Next nCtr
 
                 If Not lbDelMas Then
-                    lsSQL = "INSERT INTO " & pxeMasterTble & " SET" & _
-                                "  sTransNox = " & strParm(lsTransNox(nCol - 1)) & _
-                                ", sReferNox = " & strParm(p_sSourceNo) & _
-                                ", nAmountxx = " & CDec(lnTotal) & _
-                                ", cSplitTyp = " & strParm(p_cSplitTyp) & _
-                            " ON DUPLICATE KEY UPDATE" & _
-                                "  nAmountxx = " & CDec(lnTotal) & _
+                    Dim lnVatSales As Decimal
+                    Dim lnServiceCharge As Decimal
+                    Dim lnAmountDue As Decimal
+                    lnVatSales = Math.Round(lnTotal / 1.12, 2)
+                    lnServiceCharge = Math.Round(lnVatSales * 0.05, 2)
+                    lnAmountDue = Math.Round(lnTotal + lnServiceCharge, 2)
+
+                    lsSQL = "INSERT INTO " & pxeMasterTble & " SET" &
+                                "  sTransNox = " & strParm(lsTransNox(nCol - 1)) &
+                                ", sReferNox = " & strParm(p_sSourceNo) &
+                                ", nAmountxx = " & CDec(lnAmountDue) &
+                                ", cSplitTyp = " & strParm(p_cSplitTyp) &
+                            " ON DUPLICATE KEY UPDATE" &
+                                "  nAmountxx = " & CDec(lnAmountDue) &
                                 ", cSplitTyp = " & strParm(p_cSplitTyp)
                 Else
                     lsSQL = "DELETE FROM " & pxeMasterTble & _
@@ -930,7 +962,6 @@ Public Class SplitOrder
             Next nCol
         End With
 
-        If Not cancelSODiscount() Then Return False
         If Not cancelSODiscount() Then Return False
 
         Return True
@@ -1139,6 +1170,7 @@ Public Class SplitOrder
 
         createDetailTable()
         With p_oDTDetail
+            lnSetNo = 0
             For lnCtr = 0 To oDT.Rows.Count - 1
                 If oDT.Rows(lnCtr)("cReversex") = "+" And
                     oDT.Rows(lnCtr)("cDetailxx") = "0" Then
@@ -1146,7 +1178,7 @@ Public Class SplitOrder
                     lnRow = .Rows.Count - 1
                     .Rows(lnRow)("nEntryNox") = oDT.Rows(lnCtr)("nEntryNox")
                     .Rows(lnRow)("sStockIDx") = oDT.Rows(lnCtr)("sStockIDx")
-                    .Rows(lnRow)("nUnitPrce") = (oDT(lnCtr).Item("nUnitPrce") * _
+                    .Rows(lnRow)("nUnitPrce") = (oDT(lnCtr).Item("nUnitPrce") *
                                                 (100 - oDT(lnCtr).Item("nDiscount")) / 100 -
                                                 oDT(lnCtr).Item("nAddDiscx"))
                     .Rows(lnRow)("nDiscount") = 0.0
@@ -1164,7 +1196,7 @@ Public Class SplitOrder
                     loDt = validateDetail(IIf(p_cSplitTyp = xeSplitType.xeSplitByMenu, oDT.Rows(lnCtr)("sStockIDx"), "") _
                                           , .Rows(lnRow)("nEntryNox")) 'lnCtr + 1
 
-                    lnSetNo = 0
+
                     For nCtr As Integer = 1 To p_nGroupNox
                         .Rows(lnRow)("nGrpQt" & Format(nCtr, "000")) = 0
                         .Rows(lnRow)("nGrpAm" & Format(nCtr, "000")) = 0.0#
@@ -1172,29 +1204,24 @@ Public Class SplitOrder
 
                         If loDt.Rows.Count > 0 Then
                             If p_cSplitTyp = xeSplitType.xeSplitByMenu Then
-                                lnSetNo = 0
                                 For lnItem = 0 To loDt.Rows.Count - 1
-                                    If loDt.Rows.Count >= nCtr Then
-                                        'If lsTransNox <> loDt.Rows(lnSetNo)("sTransNox") Then
-                                        '    lsTransNox = loDt.Rows(lnSetNo)("sTransNox")
-                                        '    lnSetNo += 1
-                                        'End If
+                                    'If loDt.Rows.Count >= nCtr Then
+                                    'If lsTransNox <> loDt.Rows(lnSetNo)("sTransNox") Then
+                                    '    lsTransNox = loDt.Rows(lnSetNo)("sTransNox")
+                                    '    lnSetNo += 1
+                                    'End If
 
-                                        'If lnSetNo = nCtr Then
-                                        '    .Rows(lnRow)("nGrpQt" & Format(lnSetNo, "000")) = loDt.Rows(lnSetNo - 1)("nQuantity")
-                                        '    .Rows(lnRow)("nGrpAm" & Format(lnSetNo, "000")) = loDt.Rows(lnSetNo - 1)("nUnitPrce")
-                                        '    .Rows(lnRow)("sTrans" & Format(lnSetNo, "000")) = loDt.Rows(lnSetNo - 1)("sTransNox")
-                                        'End If
-                                    End If
+                                    'If lnSetNo = nCtr Then
+                                    '    .Rows(lnRow)("nGrpQt" & Format(lnSetNo, "000")) = loDt.Rows(lnSetNo - 1)("nQuantity")
+                                    '    .Rows(lnRow)("nGrpAm" & Format(lnSetNo, "000")) = loDt.Rows(lnSetNo - 1)("nUnitPrce")
+                                    '    .Rows(lnRow)("sTrans" & Format(lnSetNo, "000")) = loDt.Rows(lnSetNo - 1)("sTransNox")
+                                    'End If
+                                    'End If
 
-                                    If lsTransNox <> loDt.Rows(lnSetNo)("sTransNox") Then
-                                        lsTransNox = loDt.Rows(lnSetNo)("sTransNox")
+                                    If lsTransNox <> loDt.Rows(lnItem)("sTransNox") Then
+                                        lsTransNox = loDt.Rows(lnItem)("sTransNox")
                                         lnSetNo += 1
                                     End If
-
-                                    .Rows(lnRow)("nGrpQt" & Format(lnSetNo, "000")) = loDt.Rows(lnSetNo - 1)("nQuantity")
-                                    .Rows(lnRow)("nGrpAm" & Format(lnSetNo, "000")) = loDt.Rows(lnSetNo - 1)("nUnitPrce")
-                                    .Rows(lnRow)("sTrans" & Format(lnSetNo, "000")) = loDt.Rows(lnSetNo - 1)("sTransNox")
                                 Next lnItem
                             Else
                                 .Rows(lnRow)("nGrpQt" & Format(nCtr, "000")) = loDt.Rows(nCtr - 1)("nQuantity")
@@ -1246,6 +1273,9 @@ Public Class SplitOrder
         loDetail = p_oDTDetail.Clone
         For nCtr As Integer = 0 To p_oDTDetail.Rows.Count - 1
             If p_cSplitTyp = xeSplitType.xeSplitByMenu Then
+
+                Debug.Print(p_oDTDetail.Rows(nCtr)("nGrpQt" & Format(p_nSetNumbr, "000")))
+
                 If p_oDTDetail.Rows(nCtr)("nGrpQt" & Format(p_nSetNumbr, "000")) > 0 Then
                     loDetail.Rows.Add()
                     lnRow = loDetail.Rows.Count - 1
@@ -1299,7 +1329,7 @@ Public Class SplitOrder
             loDetailTemp = loDetail.Clone
             With loDetailTemp
                 .Rows.Add()
-                .Rows(0)("nUnitPrce") = p_oDTDetail.Rows(0)("nGrpAm" & Format(p_nSetNumbr, "000"))
+                .Rows(0)("nUnitPrce") = 0.0
                 .Rows(0)("nQuantity") = 1
                 .Rows(0)("nAddDiscx") = 0.0
                 .Rows(0)("nDiscount") = 0.0
@@ -1318,15 +1348,60 @@ Public Class SplitOrder
         p_oDTMaster.Rows(p_nSetNumbr - 1)("nTranTotl") = loMaster.Rows(0)("nTranTotl")
         p_oDTMaster.Rows(p_nSetNumbr - 1)("nVATSales") = loMaster.Rows(0)("nVATSales")
         p_oDTMaster.Rows(p_nSetNumbr - 1)("nVATAmtxx") = loMaster.Rows(0)("nVATAmtxx")
-
+        Dim lnVatSale As Decimal
+        Dim lnServiceCharge As Decimal = 0
         If p_cSplitTyp <> xeSplitType.xeSplitByMenu Then
             p_oDTMaster.Rows(p_nSetNumbr - 1)("nDiscount") = Math.Round((((p_oDTMaster.Rows(p_nSetNumbr - 1)("nTranTotl") / p_nSalesTotl) * 100) / 100) * IFNull(loMaster.Rows(0)("nDiscount"), 0), 2)
-            p_oDTMaster.Rows(p_nSetNumbr - 1)("nNonVATxx") = Math.Round(loMaster.Rows(0)("nNonVATxx"), 2)
+
             p_oDTMaster.Rows(p_nSetNumbr - 1)("nTranTotl") = Math.Round(p_oDTDetail.Rows(0)("nGrpAm" & Format(p_nSetNumbr, "000")), 2)
-            Dim lnVatSale As Decimal = Math.Round(p_oDTMaster.Rows(p_nSetNumbr - 1)("nTranTotl") - p_oDTMaster.Rows(p_nSetNumbr - 1)("nNonVATxx"), 2)
-            p_oDTMaster.Rows(p_nSetNumbr - 1)("nVATSales") = Math.Round(lnVatSale / 1.12, 2)
-            p_oDTMaster.Rows(p_nSetNumbr - 1)("nVATAmtxx") = Math.Round(lnVatSale - p_oDTMaster.Rows(p_nSetNumbr - 1)("nVATSales"), 2)
+            Debug.Print("total = " & p_oDTMaster.Rows(p_nSetNumbr - 1)("nTranTotl") & " group = " & p_oDTDetail.Rows(0)("nGrpAm" & Format(p_nSetNumbr, "000")), 2)
+
+            If (p_bSChargexx) Then
+                lnVatSale = Math.Round(p_oDTMaster.Rows(p_nSetNumbr - 1)("nTranTotl") / 1.17, 2)
+                lnServiceCharge = Math.Round(lnVatSale * 0.05, 2)
+                p_nSChargexx = lnServiceCharge
+            Else
+                lnVatSale = Math.Round(p_oDTMaster.Rows(p_nSetNumbr - 1)("nTranTotl") / 1.12, 2)
+            End If
+
+            Dim lnVatAmt As Decimal = Math.Round(p_oDTMaster.Rows(p_nSetNumbr - 1)("nTranTotl") - lnVatSale - lnServiceCharge, 2)
+            'p_oDTMaster.Rows(p_nSetNumbr - 1)("nAmountxx") = Math.Round(lnVatSale + lnVatAmt)
+            Dim lnSalesAmount As Decimal
+            'Dim lnVatSale As Decimal = Math.Round(p_oDTMaster.Rows(p_nSetNumbr - 1)("nTranTotl") - p_oDTMaster.Rows(p_nSetNumbr - 1)("nNonVATxx"), 2)
+            Debug.Print("vatofsale = " & lnVatSale)
+            p_oDTMaster.Rows(p_nSetNumbr - 1)("nNonVATxx") = Math.Round(loMaster.Rows(0)("nNonVATxx"), 2)
+            p_oDTMaster.Rows(p_nSetNumbr - 1)("nVATSales") = Math.Round(lnVatSale, 2)
+            p_oDTMaster.Rows(p_nSetNumbr - 1)("nVATAmtxx") = Math.Round(lnVatAmt, 2)
+
+            'Else
+            '    lnVatSale = Math.Round(p_oDTMaster.Rows(p_nSetNumbr - 1)("nTranTotl") / 1.12, 2)
+            '    lnServiceCharge = Math.Round(lnVatSale * 0.05, 2)
+            '    p_nSChargexx = lnServiceCharge
+            '    p_oDTMaster.Rows(p_nSetNumbr - 1)("nDiscount") = Math.Round((((p_oDTMaster.Rows(p_nSetNumbr - 1)("nTranTotl") / p_nSalesTotl) * 100) / 100) * IFNull(loMaster.Rows(0)("nDiscount"), 0), 2)
+
+            '    Debug.Print("total = " & p_oDTMaster.Rows(p_nSetNumbr - 1)("nTranTotl") & " group = " & p_oDTDetail.Rows(0)("nGrpAm" & Format(p_nSetNumbr, "000")), 2)
+            '    Dim lnVatSale As Decimal
+            '    Dim lnServiceCharge As Decimal = 0
+            '    If (p_bSChargexx) Then
+            '        lnVatSale = Math.Round(p_oDTMaster.Rows(p_nSetNumbr - 1)("nTranTotl") / 1.12, 2)
+            '        lnServiceCharge = Math.Round(lnVatSale * 0.05, 2)
+            '        p_nSChargexx = lnServiceCharge
+            '    Else
+            '        lnVatSale = Math.Round(p_oDTMaster.Rows(p_nSetNumbr - 1)("nTranTotl") / 1.12, 2)
+            '    End If
+
+            '    Dim lnVatAmt As Decimal = Math.Round(p_oDTMaster.Rows(p_nSetNumbr - 1)("nTranTotl") - lnVatSale - lnServiceCharge, 2)
+            '    'p_oDTMaster.Rows(p_nSetNumbr - 1)("nAmountxx") = Math.Round(lnVatSale + lnVatAmt)
+            '    Dim lnSalesAmount As Decimal
+            '    'Dim lnVatSale As Decimal = Math.Round(p_oDTMaster.Rows(p_nSetNumbr - 1)("nTranTotl") - p_oDTMaster.Rows(p_nSetNumbr - 1)("nNonVATxx"), 2)
+            '    Debug.Print("vatofsale = " & lnVatSale)
+            '    p_oDTMaster.Rows(p_nSetNumbr - 1)("nNonVATxx") = Math.Round(loMaster.Rows(0)("nNonVATxx"), 2)
+            '    p_oDTMaster.Rows(p_nSetNumbr - 1)("nVATSales") = Math.Round(lnVatSale, 2)
+            '    p_oDTMaster.Rows(p_nSetNumbr - 1)("nVATAmtxx") = Math.Round(lnVatAmt, 2)
+
         End If
+
+
     End Sub
 #End Region
 

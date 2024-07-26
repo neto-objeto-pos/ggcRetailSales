@@ -1,14 +1,21 @@
 ﻿Imports System.Threading
 Imports System.Drawing
 Imports System.Windows.Forms
+Imports ggcAppDriver
 
 Public Class frmManageTable
     Private WithEvents poTable As TableMaster
     Private pnLoadx As Integer
     Private poControl As Control
 
-    Private p_bCancelled As Boolean
+    Private p_oApp As GRider
 
+    Private p_bCancelled As Boolean
+    WriteOnly Property AppDriver()
+        Set(ByVal value)
+            p_oApp = value
+        End Set
+    End Property
     WriteOnly Property TableMaster() As TableMaster
         Set(ByVal oTableMaster As TableMaster)
             poTable = oTableMaster
@@ -20,6 +27,8 @@ Public Class frmManageTable
             Return p_bCancelled
         End Get
     End Property
+
+
 
     Private Sub Form_Keydown(sender As Object, e As System.Windows.Forms.KeyEventArgs) Handles Me.KeyDown
         Select Case e.KeyCode
@@ -40,6 +49,11 @@ Public Class frmManageTable
         If pnLoadx = 0 Then
 
             clearFields()
+            If (p_oApp.BranchCode = "P013") Then
+                chk00.Visible = False
+                RDOButton02.Visible = False
+
+            End If
 
             Call grpEventHandler(Me, GetType(Button), "cmdButton", "Click", AddressOf cmdButton_Click)
             Call grpEventHandler(Me, GetType(RadioButton), "RDOButton", "Click", AddressOf RDOButton_Click)

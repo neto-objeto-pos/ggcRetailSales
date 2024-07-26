@@ -118,24 +118,32 @@ Public Class frmSelectTable
                 MsgBox("Application Driver Not Set!!!", vbCritical, "Warning")
                 Me.Close()
             End If
+            If (p_oApp.BranchCode = "P013") Then
+                chk00.Visible = False
+                RDOButton02.Visible = False
+                txtField01.Visible = False
+                Label3.Visible = False
 
-            txtField00.Text = p_sTableNo
-            chk00.CheckState = IIf(p_bSChargex, CheckState.Checked, CheckState.Unchecked)
-
-            If p_sWaiterID <> "" Then
-                Dim loDT As DataTable
-                Dim lsSQL As String
-
-                lsSQL = "SELECT sClientID, sCompnyNm FROM Client_Master WHERE sClientID = " & strParm(p_sWaiterID)
-                loDT = p_oApp.ExecuteQuery(lsSQL)
-                If loDT.Rows.Count <> 0 Then
-                    txtField01.Text = loDT(0)("sCompnyNm")
-                    txtField01.Tag = loDT(0)("sClientID")
-                End If
             End If
 
-            pnLoadx = 1
-        End If
+
+            txtField00.Text = p_sTableNo
+                chk00.CheckState = IIf(p_bSChargex, CheckState.Checked, CheckState.Unchecked)
+
+                If p_sWaiterID <> "" Then
+                    Dim loDT As DataTable
+                    Dim lsSQL As String
+
+                    lsSQL = "SELECT sClientID, sCompnyNm FROM Client_Master WHERE sClientID = " & strParm(p_sWaiterID)
+                    loDT = p_oApp.ExecuteQuery(lsSQL)
+                    If loDT.Rows.Count <> 0 Then
+                        txtField01.Text = loDT(0)("sCompnyNm")
+                        txtField01.Tag = loDT(0)("sClientID")
+                    End If
+                End If
+
+                pnLoadx = 1
+            End If
     End Sub
 
     Private Sub frmPay_Shown(sender As Object, e As System.EventArgs) Handles Me.Shown
@@ -280,12 +288,14 @@ endProc:
             MsgBox("Please input valid table no!", vbInformation + vbCritical, "Warning")
             txtField00.Focus()
             Return False
-        ElseIf txtField01.Text = "" Then
-            MsgBox("Please input waiter!", vbInformation + vbCritical, "Warning")
-            txtField01.Focus()
-            Return False
+        ElseIf Not p_oApp.BranchCode = "P013" Then
+            If txtField01.Text = "" Then
+                MsgBox("Please input waiter!", vbInformation + vbCritical, "Warning")
+                txtField01.Focus()
+                Return False
+            End If
         ElseIf txtField02.Text = "" Or txtField02.Text <= CInt(0) Then
-            MsgBox("Please input occupants!", vbInformation + vbCritical, "Warning")
+                MsgBox("Please input occupants!", vbInformation + vbCritical, "Warning")
             txtField02.Focus()
             Return False
         End If
@@ -374,4 +384,6 @@ endProc:
             txtField02.Enabled = Not lbShow
         End If
     End Sub
+
+
 End Class

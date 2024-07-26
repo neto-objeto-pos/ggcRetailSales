@@ -154,10 +154,7 @@ endProc:
 
         If Mid(loTxt.Name, 1, 8) = "txtField" Then
             Select Case loIndex
-                Case 0
-                    poCharge.Master("sClientNm") = loTxt.Text
-                Case 1
-                    poCharge.Master("xAddressx") = loTxt.Text
+
             End Select
         End If
 

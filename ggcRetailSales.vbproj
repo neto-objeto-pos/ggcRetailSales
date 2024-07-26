@@ -54,6 +54,18 @@
       <EmbedInteropTypes>True</EmbedInteropTypes>
       <HintPath>..\..\..\..\..\GGC_Systems\vb.net\RetMgtSys\adodb.dll</HintPath>
     </Reference>
+    <Reference Include="AForge, Version=2.2.5.0, Culture=neutral, PublicKeyToken=c1db6ff4eaa06aeb, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\GGC_Systems\vb.net\RetMgtSys\AForge.dll</HintPath>
+    </Reference>
+    <Reference Include="AForge.Video, Version=2.2.5.0, Culture=neutral, PublicKeyToken=cbfb6e07d173c401, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\GGC_Systems\vb.net\RetMgtSys\AForge.Video.dll</HintPath>
+    </Reference>
+    <Reference Include="AForge.Video.DirectShow, Version=2.2.5.0, Culture=neutral, PublicKeyToken=61ea4348d43881b7, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\GGC_Systems\vb.net\RetMgtSys\AForge.Video.DirectShow.dll</HintPath>
+    </Reference>
     <Reference Include="MySql.Data, Version=6.7.4.0, Culture=neutral, PublicKeyToken=c5687fc88969c44d, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\..\..\GGC_Systems\vb.net\RetMgtSys\MySql.Data.dll</HintPath>
@@ -70,6 +82,14 @@
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="zxing, Version=0.16.9.0, Culture=neutral, PublicKeyToken=4e88037ac681fe60, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\GGC_Systems\vb.net\RetMgtSys\zxing.dll</HintPath>
+    </Reference>
+    <Reference Include="zxing.presentation, Version=0.16.9.0, Culture=neutral, PublicKeyToken=4e88037ac681fe60, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\GGC_Systems\vb.net\RetMgtSys\zxing.presentation.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Import Include="Microsoft.VisualBasic" />
@@ -84,16 +104,29 @@
   <ItemGroup>
     <Compile Include="CashPullout.vb" />
     <Compile Include="ChargeInvoiceCollection.vb" />
+    <Compile Include="ChargeInvoiceMeal.vb" />
     <Compile Include="Forms\frmManageTable.designer.vb">
       <DependentUpon>frmManageTable.vb</DependentUpon>
     </Compile>
     <Compile Include="Forms\frmManageTable.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Forms\frmQRResult.Designer.vb">
+      <DependentUpon>frmQRResult.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\frmQRResult.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Forms\frmSelectTable.designer.vb">
       <DependentUpon>frmSelectTable.vb</DependentUpon>
     </Compile>
     <Compile Include="Forms\frmSelectTable.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\frmQRCode.Designer.vb">
+      <DependentUpon>frmQRCode.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\frmQRCode.vb">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Forms\frmTables.Designer.vb">
@@ -233,8 +266,14 @@
     <EmbeddedResource Include="Forms\frmManageTable.resx">
       <DependentUpon>frmManageTable.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Forms\frmQRResult.resx">
+      <DependentUpon>frmQRResult.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Forms\frmSelectTable.resx">
       <DependentUpon>frmSelectTable.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\frmQRCode.resx">
+      <DependentUpon>frmQRCode.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\frmTables.resx">
       <DependentUpon>frmTables.vb</DependentUpon>
@@ -309,6 +348,7 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <None Include="packages.config" />
     <None Include="Resources\abstract_dark_wood_textures_backgrounds_1280x720.jpg" />
   </ItemGroup>
   <ItemGroup>
