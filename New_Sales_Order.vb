@@ -6637,4 +6637,90 @@ Public Class New_Sales_Order
     Protected Overrides Sub Finalize()
         MyBase.Finalize()
     End Sub
+
+    Public Sub getPriceUpdateToday(Optional ByVal fbCheckPrice = False)
+        Dim loDT As New DataTable
+        Dim lsSQL As String
+        Dim lnCount As Integer
+        Dim lnRow As Integer
+
+        If Not fbCheckPrice Then
+            lsSQL = AddCondition(getSQ_Inventory, " dPricexxx = " & dateParm(p_oApp.getSysDate) & " AND dModified < " & dateParm(p_oApp.getSysDate) & " ORDER BY dModified DESC ")
+        Else
+            lsSQL = AddCondition(getSQ_Inventory, " dPricexxx < " & dateParm(p_oApp.getSysDate) & " AND dModified < " & dateParm(p_oApp.getSysDate) & " ORDER BY dModified DESC ")
+        End If
+
+        loDT = p_oApp.ExecuteQuery(lsSQL)
+        lnCount = loDT.Rows.Count
+        If loDT.Rows.Count <= 0 Then
+            Exit Sub
+        End If
+
+        Dim loHsUpdate As Boolean
+
+        For x As Integer = x To lnCount
+            Dim loHistoryData As New DataTable
+            lsSQL = ""
+            lsSQL = AddCondition(getSQ_HistoryPrice, " dPricexxx = " & dateParm(loDT(x).Item("dPricexxx")) & " AND sStockIDx = " & strParm(loDT(x).Item("sStockIDx")) & " GROUP BY sStockIDx ORDER BY dModified DESC LIMIT 1 ")
+            loHistoryData = p_oApp.ExecuteQuery(lsSQL)
+
+            If loHistoryData.Rows.Count <= 0 Then
+                Exit For
+            End If
+
+            loHsUpdate = loDT(x).Item("nUnitPrce") <> loHistoryData(0).Item("nPurPrice") Or
+                loDT(x).Item("nSelPrice") <> loHistoryData(0).Item("nSelPrice") Or
+                loDT(x).Item("sCategrID") <> loHistoryData(0).Item("sCategrID") Or
+                loDT(x).Item("cRecdStat") <> loHistoryData(0).Item("cRecdStat")
+            lsSQL = ""
+            If loHsUpdate Then
+
+                lsSQL = "UPDATE Inventory SET" &
+                            " nUnitPrce = " & strParm(loHistoryData(0).Item("nPurPrice")) &
+                            ", nSelPrice = " & strParm(loHistoryData(0).Item("nSelPrice")) &
+                            ", sCategrID = " & strParm(loHistoryData(0).Item("sCategrID")) &
+                            ", cRecdStat = " & strParm(loHistoryData(0).Item("cRecdStat")) &
+                            ", sModified = " & strParm(loHistoryData(0).Item("sModified")) &
+                            ", dModified = " & datetimeParm(p_oApp.getSysDate) &
+                            " WHERE sStockIDx = " & strParm(loHistoryData(0).Item("sStockIDx"))
+
+                If lsSQL <> "" Then
+                    Try
+                        lnRow = p_oApp.Execute(lsSQL, "Inventory")
+                        If lnRow <= 0 Then
+
+                            Exit For
+                        End If
+                    Catch ex As Exception
+                        Throw ex
+                    End Try
+                End If
+            Else
+                Exit For
+            End If
+
+        Next
+
+    End Sub
+
+    Private Function getSQ_HistoryPrice() As String
+        Return "SELECT sStockIDx" &
+                    ", dPricexxx" &
+                    ", nPurPrice" &
+                    ", nSelPrice" &
+                    ", sCategrID" &
+                    ", cRecdStat" &
+                    ", sModified" &
+              " FROM Price_History "
+    End Function
+
+    Private Function getSQ_Inventory() As String
+        Return "SELECT sStockIDx" &
+                    ", dPricexxx" &
+                    ", nUnitPrce" &
+                    ", nSelPrice" &
+                    ", sCategrID" &
+                    ", cRecdStat" &
+              " FROM Inventory "
+    End Function
 End Class

@@ -52,19 +52,7 @@
     <Reference Include="adodb, Version=7.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
       <SpecificVersion>False</SpecificVersion>
       <EmbedInteropTypes>True</EmbedInteropTypes>
-      <HintPath>..\..\..\..\..\GGC_Systems\vb.net\RetMgtSys\adodb.dll</HintPath>
-    </Reference>
-    <Reference Include="AForge, Version=2.2.5.0, Culture=neutral, PublicKeyToken=c1db6ff4eaa06aeb, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\..\GGC_Systems\vb.net\RetMgtSys\AForge.dll</HintPath>
-    </Reference>
-    <Reference Include="AForge.Video, Version=2.2.5.0, Culture=neutral, PublicKeyToken=cbfb6e07d173c401, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\..\GGC_Systems\vb.net\RetMgtSys\AForge.Video.dll</HintPath>
-    </Reference>
-    <Reference Include="AForge.Video.DirectShow, Version=2.2.5.0, Culture=neutral, PublicKeyToken=61ea4348d43881b7, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\..\GGC_Systems\vb.net\RetMgtSys\AForge.Video.DirectShow.dll</HintPath>
+      <HintPath>..\..\..\..\..\..\GGC_Systems\vb.net\RetMgtSys\adodb.dll</HintPath>
     </Reference>
     <Reference Include="MySql.Data, Version=6.7.4.0, Culture=neutral, PublicKeyToken=c5687fc88969c44d, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -121,12 +109,6 @@
       <DependentUpon>frmSelectTable.vb</DependentUpon>
     </Compile>
     <Compile Include="Forms\frmSelectTable.vb">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Forms\frmQRCode.Designer.vb">
-      <DependentUpon>frmQRCode.vb</DependentUpon>
-    </Compile>
-    <Compile Include="Forms\frmQRCode.vb">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Forms\frmTables.Designer.vb">
@@ -271,9 +253,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\frmSelectTable.resx">
       <DependentUpon>frmSelectTable.vb</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Forms\frmQRCode.resx">
-      <DependentUpon>frmQRCode.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\frmTables.resx">
       <DependentUpon>frmTables.vb</DependentUpon>
