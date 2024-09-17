@@ -320,7 +320,10 @@ Public Class ChargeInvoiceCollection
             Return False
         End If
 
-        p_oDTMaster(0).Item("sTransNox") = getNextTransNo()
+        'kalyptus - 2024.09.17 11:17am
+        'Include terminal number in the sTransNox
+        'p_oDTMaster(0).Item("sTransNox") = getNextTransNo()
+        p_oDTMaster(0).Item("sTransNox") = GetNextCode(pxeMasTable, "sTransNox", True, p_oApp.Connection, True, p_sBranchCd + p_oApp.POSTerminal)
 
         p_oApp.BeginTransaction()
 
@@ -454,7 +457,9 @@ Public Class ChargeInvoiceCollection
 
     Private Function initMaster() As Boolean
         p_oDTMaster.Rows.Add()
-        p_oDTMaster(0).Item("sTransNox") = getNextTransNo()
+        'Include terminal number in the sTransNox
+        'p_oDTMaster(0).Item("sTransNox") = getNextTransNo()
+        p_oDTMaster(0).Item("sTransNox") = GetNextCode(pxeMasTable, "sTransNox", True, p_oApp.Connection, True, p_sBranchCd + p_oApp.POSTerminal)
         p_oDTMaster(0).Item("dTransact") = p_oApp.getSysDate
         p_oDTMaster(0).Item("sClientID") = ""
         p_oDTMaster(0).Item("sClientNm") = ""

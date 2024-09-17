@@ -389,7 +389,9 @@ Public Class CashPullout
     End Function
 
     Private Sub initMaster()
-        p_oDTMaster(0).Item("sTransNox") = GetNextCode(p_sMasTable, "sTransNox", True, p_oApp.Connection, True, p_oApp.BranchCode)
+        'kalyptus - 2024.09.17 11:13am
+        'Add terminal number on the sTransNox
+        p_oDTMaster(0).Item("sTransNox") = GetNextCode(p_sMasTable, "sTransNox", True, p_oApp.Connection, True, p_oApp.BranchCode + p_oApp.POSTerminal)
         p_oDTMaster(0).Item("sCRMNumbr") = p_sPOSNo
         p_oDTMaster(0).Item("sCashierx") = p_sCashierx
         p_oDTMaster(0).Item("dTransact") = p_oApp.getSysDate

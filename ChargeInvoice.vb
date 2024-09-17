@@ -654,7 +654,10 @@ Public Class ChargeInvoice
         For lnCtr = 0 To p_oDTMstr.Columns.Count - 1
             Select Case LCase(p_oDTMstr.Columns(lnCtr).ColumnName)
                 Case "stransnox"
-                    p_oDTMstr(0).Item(lnCtr) = getNextTransNo()
+                    'kalyptus - 2024.09.17 11:14am
+                    'Include terminal number in the sTransNox
+                    'p_oDTMstr(0).Item(lnCtr) = getNextTransNo()
+                    p_oDTMstr(0).Item(lnCtr) = GetNextCode(pxeMasterTble, "sTransNox", True, p_oApp.Connection, True, p_sBranchCd + p_oApp.POSTerminal)
                 Case "dmodified", "smodified", "dbilledxx", "dpaidxxxx", "dwaivexxx"
                 Case "crecdstat", "cbilledxx", "cpaidxxxx", "cwaivexxx"
                     p_oDTMstr(0).Item(lnCtr) = "0"

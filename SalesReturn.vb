@@ -1015,7 +1015,10 @@ errProc:
     Private Sub initMaster()
         With p_oDTMaster
             .Rows.Add()
-            .Rows(0)("sTransNox") = getNextTransNo()
+            'kalyptus - 2024.09.17 11:34am
+            'Include terminal number in the sTransNox
+            '.Rows(0)("sTransNox") = getNextTransNo()
+            .Rows(0)("sTransNox") = GetNextCode(pxeMasterTble, "sTransNox", True, p_oAppDrvr.Connection, True, p_sBranchCd + p_oAppDrvr.POSTerminal)
             .Rows(0)("dTransact") = p_oAppDrvr.SysDate
             .Rows(0)("sRemarksx") = ""
             .Rows(0)("sSourceNo") = ""
