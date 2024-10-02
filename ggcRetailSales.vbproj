@@ -56,11 +56,11 @@
     </Reference>
     <Reference Include="MySql.Data, Version=6.7.4.0, Culture=neutral, PublicKeyToken=c5687fc88969c44d, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\..\GGC_Systems\vb.net\RetMgtSys\MySql.Data.dll</HintPath>
+      <HintPath>C:\GGC_Systems\vb.net\RetMgtSys\MySql.Data.dll</HintPath>
     </Reference>
     <Reference Include="MySql.Data.Entity, Version=6.7.4.0, Culture=neutral, PublicKeyToken=c5687fc88969c44d, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\..\GGC_Systems\vb.net\RetMgtSys\MySql.Data.Entity.dll</HintPath>
+      <HintPath>C:\GGC_Systems\vb.net\RetMgtSys\MySql.Data.Entity.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
@@ -395,7 +395,7 @@
       <Name>ggcPayment</Name>
     </ProjectReference>
     <ProjectReference Include="..\ggcRetailParams\ggcRetailParams.vbproj">
-      <Project>{4883F473-C0B0-4266-A9AC-8E4BCA3C4CB7}</Project>
+      <Project>{4883f473-c0b0-4266-a9ac-8e4bca3c4cb7}</Project>
       <Name>ggcRetailParams</Name>
     </ProjectReference>
   </ItemGroup>
