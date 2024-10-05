@@ -323,3 +323,69 @@ C:\Users\Maynard\Documents\GitHub\ggcRetailSales\obj\Debug\ggcRetailSales.vbproj
 C:\Users\Maynard\Documents\GitHub\ggcRetailSales\obj\Debug\ggcRetailSales.dll
 C:\Users\Maynard\Documents\GitHub\ggcRetailSales\obj\Debug\ggcRetailSales.xml
 C:\Users\Maynard\Documents\GitHub\ggcRetailSales\obj\Debug\ggcRetailSales.pdb
+D:\GGC_Systems\vb.net\RetMgtSys\WinSCP.exe
+D:\GGC_Systems\vb.net\RetMgtSys\ggcRetailSales.dll
+D:\GGC_Systems\vb.net\RetMgtSys\ggcRetailSales.pdb
+D:\GGC_Systems\vb.net\RetMgtSys\ggcRetailSales.xml
+D:\000MNVProject\Los Pedritos Cafeteria IntegSys - VB.net\ggcRetailSales\obj\Debug\ggcRetailSales.vbproj.AssemblyReference.cache
+D:\000MNVProject\Los Pedritos Cafeteria IntegSys - VB.net\ggcRetailSales\obj\Debug\ggcRetailSales.frmManageTable.resources
+D:\000MNVProject\Los Pedritos Cafeteria IntegSys - VB.net\ggcRetailSales\obj\Debug\ggcRetailSales.frmQRResult.resources
+D:\000MNVProject\Los Pedritos Cafeteria IntegSys - VB.net\ggcRetailSales\obj\Debug\ggcRetailSales.frmSelectTable.resources
+D:\000MNVProject\Los Pedritos Cafeteria IntegSys - VB.net\ggcRetailSales\obj\Debug\ggcRetailSales.frmTables.resources
+D:\000MNVProject\Los Pedritos Cafeteria IntegSys - VB.net\ggcRetailSales\obj\Debug\ggcRetailSales.frmDiscountMerger.resources
+D:\000MNVProject\Los Pedritos Cafeteria IntegSys - VB.net\ggcRetailSales\obj\Debug\ggcRetailSales.frmPayMergeDiscount.resources
+D:\000MNVProject\Los Pedritos Cafeteria IntegSys - VB.net\ggcRetailSales\obj\Debug\ggcRetailSales.Form1.resources
+D:\000MNVProject\Los Pedritos Cafeteria IntegSys - VB.net\ggcRetailSales\obj\Debug\ggcRetailSales.Form2.resources
+D:\000MNVProject\Los Pedritos Cafeteria IntegSys - VB.net\ggcRetailSales\obj\Debug\ggcRetailSales.frmChargeInvoiceCollection.resources
+D:\000MNVProject\Los Pedritos Cafeteria IntegSys - VB.net\ggcRetailSales\obj\Debug\ggcRetailSales.frmSalesReturn.resources
+D:\000MNVProject\Los Pedritos Cafeteria IntegSys - VB.net\ggcRetailSales\obj\Debug\ggcRetailSales.frmOrderSplit.resources
+D:\000MNVProject\Los Pedritos Cafeteria IntegSys - VB.net\ggcRetailSales\obj\Debug\ggcRetailSales.frmPaySplitted.resources
+D:\000MNVProject\Los Pedritos Cafeteria IntegSys - VB.net\ggcRetailSales\obj\Debug\ggcRetailSales.frmComplementary.resources
+D:\000MNVProject\Los Pedritos Cafeteria IntegSys - VB.net\ggcRetailSales\obj\Debug\ggcRetailSales.frmDiscount.resources
+D:\000MNVProject\Los Pedritos Cafeteria IntegSys - VB.net\ggcRetailSales\obj\Debug\ggcRetailSales.frmChangePrice.resources
+D:\000MNVProject\Los Pedritos Cafeteria IntegSys - VB.net\ggcRetailSales\obj\Debug\ggcRetailSales.frmChangeQty.resources
+D:\000MNVProject\Los Pedritos Cafeteria IntegSys - VB.net\ggcRetailSales\obj\Debug\ggcRetailSales.frmMergeOrder.resources
+D:\000MNVProject\Los Pedritos Cafeteria IntegSys - VB.net\ggcRetailSales\obj\Debug\ggcRetailSales.frmCashPullout.resources
+D:\000MNVProject\Los Pedritos Cafeteria IntegSys - VB.net\ggcRetailSales\obj\Debug\ggcRetailSales.frmDailySales.resources
+D:\000MNVProject\Los Pedritos Cafeteria IntegSys - VB.net\ggcRetailSales\obj\Debug\ggcRetailSales.frmChargeInvoice.resources
+D:\000MNVProject\Los Pedritos Cafeteria IntegSys - VB.net\ggcRetailSales\obj\Debug\ggcRetailSales.frmZReading.resources
+D:\000MNVProject\Los Pedritos Cafeteria IntegSys - VB.net\ggcRetailSales\obj\Debug\ggcRetailSales.Resources.resources
+D:\000MNVProject\Los Pedritos Cafeteria IntegSys - VB.net\ggcRetailSales\obj\Debug\ggcRetailSales.vbproj.GenerateResource.cache
+D:\000MNVProject\Los Pedritos Cafeteria IntegSys - VB.net\ggcRetailSales\obj\Debug\ggcRetailSales.vbproj.CoreCompileInputs.cache
+D:\000MNVProject\Los Pedritos Cafeteria IntegSys - VB.net\ggcRetailSales\obj\Debug\ggcRetailSales.vbproj.CopyComplete
+D:\000MNVProject\Los Pedritos Cafeteria IntegSys - VB.net\ggcRetailSales\obj\Debug\ggcRetailSales.dll
+D:\000MNVProject\Los Pedritos Cafeteria IntegSys - VB.net\ggcRetailSales\obj\Debug\ggcRetailSales.xml
+D:\000MNVProject\Los Pedritos Cafeteria IntegSys - VB.net\ggcRetailSales\obj\Debug\ggcRetailSales.pdb
+C:\GGC_Systems\vb.net\RetMgtSys\WinSCP.exe
+C:\GGC_Systems\vb.net\RetMgtSys\ggcRetailSales.dll
+C:\GGC_Systems\vb.net\RetMgtSys\ggcRetailSales.pdb
+C:\GGC_Systems\vb.net\RetMgtSys\ggcRetailSales.xml
+C:\Users\Maynard\Documents\GitHub\Los Pedritos Cafeteria IntegSys - VB.net\ggcRetailSales\obj\Debug\ggcRetailSales.vbproj.AssemblyReference.cache
+C:\Users\Maynard\Documents\GitHub\Los Pedritos Cafeteria IntegSys - VB.net\ggcRetailSales\obj\Debug\ggcRetailSales.frmManageTable.resources
+C:\Users\Maynard\Documents\GitHub\Los Pedritos Cafeteria IntegSys - VB.net\ggcRetailSales\obj\Debug\ggcRetailSales.frmQRResult.resources
+C:\Users\Maynard\Documents\GitHub\Los Pedritos Cafeteria IntegSys - VB.net\ggcRetailSales\obj\Debug\ggcRetailSales.frmSelectTable.resources
+C:\Users\Maynard\Documents\GitHub\Los Pedritos Cafeteria IntegSys - VB.net\ggcRetailSales\obj\Debug\ggcRetailSales.frmTables.resources
+C:\Users\Maynard\Documents\GitHub\Los Pedritos Cafeteria IntegSys - VB.net\ggcRetailSales\obj\Debug\ggcRetailSales.frmDiscountMerger.resources
+C:\Users\Maynard\Documents\GitHub\Los Pedritos Cafeteria IntegSys - VB.net\ggcRetailSales\obj\Debug\ggcRetailSales.frmPayMergeDiscount.resources
+C:\Users\Maynard\Documents\GitHub\Los Pedritos Cafeteria IntegSys - VB.net\ggcRetailSales\obj\Debug\ggcRetailSales.Form1.resources
+C:\Users\Maynard\Documents\GitHub\Los Pedritos Cafeteria IntegSys - VB.net\ggcRetailSales\obj\Debug\ggcRetailSales.Form2.resources
+C:\Users\Maynard\Documents\GitHub\Los Pedritos Cafeteria IntegSys - VB.net\ggcRetailSales\obj\Debug\ggcRetailSales.frmChargeInvoiceCollection.resources
+C:\Users\Maynard\Documents\GitHub\Los Pedritos Cafeteria IntegSys - VB.net\ggcRetailSales\obj\Debug\ggcRetailSales.frmSalesReturn.resources
+C:\Users\Maynard\Documents\GitHub\Los Pedritos Cafeteria IntegSys - VB.net\ggcRetailSales\obj\Debug\ggcRetailSales.frmOrderSplit.resources
+C:\Users\Maynard\Documents\GitHub\Los Pedritos Cafeteria IntegSys - VB.net\ggcRetailSales\obj\Debug\ggcRetailSales.frmPaySplitted.resources
+C:\Users\Maynard\Documents\GitHub\Los Pedritos Cafeteria IntegSys - VB.net\ggcRetailSales\obj\Debug\ggcRetailSales.frmComplementary.resources
+C:\Users\Maynard\Documents\GitHub\Los Pedritos Cafeteria IntegSys - VB.net\ggcRetailSales\obj\Debug\ggcRetailSales.frmDiscount.resources
+C:\Users\Maynard\Documents\GitHub\Los Pedritos Cafeteria IntegSys - VB.net\ggcRetailSales\obj\Debug\ggcRetailSales.frmChangePrice.resources
+C:\Users\Maynard\Documents\GitHub\Los Pedritos Cafeteria IntegSys - VB.net\ggcRetailSales\obj\Debug\ggcRetailSales.frmChangeQty.resources
+C:\Users\Maynard\Documents\GitHub\Los Pedritos Cafeteria IntegSys - VB.net\ggcRetailSales\obj\Debug\ggcRetailSales.frmMergeOrder.resources
+C:\Users\Maynard\Documents\GitHub\Los Pedritos Cafeteria IntegSys - VB.net\ggcRetailSales\obj\Debug\ggcRetailSales.frmCashPullout.resources
+C:\Users\Maynard\Documents\GitHub\Los Pedritos Cafeteria IntegSys - VB.net\ggcRetailSales\obj\Debug\ggcRetailSales.frmDailySales.resources
+C:\Users\Maynard\Documents\GitHub\Los Pedritos Cafeteria IntegSys - VB.net\ggcRetailSales\obj\Debug\ggcRetailSales.frmChargeInvoice.resources
+C:\Users\Maynard\Documents\GitHub\Los Pedritos Cafeteria IntegSys - VB.net\ggcRetailSales\obj\Debug\ggcRetailSales.frmZReading.resources
+C:\Users\Maynard\Documents\GitHub\Los Pedritos Cafeteria IntegSys - VB.net\ggcRetailSales\obj\Debug\ggcRetailSales.Resources.resources
+C:\Users\Maynard\Documents\GitHub\Los Pedritos Cafeteria IntegSys - VB.net\ggcRetailSales\obj\Debug\ggcRetailSales.vbproj.GenerateResource.cache
+C:\Users\Maynard\Documents\GitHub\Los Pedritos Cafeteria IntegSys - VB.net\ggcRetailSales\obj\Debug\ggcRetailSales.vbproj.CoreCompileInputs.cache
+C:\Users\Maynard\Documents\GitHub\Los Pedritos Cafeteria IntegSys - VB.net\ggcRetailSales\obj\Debug\ggcRetailSales.vbproj.CopyComplete
+C:\Users\Maynard\Documents\GitHub\Los Pedritos Cafeteria IntegSys - VB.net\ggcRetailSales\obj\Debug\ggcRetailSales.dll
+C:\Users\Maynard\Documents\GitHub\Los Pedritos Cafeteria IntegSys - VB.net\ggcRetailSales\obj\Debug\ggcRetailSales.xml
+C:\Users\Maynard\Documents\GitHub\Los Pedritos Cafeteria IntegSys - VB.net\ggcRetailSales\obj\Debug\ggcRetailSales.pdb
