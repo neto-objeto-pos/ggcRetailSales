@@ -84,6 +84,7 @@ Partial Class frmChargeCriteria
         Me.lblMessage.Dock = System.Windows.Forms.DockStyle.Top
         Me.lblMessage.FlatStyle = System.Windows.Forms.FlatStyle.Popup
         Me.lblMessage.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblMessage.ForeColor = System.Drawing.SystemColors.ActiveCaptionText
         Me.lblMessage.ImageAlign = System.Drawing.ContentAlignment.TopLeft
         Me.lblMessage.Location = New System.Drawing.Point(3, 3)
         Me.lblMessage.Margin = New System.Windows.Forms.Padding(3, 0, 3, 10)
