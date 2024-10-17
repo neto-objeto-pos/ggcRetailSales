@@ -51,7 +51,6 @@ Public Class frmChargeCriteria
 
     Private Sub clearFields()
         txtField01.Text = ""
-        lblMessage.Text = ""
 
     End Sub
 
