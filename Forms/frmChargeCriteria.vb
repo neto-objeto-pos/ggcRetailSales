@@ -51,7 +51,7 @@ Public Class frmChargeCriteria
 
     Private Sub clearFields()
         txtField01.Text = ""
-
+        p_sEmployeeID = ""
     End Sub
 
     Private Sub cmdButton00_Click(sender As Object, e As EventArgs) Handles cmdButton00.Click

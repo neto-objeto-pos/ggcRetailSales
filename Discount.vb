@@ -524,6 +524,7 @@ Public Class Discount
                 '           "Verify your Entry then Try Again!!!", vbCritical, "Warning")
                 '    Return False
                 'End If
+                Debug.Print("")
             Else
                 If p_oCategrTable.Rows.Count = 1 Then
                     If p_oCategrTable.Rows(0)("nDiscRate") <= 0 And p_oCategrTable.Rows(0)("nAddDiscx") <= 0 Then Return True
@@ -537,9 +538,10 @@ Public Class Discount
                         End If
                         If Not lbWithDiscount Then Return True
                     Next
-
-                    If lbWithDiscount Then
-                        If Not p_oAppDrvr.getUserApproval Then Return False
+                    If Not p_oAppDrvr.BranchCode = "P013" Then
+                        If lbWithDiscount Then
+                            If Not p_oAppDrvr.getUserApproval Then Return False
+                        End If
                     End If
                 End If
             End If

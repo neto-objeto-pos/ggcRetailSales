@@ -906,11 +906,12 @@ Public Class ChargeInvoice
                         lnDiv = p_oDtaOrder(lnCtr)("nQuantity") / lnQuantity
 
                         If lnQuantity - lnComplmnt > 0 Then
-                            .AddDetail(lnDiv * (lnQuantity - lnComplmnt), _
-                                       p_oDtaOrder(lnCtr)("sBriefDsc"), _
-                                       p_oDtaOrder(lnCtr)("nUnitPrce"), _
-                                       True, _
-                                       p_oDtaOrder(lnCtr)("cDetailxx") = "1", _
+                            .AddDetail(lnDiv * (lnQuantity - lnComplmnt),
+                                       p_oDtaOrder(lnCtr)("sBriefDsc"),
+                                       p_oDtaOrder(lnCtr)("nUnitPrce"),
+                                       True,
+                                       IIf(p_oDtaOrder(lnCtr)("cWthPromo") <> "1", True, False),
+                                       p_oDtaOrder(lnCtr)("cDetailxx") = "1",
                                        IIf(p_oDtaOrder(lnCtr)("cComboMlx") <> "1", True, False))
                         End If
 
@@ -923,14 +924,25 @@ Public Class ChargeInvoice
                     Else
                         'kalyptus - 2017.01.27 09:42am
                         'Print reverse items
-                        If p_oDtaOrder(lnCtr)("cReversex") = "+" Then
-                            .AddDetail(p_oDtaOrder(lnCtr)("nQuantity") * -1, _
-                                       "Void-" & p_oDtaOrder(lnCtr)("sBriefDsc"), _
-                                       0, _
-                                       True, _
-                                       p_oDtaOrder(lnCtr)("cDetailxx") = "1", _
+                        If p_oDtaOrder(lnCtr)("cReversex") = "-" Then
+                            .AddDetail(p_oDtaOrder(lnCtr)("nQuantity") * -1,
+                                       "Void-" & p_oDtaOrder(lnCtr)("sBriefDsc"),
+                                       0,
+                                       True,
+                                       IIf(p_oDtaOrder(lnCtr)("cWthPromo") <> "1", True, False),
+                                       p_oDtaOrder(lnCtr)("cDetailxx") = "1",
+                                       IIf(p_oDtaOrder(lnCtr)("cComboMlx") <> "1", True, False))
+
+                        ElseIf p_oDtaOrder(lnCtr)("cReversex") = "+" Then
+                            .AddDetail(p_oDtaOrder(lnCtr)("nQuantity") * -1,
+                                       "*" & p_oDtaOrder(lnCtr)("sBriefDsc"),
+                                       0,
+                                       True,
+                                       IIf(p_oDtaOrder(lnCtr)("cWthPromo") <> "1", True, False),
+                                       p_oDtaOrder(lnCtr)("cDetailxx") = "1",
                                        IIf(p_oDtaOrder(lnCtr)("cComboMlx") <> "1", True, False))
                         End If
+
                     End If
                 Next
             End If
