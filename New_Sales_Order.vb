@@ -3344,9 +3344,9 @@ Public Class New_Sales_Order
         Dim lnResult As Long
         ' Check if the batch file exists
         If File.Exists(Path.Combine(pxeJavaPath, "reademployee.bat")) Then
-            lnResult = RMJExecuteLong(pxeJavaPath, "reademployee.bat", "")
+            lnResult = RMJExecute(pxeJavaPath, "reademployee.bat", "")
 
-            If lnResult = 0 Then
+            If lnResult <= 0 Then
                 If File.Exists(pxeJavaPathTemp & "pos.tmp") Then
                     ' Read and return the content of the file
                     p_sQRCode = File.ReadAllText(pxeJavaPathTemp & "pos.tmp")
@@ -3388,7 +3388,7 @@ Public Class New_Sales_Order
             ElseIf lnResult = 1 Then
                 MessageBox.Show("Unable to load Employee Detail!", "Notice", MessageBoxButtons.OK, MessageBoxIcon.Information)
                 Return False
-            ElseIf lnResult = 2 Or lnResult < 0 Then
+            ElseIf lnResult = 2 Then
                 MessageBox.Show("System error. Please inform MIS Support to fix the issue.", "Notice", MessageBoxButtons.OK, MessageBoxIcon.Information)
                 Return False
             End If
