@@ -2974,16 +2974,19 @@ Public Class New_Sales_Order
             p_oFormChargeCriteria = New frmChargeCriteria(p_oApp)
             With p_oFormChargeCriteria
                 .TopMost = True
+                .ChargeInformation = ""
                 .ShowDialog()
 
                 p_bCancelled = .Cancelled
-                If .ChargeInformation <> "" Then
-                    If Not RequestEmployee(.ChargeInformation) Then
-                        Return False
-                    End If
-                Else
-                    If Not ShowQRForm() Then
-                        Return False
+                If Not p_bCancelled Then
+                    If .ChargeInformation <> "" Then
+                        If Not RequestEmployee(.ChargeInformation) Then
+                            Return False
+                        End If
+                    Else
+                        If Not ShowQRForm() Then
+                            Return False
+                        End If
                     End If
                 End If
             End With
@@ -2991,7 +2994,9 @@ Public Class New_Sales_Order
             If p_sQRCode <> "" Then
                 lnQRResult = validateQR(p_sQRCode)
                 loChargeMeal = New ChargeInvoiceMeal(p_oApp)
-
+                If lnQRResult.Count <= 0 Then
+                    Return False
+                End If
                 If Not getGuanzonSubsidy(lnQRResult(0), lnQRResult(1)) Then
                     lbSubsidy = False
                 End If
