@@ -84,6 +84,7 @@ Public Class ChargeInvoiceMeal
     Private pdTransact As Date          'XXX
     Private pbHsParent As Boolean       'XXX
     Private pbHsSubsidy As Boolean       'XXX
+    Private pbHsComboMeal As Boolean       'XXX
 
     Private p_sChargeInfo() As String
 
@@ -136,6 +137,15 @@ Public Class ChargeInvoiceMeal
         End Set
         Get
             Return pbHsSubsidy
+        End Get
+    End Property
+
+    Public Property HasComboMeal As Boolean
+        Set(ByVal Value As Boolean)
+            pbHsComboMeal = Value
+        End Set
+        Get
+            Return pbHsComboMeal
         End Get
     End Property
 

@@ -92,12 +92,17 @@ Public Class frmQRResult
 
     Private Sub loadMessage()
         lblMessage.Text = "Hi " & p_sChargeInfo(1) & "! Thank you for ordering, Here is your running balance ₱ " & p_sRunningTotal
-        If poChargeMeal.HasSubsidy Then
-            lblSubsidy.Text = "Your Guanzon subsidy is not yet used."
-            lblSubsidy.ForeColor = Color.Green
+        If poChargeMeal.HasComboMeal Then
+            If poChargeMeal.HasSubsidy Then
+                lblSubsidy.Text = "Your Guanzon subsidy is not yet used."
+                lblSubsidy.ForeColor = Color.Green
+            Else
+                lblSubsidy.Text = "Your Guanzon subsidy is already used."
+                lblSubsidy.ForeColor = Color.Red
+            End If
         Else
-            lblSubsidy.Text = "Your Guanzon subsidy is already used."
-            lblSubsidy.ForeColor = Color.Red
+            lblSubsidy.Text = ""
+            lblSubsidy.ForeColor = Color.Black
         End If
     End Sub
 
