@@ -1791,7 +1791,11 @@ Public Class New_Sales_Order
                                p_oDTDetail(lnCtr).Item("nUnitPrce"), True, IFNull(p_oDTDetail(lnCtr).Item("sPrntPath"), ""), p_oDTDetail(lnCtr).Item("sDescript"))
                         End If
                     Else
-                        If p_oDTDetail(lnCtr).Item("cReversex") = "-" Then
+                        If p_oDTDetail(lnCtr).Item("cReversex") = "+" Then
+                            .AddDetail(p_oDTDetail(lnCtr).Item("nQuantity"),
+                               p_oDTDetail(lnCtr).Item("sDescript"),
+                               p_oDTDetail(lnCtr).Item("nUnitPrce"), False, IFNull(p_oDTDetail(lnCtr).Item("sPrntPath"), ""), p_oDTDetail(lnCtr).Item("sDescript"))
+                        ElseIf p_oDTDetail(lnCtr).Item("cReversex") = "-" Then
                             .AddDetail(p_oDTDetail(lnCtr).Item("nQuantity"),
                                "Void-" & p_oDTDetail(lnCtr).Item("sDescript"),
                                p_oDTDetail(lnCtr).Item("nUnitPrce"), False, IFNull(p_oDTDetail(lnCtr).Item("sPrntPath"), ""), p_oDTDetail(lnCtr).Item("sDescript"))
@@ -2953,6 +2957,7 @@ Public Class New_Sales_Order
         Dim lnRep As Integer
         Dim lnQRResult() As String
         Dim lbSuccess As Boolean
+        Dim lbSubsidy As Boolean = True
         Dim loCharge As ChargeInvoice
         Dim loChargeMeal As ChargeInvoiceMeal
 
@@ -2969,16 +2974,19 @@ Public Class New_Sales_Order
             p_oFormChargeCriteria = New frmChargeCriteria(p_oApp)
             With p_oFormChargeCriteria
                 .TopMost = True
+                .ChargeInformation = ""
                 .ShowDialog()
 
                 p_bCancelled = .Cancelled
-                If .ChargeInformation <> "" Then
-                    If Not RequestEmployee(.ChargeInformation) Then
-                        Return False
-                    End If
-                Else
-                    If Not ShowQRForm() Then
-                        Return False
+                If Not p_bCancelled Then
+                    If .ChargeInformation <> "" Then
+                        If Not RequestEmployee(.ChargeInformation) Then
+                            Return False
+                        End If
+                    Else
+                        If Not ShowQRForm() Then
+                            Return False
+                        End If
                     End If
                 End If
             End With
@@ -2986,12 +2994,20 @@ Public Class New_Sales_Order
             If p_sQRCode <> "" Then
                 lnQRResult = validateQR(p_sQRCode)
                 loChargeMeal = New ChargeInvoiceMeal(p_oApp)
+                If lnQRResult.Count <= 0 Then
+                    Return False
+                End If
+                If Not getGuanzonSubsidy(lnQRResult(0), lnQRResult(1)) Then
+                    lbSubsidy = False
+                End If
+
 
                 With loChargeMeal
                     .Cashier = p_sCashierx
                     .POSNumbr = p_sTermnl
                     .CRMNumbr = p_sPOSNo
                     .SerialNo = p_sSerial
+                    .HasSubsidy = lbSubsidy
                     .SalesOrder = p_oDTDetail
                     .ChargeInformation = lnQRResult
                     .NewTransaction()
@@ -3194,7 +3210,134 @@ Public Class New_Sales_Order
         End If
         Return lbSuccess
     End Function
+    Private Function getGuanzonSubsidy(fsEmployID As String, fsEmployNme As String)
+        Dim lsSQL As String
+        Dim loDT As DataTable
+        Dim loDTExisting As DataTable
 
+
+        If fsEmployID = "" Then Return False
+        'check successful checkout with discount
+        lsSQL = "SELECT a.sTransNox, a.dTransact, b.sClientID, b.sClientNm, a.cSChargex" &
+        " FROM SO_Master a " &
+        " LEFT JOIN Charge_Invoice b ON a.sTransNox = b.sSourceNo " &
+        " LEFT JOIN Discount c ON a.sTransNox = c.sSourceNo " &
+        " WHERE b.sClientID = " & strParm(fsEmployID) &
+        " AND a.dTransact =" & dateParm(p_oApp.getSysDate) &
+        " AND c.sDiscCard = '2401' LIMIT 1"
+
+        loDT = p_oApp.ExecuteQuery(lsSQL)
+
+        'Return false if already used & delete discount if duplicated 
+        If loDT.Rows.Count > 0 Then
+
+            lsSQL = "SELECT sTransNox " &
+                    " FROM Discount " &
+                    " WHERE sSourceNo = " & strParm(p_oDTMaster(0)("sTransNox")) &
+                    " AND sIDNumber = " & strParm(fsEmployID) &
+                    " AND sDiscCard = '2401' LIMIT 1"
+
+            loDTExisting = p_oApp.ExecuteQuery(lsSQL)
+
+            If loDTExisting.Rows.Count > 0 Then
+                lsSQL = "DELETE FROM Discount" &
+                           " WHERE sTransNox = " & strParm(loDTExisting.Rows(0).Item("sTransNox")) &
+                               " AND sIDNumber = " & strParm(fsEmployID)
+                p_oApp.Execute(lsSQL, "Discount")
+
+                lsSQL = "DELETE FROM Discount_Detail" &
+                           " WHERE sTransNox = " & strParm(loDTExisting.Rows(0).Item("sTransNox")) &
+                               " AND sIDNumber = " & strParm(fsEmployID)
+                p_oApp.Execute(lsSQL, "Discount")
+            End If
+            loDTExisting.Dispose()
+            Return False
+            End If
+
+            loDT.Dispose()
+
+
+        If p_oDTMaster(0)("sTransNox") = "" Then Return False
+
+        Dim lsSourceNo As String = ""
+        Dim lsSourceCd As String = ""
+        Dim lsSplitType As String = ""
+        Dim lbCancelled As Boolean = False
+        Dim lsCategrIDx As String = ""
+
+        p_oDiscount = New Discount(p_oApp)
+        p_oDiscount.POSNumbr = p_sTermnl
+        p_oDiscount.SerialNo = p_sSerial
+
+        For lnCtr As Integer = 0 To p_oDTDetail.Rows.Count - 1
+            If IFNull(p_oDTDetail.Rows(lnCtr)("sCategrID"), "") <> "" Then
+                lsCategrIDx = lsCategrIDx & "'" & p_oDTDetail.Rows(lnCtr)("sCategrID") & "',"
+            End If
+        Next
+
+        p_oDiscount.InitTransaction()
+        p_oDiscount.Category = lsCategrIDx.Substring(0, lsCategrIDx.Length - 1)
+        p_oDiscount.setTranTotal = p_nTotalSales
+        'Auto entry discount
+
+        p_oDiscount.SourceCd = pxeSourceCde
+        p_oDiscount.SourceNo = p_oDTMaster(0)("sTransNox")
+        p_oDiscount.SearchCard("Guanzon Subsidy")
+        p_oDiscount.Master(3) = 1
+        p_oDiscount.Master(4) = 1
+        p_oDiscount.Detail(0, "sClientNm") = fsEmployNme
+        p_oDiscount.Master("sIDNumber") = fsEmployID
+        p_oDiscount.Detail(0, "sIDNumber") = fsEmployID
+
+
+        If Not p_oDiscount.SaveTransaction() Then
+            Return False
+        End If
+
+
+        'Recompute total
+        If p_oDiscount.ItemCategoryCount > 0 Then
+            For lnCtr As Integer = 0 To p_oDTDetail.Rows.Count - 1
+                p_oDTDetail.Rows(lnCtr)("nDiscount") = 0
+                p_oDTDetail.Rows(lnCtr)("nAddDiscx") = 0
+                If p_oDTDetail.Rows(lnCtr)("sCategrID") <> "" Then
+                    For lnRow As Integer = 0 To p_oDiscount.ItemCategoryCount - 1
+                        If p_oDTDetail.Rows(lnCtr)("sCategrID") = p_oDiscount.Category(lnRow, "sCategrID") Then
+                            If IFNull(p_oDiscount.Category(lnRow, "nMinAmtxx"), 0) = 0.0 Then
+                                p_oDTDetail.Rows(lnCtr)("nDiscount") = p_oDiscount.Category(lnRow, "nDiscRate")
+                                p_oDTDetail.Rows(lnCtr)("nAddDiscx") = p_oDiscount.Category(lnRow, "nDiscAmtx")
+                            Else
+                                If p_oDTDetail.Rows(lnCtr)("nUnitPrce") > p_oDiscount.Category(lnRow, "nMinAmtxx") Then
+                                    p_oDTDetail.Rows(lnCtr)("nDiscount") = p_oDiscount.Category(lnRow, "nDiscRate")
+                                    p_oDTDetail.Rows(lnCtr)("nAddDiscx") = p_oDiscount.Category(lnRow, "nDiscAmtx")
+                                End If
+                            End If
+                        End If
+                    Next lnRow
+                End If
+                Call saveDetail(lnCtr)
+            Next lnCtr
+        Else
+            For lnCtr As Integer = 0 To p_oDTDetail.Rows.Count - 1
+                p_oDTDetail.Rows(lnCtr)("nDiscount") = 0
+                p_oDTDetail.Rows(lnCtr)("nAddDiscx") = 0
+                If p_oDiscount.ItemCategoryCount > 0 Then
+                    If IFNull(p_oDiscount.Category(0, "nMinAmtxx"), 0) = 0.0 Then
+                        p_oDTDetail.Rows(lnCtr)("nDiscount") = p_oDiscount.Category(0, "nDiscRate")
+                        p_oDTDetail.Rows(lnCtr)("nAddDiscx") = p_oDiscount.Category(0, "nDiscAmtx")
+                    Else
+                        If p_oDTDetail.Rows(lnCtr)("nUnitPrce") > p_oDiscount.Category(0, "nMinAmtxx") Then
+                            p_oDTDetail.Rows(lnCtr)("nDiscount") = p_oDiscount.Category(0, "nDiscRate")
+                            p_oDTDetail.Rows(lnCtr)("nAddDiscx") = p_oDiscount.Category(0, "nDiscAmtx")
+                        End If
+                    End If
+                End If
+                Call saveDetail(lnCtr)
+            Next
+        End If
+
+        Return True
+    End Function
     Private Function ShowQRForm() As Boolean
 
         Dim lnResult As Long
@@ -3238,7 +3381,7 @@ Public Class New_Sales_Order
                     p_sQRCode = File.ReadAllText(pxeJavaPathTemp & "pos.tmp")
                     Return True
                 Else
-                    MessageBox.Show("System error missing temp. Please inform MIS Support to fix the issue.", "Notice", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                    MessageBox.Show("Unable to load Employee Detail!", "Notice", MessageBoxButtons.OK, MessageBoxIcon.Information)
                     Return False
                 End If
             ElseIf lnResult = 1 Then
@@ -4652,11 +4795,14 @@ Public Class New_Sales_Order
 
         For nCtr As Integer = 0 To p_oDTDetail.Rows.Count - 1
             If p_oDTDetail(nCtr)("sBarcodex") = foDT.Rows(0)("sBarcodex") Then
+
                 If p_oDTDetail(nCtr)("cPrintedx") = xeLogical.NO And p_oDTDetail(nCtr)("cReversed") = xeLogical.NO And p_oDTDetail(nCtr)("cWthPromo") = xeLogical.NO And p_oDTDetail(nCtr)("cDetailxx") = xeLogical.NO Then
-                    fnQty = p_oDTDetail(nCtr)("nQuantity")
-                    lbAddNewRow = False
-                    p_nRow = nCtr
-                    Exit For
+                    If p_oDTDetail(nCtr).Item("cComboMlx") <> "1" Then
+                        fnQty = p_oDTDetail(nCtr)("nQuantity")
+                        lbAddNewRow = False
+                        p_nRow = nCtr
+                        Exit For
+                    End If
                 End If
             End If
         Next nCtr

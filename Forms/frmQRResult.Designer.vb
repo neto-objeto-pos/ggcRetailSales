@@ -36,6 +36,7 @@ Partial Class frmQRResult
         Me.Panel1 = New System.Windows.Forms.Panel()
         Me.lblMessage = New System.Windows.Forms.Label()
         Me.Panel2 = New System.Windows.Forms.Panel()
+        Me.lblSubsidy = New System.Windows.Forms.Label()
         Me.GroupBox1.SuspendLayout()
         Me.Panel3.SuspendLayout()
         Me.Panel1.SuspendLayout()
@@ -172,6 +173,7 @@ Partial Class frmQRResult
         Me.Panel1.BackColor = System.Drawing.Color.Transparent
         Me.Panel1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None
         Me.Panel1.CausesValidation = False
+        Me.Panel1.Controls.Add(Me.lblSubsidy)
         Me.Panel1.Controls.Add(Me.lblMessage)
         Me.Panel1.Dock = System.Windows.Forms.DockStyle.Top
         Me.Panel1.Location = New System.Drawing.Point(10, 10)
@@ -209,6 +211,18 @@ Partial Class frmQRResult
         Me.Panel2.Size = New System.Drawing.Size(460, 147)
         Me.Panel2.TabIndex = 7
         '
+        'lblSubsidy
+        '
+        Me.lblSubsidy.AutoSize = True
+        Me.lblSubsidy.CausesValidation = False
+        Me.lblSubsidy.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblSubsidy.ForeColor = System.Drawing.SystemColors.ControlText
+        Me.lblSubsidy.Location = New System.Drawing.Point(6, 82)
+        Me.lblSubsidy.Name = "lblSubsidy"
+        Me.lblSubsidy.Size = New System.Drawing.Size(255, 16)
+        Me.lblSubsidy.TabIndex = 7
+        Me.lblSubsidy.Text = "Your Guanzon subsidy for the day is used."
+        '
         'frmQRResult
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -236,6 +250,7 @@ Partial Class frmQRResult
         Me.Panel3.ResumeLayout(False)
         Me.Panel3.PerformLayout()
         Me.Panel1.ResumeLayout(False)
+        Me.Panel1.PerformLayout()
         Me.Panel2.ResumeLayout(False)
         Me.Panel2.PerformLayout()
         Me.ResumeLayout(False)
@@ -256,4 +271,5 @@ Partial Class frmQRResult
     Friend WithEvents Panel3 As Windows.Forms.Panel
     Friend WithEvents cmdButton00 As Windows.Forms.Button
     Friend WithEvents Panel1 As Windows.Forms.Panel
+    Friend WithEvents lblSubsidy As Windows.Forms.Label
 End Class

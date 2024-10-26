@@ -44,24 +44,23 @@ Public Class frmChargeCriteria
 
         If pnLoadx = 0 Then
             pnLoadx = 1
-            clearFields()
+            txtField01.Text = ""
+            p_sEmployeeID = ""
         End If
-
-    End Sub
-
-    Private Sub clearFields()
-        txtField01.Text = ""
 
     End Sub
 
     Private Sub cmdButton00_Click(sender As Object, e As EventArgs) Handles cmdButton00.Click
         p_sEmployeeID = ""
+        p_bCancelled = False
         Me.Close()
         Me.Dispose()
     End Sub
 
     Private Sub cmdButton01_Click(sender As Object, e As EventArgs) Handles cmdButton01.Click
         p_sEmployeeID = Trim(txtField01.Text)
+
+        p_bCancelled = False
         Me.Close()
         Me.Dispose()
     End Sub

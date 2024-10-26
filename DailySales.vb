@@ -1064,6 +1064,7 @@ Public Class DailySales
 
     'Prints the result of Terminal Reading/DAILY SALES SUMMARY
     Private Function doPrintTXReading(ByVal sTrandate As String, ByVal sCRMNumbr As String) As Boolean
+
         Dim lsSQL As String
         lsSQL = AddCondition(getSQ_Master, "sTranDate = " & strParm(sTrandate) &
                                       " AND sCRMNumbr = " & strParm(sCRMNumbr) &
@@ -1161,6 +1162,9 @@ Public Class DailySales
             lnPrevSale = loDT(0)("nAccuSale")
         End If
 
+        If p_oApp.BranchCode = "P013" Then
+            Return True
+        End If
 
         '        Dim Printer_Name As String = "\\192.168.10.14\EPSON LX-310 ESC/P"
         Dim builder As New System.Text.StringBuilder()

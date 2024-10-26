@@ -83,6 +83,7 @@ Public Class ChargeInvoiceMeal
     Private psCashrNme As String
     Private pdTransact As Date          'XXX
     Private pbHsParent As Boolean       'XXX
+    Private pbHsSubsidy As Boolean       'XXX
 
     Private p_sChargeInfo() As String
 
@@ -128,6 +129,14 @@ Public Class ChargeInvoiceMeal
         Set(ByVal Value As Boolean)
             pbHsParent = Value
         End Set
+    End Property
+    Public Property HasSubsidy As Boolean
+        Set(ByVal Value As Boolean)
+            pbHsSubsidy = Value
+        End Set
+        Get
+            Return pbHsSubsidy
+        End Get
     End Property
 
     Property ClientNo As Integer
@@ -807,6 +816,8 @@ Public Class ChargeInvoiceMeal
         End With
 
     End Sub
+
+
 
     Public Function getRunningTotal() As String
         Dim loDT As DataTable
