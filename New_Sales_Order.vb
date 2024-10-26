@@ -3381,7 +3381,7 @@ Public Class New_Sales_Order
                     p_sQRCode = File.ReadAllText(pxeJavaPathTemp & "pos.tmp")
                     Return True
                 Else
-                    MessageBox.Show("System error missing temp. Please inform MIS Support to fix the issue.", "Notice", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                    MessageBox.Show("Unable to load Employee Detail!", "Notice", MessageBoxButtons.OK, MessageBoxIcon.Information)
                     Return False
                 End If
             ElseIf lnResult = 1 Then
