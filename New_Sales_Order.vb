@@ -3252,9 +3252,9 @@ Public Class New_Sales_Order
             End If
             loDTExisting.Dispose()
             Return False
-            End If
+        End If
 
-            loDT.Dispose()
+        loDT.Dispose()
 
 
         If p_oDTMaster(0)("sTransNox") = "" Then Return False
@@ -3338,14 +3338,15 @@ Public Class New_Sales_Order
 
         Return True
     End Function
+
     Private Function ShowQRForm() As Boolean
 
         Dim lnResult As Long
         ' Check if the batch file exists
         If File.Exists(Path.Combine(pxeJavaPath, "reademployee.bat")) Then
-            lnResult = RMJExecute(pxeJavaPath, "reademployee.bat", "")
+            lnResult = RMJExecuteLong(pxeJavaPath, "reademployee.bat", "")
 
-            If lnResult <= 0 Then
+            If lnResult = 0 Then
                 If File.Exists(pxeJavaPathTemp & "pos.tmp") Then
                     ' Read and return the content of the file
                     p_sQRCode = File.ReadAllText(pxeJavaPathTemp & "pos.tmp")
@@ -3357,7 +3358,7 @@ Public Class New_Sales_Order
             ElseIf lnResult = 1 Then
                 MessageBox.Show("Unable to load Employee QR Detail!", "Notice", MessageBoxButtons.OK, MessageBoxIcon.Information)
                 Return False
-            ElseIf lnResult = 2 Then
+            ElseIf lnResult = 2 Or lnResult < 0 Then
                 MessageBox.Show("System error. Please inform MIS Support to fix the issue.", "Notice", MessageBoxButtons.OK, MessageBoxIcon.Information)
                 Return False
             End If
@@ -3373,21 +3374,21 @@ Public Class New_Sales_Order
         Dim lnResult As Long
         ' Check if the batch file exists
         If File.Exists(Path.Combine(pxeJavaPath, "requestEmployee.bat")) Then
-            lnResult = RMJExecute(pxeJavaPath, "requestEmployee.bat", fsEmployeeID)
+            lnResult = RMJExecuteLong(pxeJavaPath, "requestEmployee.bat", fsEmployeeID)
 
-            If lnResult <= 0 Then
+            If lnResult = 0 Then
                 If File.Exists(pxeJavaPathTemp & "pos.tmp") Then
                     ' Read and return the content of the file
                     p_sQRCode = File.ReadAllText(pxeJavaPathTemp & "pos.tmp")
                     Return True
                 Else
-                    MessageBox.Show("Unable to load Employee Detail!", "Notice", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                    MessageBox.Show("System error missing temp. Please inform MIS Support to fix the issue.", "Notice", MessageBoxButtons.OK, MessageBoxIcon.Information)
                     Return False
                 End If
             ElseIf lnResult = 1 Then
                 MessageBox.Show("Unable to load Employee Detail!", "Notice", MessageBoxButtons.OK, MessageBoxIcon.Information)
                 Return False
-            ElseIf lnResult = 2 Then
+            ElseIf lnResult = 2 Or lnResult < 0 Then
                 MessageBox.Show("System error. Please inform MIS Support to fix the issue.", "Notice", MessageBoxButtons.OK, MessageBoxIcon.Information)
                 Return False
             End If
