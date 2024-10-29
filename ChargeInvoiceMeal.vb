@@ -407,6 +407,8 @@ Public Class ChargeInvoiceMeal
                 .Rows(nCtr)("sItemDesc") = p_oDtaOrder.Rows(nCtr)("sDescript")
                 .Rows(nCtr)("nUnitPrce") = p_oDtaOrder.Rows(nCtr)("nUnitPrce")
                 .Rows(nCtr)("nQuantity") = p_oDtaOrder.Rows(nCtr)("nQuantity")
+                Debug.Print(p_oDtaOrder.Rows(nCtr)("nDiscount"))
+                Debug.Print(p_oDtaOrder.Rows(nCtr)("nAddDiscx"))
                 .Rows(nCtr)("nDiscRate") = p_oDtaOrder.Rows(nCtr)("nDiscount")
                 .Rows(nCtr)("nDiscAmnt") = p_oDtaOrder.Rows(nCtr)("nAddDiscx")
                 .Rows(nCtr)("cReversex") = p_oDtaOrder.Rows(nCtr)("cReversex")
@@ -502,7 +504,7 @@ Public Class ChargeInvoiceMeal
 
         If p_sParent = "" Then p_oApp.BeginTransaction()
         'Save detail table
-
+        Dim lnDiscount As String = 0
         With p_oDTDetail
             For nCtr As Integer = 0 To .Rows.Count - 1
 
@@ -516,6 +518,8 @@ Public Class ChargeInvoiceMeal
                             ", nDiscRate = " & .Rows(nCtr)("nDiscRate") &
                             ", nDiscAmnt = " & .Rows(nCtr)("nDiscAmnt") &
                             ", cReversex = " & strParm(.Rows(nCtr)("cReversex"))
+                lnDiscount = lnDiscount + .Rows(nCtr)("nDiscAmnt")
+
 
                 Try
                     lnRow = p_oApp.Execute(lsSQL, pxeDetailTble)
@@ -543,7 +547,7 @@ Public Class ChargeInvoiceMeal
                                     ", dTransact = " & dateParm(p_oDTMstr(0).Item("dTransact")) &
                                     ", sEmployID = " & strParm(p_oDTMstr(0).Item("sEmployID")) &
                                     ", nEntryNox = " & lnRow - 1 &
-                                    ", nTotalAmt = " & CDec(p_oDTMstr(0).Item("nTotalAmt")) &
+                                    ", nTotalAmt = " & CDec(p_oDTMstr(0).Item("nTotalAmt") - lnDiscount) &
                                     ", dPlacedxx = " & datetimeParm(p_oApp.getSysDate) &
                                     ", dTimeStmp = " & datetimeParm(p_oApp.getSysDate)
 
@@ -567,7 +571,7 @@ Public Class ChargeInvoiceMeal
                                     "  sEmployID = " & strParm(p_oDTMstr(0).Item("sEmployID")) &
                                     ", dTransact = " & dateParm(p_oDTMstr(0).Item("dTransact")) &
                                     ", nEntryNox = " & xeLogical.YES &
-                                    ", nTranTotl = " & p_oDTMstr(0).Item("nTotalAmt") &
+                                    ", nTranTotl = " & CDec(p_oDTMstr(0).Item("nTotalAmt") - lnDiscount) &
                                     ", cTranStat = " & xeTranStat.TRANS_OPEN &
                                     ", cSendStat = " & xeLogical.NO &
                                     ", sModified = " & strParm(p_oApp.UserID) &
