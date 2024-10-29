@@ -3013,25 +3013,41 @@ Public Class New_Sales_Order
                     End If
                 End If
 
+                'Recompute total
+                p_oDTMaster(0).Item("nDiscount") = 0.00
+                p_oDTMaster(0).Item("nVatDiscx") = 0.00
+                p_oDTMaster(0).Item("nPWDDiscx") = 0.00
+
+                p_oDTMaster(0).Item("nVATSales") = 0.00
+                p_oDTMaster(0).Item("nVATAmtxx") = 0.00
+                p_oDTMaster(0).Item("nNonVATxx") = 0.00
+
+                p_oDtaDiscx = LoadDiscount(pxeSourceCde, p_oDTMaster(0).Item("sTransNox"))
+
+                'Recompute total
+                Call computeTotal(p_oDTMaster, p_oDTDetail, p_oDtaDiscx, p_oDiscount)
+
                 With loChargeMeal
-                        .Cashier = p_sCashierx
-                        .POSNumbr = p_sTermnl
-                        .CRMNumbr = p_sPOSNo
-                        .SerialNo = p_sSerial
+
+                    .Cashier = p_sCashierx
+                    .POSNumbr = p_sTermnl
+                    .CRMNumbr = p_sPOSNo
+                    .SerialNo = p_sSerial
+                    .Discount = p_oDtaDiscx
                     .HasSubsidy = lbSubsidy
                     .HasComboMeal = lbHsComboMeal
                     .SalesOrder = p_oDTDetail
-                        .ChargeInformation = lnQRResult
-                        .NewTransaction()
+                    .ChargeInformation = lnQRResult
+                    .NewTransaction()
 
-                        .Master("sEmployID") = lnQRResult(0)
-                        .Master("nTotalAmt") = p_oDTMaster(0)("nTranTotl")
-                        .Master("dTransact") = p_oDTMaster(0)("dTransact")
-                        .ShowChargeInvoiceMeal()
-                        lbSuccess = Not .Cancelled
+                    .Master("sEmployID") = lnQRResult(0)
+                    .Master("nTotalAmt") = p_oDTMaster(0)("nTranTotl")
+                    .Master("dTransact") = p_oDTMaster(0)("dTransact")
+                    .ShowChargeInvoiceMeal()
+                    lbSuccess = Not .Cancelled
 
-                    End With
-                    If (lbSuccess) Then
+                End With
+                If (lbSuccess) Then
 
                         'If p_oDTMaster(0).Item("nPrntBill") = 0 Then
                         '    lnRep = MsgBox("Do you want to print bill transaction?", vbQuestion & vbYesNo, "CONFIRMATION")
@@ -3047,21 +3063,9 @@ Public Class New_Sales_Order
 
                         loCharge = New ChargeInvoice(p_oApp)
 
-                        'Recompute total
-                        p_oDTMaster(0).Item("nDiscount") = 0.00
-                        p_oDTMaster(0).Item("nVatDiscx") = 0.00
-                        p_oDTMaster(0).Item("nPWDDiscx") = 0.00
 
-                        p_oDTMaster(0).Item("nVATSales") = 0.00
-                        p_oDTMaster(0).Item("nVATAmtxx") = 0.00
-                        p_oDTMaster(0).Item("nNonVATxx") = 0.00
 
-                        p_oDtaDiscx = LoadDiscount(pxeSourceCde, p_oDTMaster(0).Item("sTransNox"))
-
-                        'Recompute total
-                        Call computeTotal(p_oDTMaster, p_oDTDetail, p_oDtaDiscx, p_oDiscount)
-
-                        With loCharge
+                    With loCharge
                             .POSNo = p_sTermnl
                             .NewTransaction()
                             .Master("sClientID") = lnQRResult(0)
@@ -3309,19 +3313,29 @@ Public Class New_Sales_Order
 
         'Recompute total
         If p_oDiscount.ItemCategoryCount > 0 Then
+            Dim lbDiscounted As Boolean = False
             For lnCtr As Integer = 0 To p_oDTDetail.Rows.Count - 1
+                If lbDiscounted = True Then
+                    Exit For
+
+                End If
                 p_oDTDetail.Rows(lnCtr)("nDiscount") = 0
                 p_oDTDetail.Rows(lnCtr)("nAddDiscx") = 0
                 If p_oDTDetail.Rows(lnCtr)("sCategrID") <> "" Then
                     For lnRow As Integer = 0 To p_oDiscount.ItemCategoryCount - 1
-                        If p_oDTDetail.Rows(lnCtr)("sCategrID") = p_oDiscount.Category(lnRow, "sCategrID") Then
-                            If IFNull(p_oDiscount.Category(lnRow, "nMinAmtxx"), 0) = 0.0 Then
-                                p_oDTDetail.Rows(lnCtr)("nDiscount") = p_oDiscount.Category(lnRow, "nDiscRate")
-                                p_oDTDetail.Rows(lnCtr)("nAddDiscx") = p_oDiscount.Category(lnRow, "nDiscAmtx")
+                        Debug.Print("dish" & p_oDTDetail.Rows(lnCtr)("sCategrID") & "data" & p_oDiscount.Category(lnRow, 1))
+                        If p_oDTDetail.Rows(lnCtr)("sCategrID") = p_oDiscount.Category(lnRow, 1) Then
+                            If IFNull(p_oDiscount.Category(lnRow, 2), 0) = 0.0 Then
+                                p_oDTDetail.Rows(lnCtr)("nDiscount") = p_oDiscount.Category(lnRow, 3)
+                                p_oDTDetail.Rows(lnCtr)("nAddDiscx") = p_oDiscount.Category(lnRow, 4)
+                                lbDiscounted = True
+                                Exit For
                             Else
-                                If p_oDTDetail.Rows(lnCtr)("nUnitPrce") > p_oDiscount.Category(lnRow, "nMinAmtxx") Then
-                                    p_oDTDetail.Rows(lnCtr)("nDiscount") = p_oDiscount.Category(lnRow, "nDiscRate")
-                                    p_oDTDetail.Rows(lnCtr)("nAddDiscx") = p_oDiscount.Category(lnRow, "nDiscAmtx")
+                                If p_oDTDetail.Rows(lnCtr)("nUnitPrce") > p_oDiscount.Category(lnRow, 2) Then
+                                    p_oDTDetail.Rows(lnCtr)("nDiscount") = p_oDiscount.Category(lnRow, 3)
+                                    p_oDTDetail.Rows(lnCtr)("nAddDiscx") = p_oDiscount.Category(lnRow, 4)
+                                    lbDiscounted = True
+                                    Exit For
                                 End If
                             End If
                         End If
@@ -3330,17 +3344,27 @@ Public Class New_Sales_Order
                 Call saveDetail(lnCtr)
             Next lnCtr
         Else
+
+            Dim lbDiscounted As Boolean = False
             For lnCtr As Integer = 0 To p_oDTDetail.Rows.Count - 1
+                If lbDiscounted = True Then
+                    Exit For
+
+                End If
                 p_oDTDetail.Rows(lnCtr)("nDiscount") = 0
                 p_oDTDetail.Rows(lnCtr)("nAddDiscx") = 0
                 If p_oDiscount.ItemCategoryCount > 0 Then
                     If IFNull(p_oDiscount.Category(0, "nMinAmtxx"), 0) = 0.0 Then
                         p_oDTDetail.Rows(lnCtr)("nDiscount") = p_oDiscount.Category(0, "nDiscRate")
                         p_oDTDetail.Rows(lnCtr)("nAddDiscx") = p_oDiscount.Category(0, "nDiscAmtx")
+                        lbDiscounted = True
+                        Exit For
                     Else
                         If p_oDTDetail.Rows(lnCtr)("nUnitPrce") > p_oDiscount.Category(0, "nMinAmtxx") Then
                             p_oDTDetail.Rows(lnCtr)("nDiscount") = p_oDiscount.Category(0, "nDiscRate")
                             p_oDTDetail.Rows(lnCtr)("nAddDiscx") = p_oDiscount.Category(0, "nDiscAmtx")
+                            lbDiscounted = True
+                            Exit For
                         End If
                     End If
                 End If
@@ -5204,7 +5228,11 @@ Public Class New_Sales_Order
 
         'Recompute total
         If p_oDiscount.ItemCategoryCount > 0 Then
+            Dim lbDiscounted As Boolean = False
             For lnCtr As Integer = 0 To p_oDTDetail.Rows.Count - 1
+                If lbDiscounted = True Then
+                    Exit For
+                End If
                 p_oDTDetail.Rows(lnCtr)("nDiscount") = 0
                 p_oDTDetail.Rows(lnCtr)("nAddDiscx") = 0
                 If p_oDTDetail.Rows(lnCtr)("sCategrID") <> "" Then
@@ -5213,10 +5241,14 @@ Public Class New_Sales_Order
                             If IFNull(p_oDiscount.Category(lnRow, "nMinAmtxx"), 0) = 0.0 Then
                                 p_oDTDetail.Rows(lnCtr)("nDiscount") = p_oDiscount.Category(lnRow, "nDiscRate")
                                 p_oDTDetail.Rows(lnCtr)("nAddDiscx") = p_oDiscount.Category(lnRow, "nDiscAmtx")
+                                lbDiscounted = True
+                                Exit For
                             Else
                                 If p_oDTDetail.Rows(lnCtr)("nUnitPrce") > p_oDiscount.Category(lnRow, "nMinAmtxx") Then
                                     p_oDTDetail.Rows(lnCtr)("nDiscount") = p_oDiscount.Category(lnRow, "nDiscRate")
                                     p_oDTDetail.Rows(lnCtr)("nAddDiscx") = p_oDiscount.Category(lnRow, "nDiscAmtx")
+                                    lbDiscounted = True
+                                    Exit For
                                 End If
                             End If
                         End If
@@ -5225,17 +5257,29 @@ Public Class New_Sales_Order
                 Call saveDetail(lnCtr)
             Next lnCtr
         Else
+
+            Dim lbDiscounted As Boolean = False
             For lnCtr As Integer = 0 To p_oDTDetail.Rows.Count - 1
+                If lbDiscounted = True Then
+                    Exit For
+                End If
                 p_oDTDetail.Rows(lnCtr)("nDiscount") = 0
                 p_oDTDetail.Rows(lnCtr)("nAddDiscx") = 0
                 If p_oDiscount.ItemCategoryCount > 0 Then
                     If IFNull(p_oDiscount.Category(0, "nMinAmtxx"), 0) = 0.0 Then
                         p_oDTDetail.Rows(lnCtr)("nDiscount") = p_oDiscount.Category(0, "nDiscRate")
                         p_oDTDetail.Rows(lnCtr)("nAddDiscx") = p_oDiscount.Category(0, "nDiscAmtx")
+
+                        lbDiscounted = True
+                        Exit For
                     Else
                         If p_oDTDetail.Rows(lnCtr)("nUnitPrce") > p_oDiscount.Category(0, "nMinAmtxx") Then
                             p_oDTDetail.Rows(lnCtr)("nDiscount") = p_oDiscount.Category(0, "nDiscRate")
                             p_oDTDetail.Rows(lnCtr)("nAddDiscx") = p_oDiscount.Category(0, "nDiscAmtx")
+
+
+                            lbDiscounted = True
+                            Exit For
                         End If
                     End If
                 End If
