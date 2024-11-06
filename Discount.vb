@@ -328,10 +328,15 @@ Public Class Discount
                 Index = LCase(Index)
                 Select Case Index
                     Case "stransnox" : Index = 0
+                        Return p_oCategrTable.Rows(Row)(Index)
                     Case "scategrid" : Index = 1
+                        Return p_oCategrTable.Rows(Row)(Index)
                     Case "nminamtxx" : Index = 2
+                        Return p_oCategrTable.Rows(Row)(Index)
                     Case "ndiscrate" : Index = 3
+                        Return p_oCategrTable.Rows(Row)(Index)
                     Case "ndiscamtx" : Index = 4
+                        Return p_oCategrTable.Rows(Row)(Index)
                     Case Else
                         MsgBox("Invalid Field Detected!!!", MsgBoxStyle.Critical, "WARNING")
                         Return DBNull.Value
