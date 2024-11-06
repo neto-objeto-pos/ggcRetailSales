@@ -3049,92 +3049,92 @@ Public Class New_Sales_Order
                 End With
                 If (lbSuccess) Then
 
-                        'If p_oDTMaster(0).Item("nPrntBill") = 0 Then
-                        '    lnRep = MsgBox("Do you want to print bill transaction?", vbQuestion & vbYesNo, "CONFIRMATION")
-                        '    If lnRep = vbYes Then PrintBill()
-                        'End If
+                    'If p_oDTMaster(0).Item("nPrntBill") = 0 Then
+                    '    lnRep = MsgBox("Do you want to print bill transaction?", vbQuestion & vbYesNo, "CONFIRMATION")
+                    '    If lnRep = vbYes Then PrintBill()
+                    'End If
 
-                        ''If IFNull(p_oDTMaster(0).Item("nSChargex"), 0) <> 0 Then
-                        ''    MsgBox("Transaction with service charge cannot entry at charge invoice..." & vbCrLf & _
-                        ''                    "Please continue for  paying order..", vbCritical)
-                        ''Return False
-                        ''Exit Function
-                        ''End If
+                    ''If IFNull(p_oDTMaster(0).Item("nSChargex"), 0) <> 0 Then
+                    ''    MsgBox("Transaction with service charge cannot entry at charge invoice..." & vbCrLf & _
+                    ''                    "Please continue for  paying order..", vbCritical)
+                    ''Return False
+                    ''Exit Function
+                    ''End If
 
-                        loCharge = New ChargeInvoice(p_oApp)
+                    loCharge = New ChargeInvoice(p_oApp)
 
 
 
                     With loCharge
-                            .POSNo = p_sTermnl
-                            .NewTransaction()
-                            .Master("sClientID") = lnQRResult(0)
-                            .Master("sClientNm") = lnQRResult(1)
-                            .Master("sAddressx") = ""
-                            .Master("sSourceCd") = pxeSourceCde
-                            .Master("sSourceNo") = p_oDTMaster(0)("sTransNox")
-                            .Master("nAmountxx") = p_oDTMaster(0)("nTranTotl")
-                            .Master("nDiscount") = p_oDTMaster(0)("nDiscount")
-                            .Master("nVatDiscx") = p_oDTMaster(0)("nVatDiscx")
-                            .Master("nPWDDiscx") = p_oDTMaster(0)("nPWDDiscx")
-                            .Master("cCollectd") = 0
+                        .POSNo = p_sTermnl
+                        .NewTransaction()
+                        .Master("sClientID") = lnQRResult(0)
+                        .Master("sClientNm") = lnQRResult(1)
+                        .Master("sAddressx") = ""
+                        .Master("sSourceCd") = pxeSourceCde
+                        .Master("sSourceNo") = p_oDTMaster(0)("sTransNox")
+                        .Master("nAmountxx") = p_oDTMaster(0)("nTranTotl")
+                        .Master("nDiscount") = p_oDTMaster(0)("nDiscount")
+                        .Master("nVatDiscx") = p_oDTMaster(0)("nVatDiscx")
+                        .Master("nPWDDiscx") = p_oDTMaster(0)("nPWDDiscx")
+                        .Master("cCollectd") = 0
 
-                            .Cashier = p_sCashierx
-                            .SerialNo = p_sSerial
-                            .TranMode = p_cTrnMde
-                            .AccrdNumber = p_sAccrdt
-                            .ClientNo = p_nNoClient
-                            .WithDisc = p_nWithDisc
-                            .TableNo = p_nTableNo
-                            .LogName = p_sLogName
+                        .Cashier = p_sCashierx
+                        .SerialNo = p_sSerial
+                        .TranMode = p_cTrnMde
+                        .AccrdNumber = p_sAccrdt
+                        .ClientNo = p_nNoClient
+                        .WithDisc = p_nWithDisc
+                        .TableNo = p_nTableNo
+                        .LogName = p_sLogName
 
-                            .SalesTotal = Math.Round(p_oDTMaster(0).Item("nTranTotl"), 2) - Math.Round((p_oDTMaster(0).Item("nDiscount") + p_oDTMaster(0).Item("nVatDiscx") + p_oDTMaster(0).Item("nPWDDiscx")), 2)
-                            .Discounts = Math.Round((p_oDTMaster(0).Item("nDiscount") + p_oDTMaster(0).Item("nVatDiscx") + p_oDTMaster(0).Item("nPWDDiscx")), 2)
+                        .SalesTotal = Math.Round(p_oDTMaster(0).Item("nTranTotl"), 2) - Math.Round((p_oDTMaster(0).Item("nDiscount") + p_oDTMaster(0).Item("nVatDiscx") + p_oDTMaster(0).Item("nPWDDiscx")), 2)
+                        .Discounts = Math.Round((p_oDTMaster(0).Item("nDiscount") + p_oDTMaster(0).Item("nVatDiscx") + p_oDTMaster(0).Item("nPWDDiscx")), 2)
 
-                            'for printing
-                            If CDate(Format(p_oDTMaster(0)("dTransact"), xsDATE_SHORT)) < CDate(Format(p_oApp.getSysDate, xsDATE_SHORT)) Then
-                                .DateTransact = p_oDTMaster(0)("dTransact")
-                            Else
-                                .DateTransact = p_oApp.getSysDate
-                            End If
-
+                        'for printing
+                        If CDate(Format(p_oDTMaster(0)("dTransact"), xsDATE_SHORT)) < CDate(Format(p_oApp.getSysDate, xsDATE_SHORT)) Then
                             .DateTransact = p_oDTMaster(0)("dTransact")
-                            .SalesOrder = p_oDTDetail
-                            .NonVAT = p_oDTMaster(0).Item("nNonVATxx") - p_oDTMaster(0).Item("nVatDiscx")
+                        Else
+                            .DateTransact = p_oApp.getSysDate
+                        End If
 
-                            'jovan 2021-04-17
-                            .Discount = p_oDtaDiscx
+                        .DateTransact = p_oDTMaster(0)("dTransact")
+                        .SalesOrder = p_oDTDetail
+                        .NonVAT = p_oDTMaster(0).Item("nNonVATxx") - p_oDTMaster(0).Item("nVatDiscx")
 
-                            If p_oDiscount.HasDiscount Then
-                                '.Discount = p_oDiscount.DiscountsMaster
+                        'jovan 2021-04-17
+                        .Discount = p_oDtaDiscx
 
-                                If p_oDiscount.Master("cNoneVATx") = "1" Then
-                                    .DiscAmount = p_oDTMaster(0).Item("nVatDiscx") + p_oDTMaster(0).Item("nPWDDiscx")
-                                Else
-                                    .DiscAmount = p_oDTMaster(0).Item("nDiscount")
-                                End If
+                        If p_oDiscount.HasDiscount Then
+                            '.Discount = p_oDiscount.DiscountsMaster
+
+                            If p_oDiscount.Master("cNoneVATx") = "1" Then
+                                .DiscAmount = p_oDTMaster(0).Item("nVatDiscx") + p_oDTMaster(0).Item("nPWDDiscx")
+                            Else
+                                .DiscAmount = p_oDTMaster(0).Item("nDiscount")
                             End If
+                        End If
 
 
-                            lbSuccess = .SaveTransaction()
+                        lbSuccess = .SaveTransaction()
 
 
-                            If lbSuccess Then
-                                If PostOrder() Then
-                                    .printReciept()
-                                    'If Not PostChargeOrder() Then
-                                    '    MsgBox("Unable to post charge invoice", vbCritical)
-                                    'End If
-                                End If
+                        If lbSuccess Then
+                            If PostOrder() Then
+                                .printReciept()
+                                'If Not PostChargeOrder() Then
+                                '    MsgBox("Unable to post charge invoice", vbCritical)
+                                'End If
                             End If
-                        End With
-                    End If
+                        End If
+                    End With
                 End If
+            End If
 
 
 
 
-            Else
+        Else
 
             If p_oDTMaster(0).Item("nPrntBill") = 0 Then
                 lnRep = MsgBox("Do you want to print bill transaction?", vbQuestion & vbYesNo, "CONFIRMATION")
@@ -3323,7 +3323,7 @@ Public Class New_Sales_Order
                 p_oDTDetail.Rows(lnCtr)("nAddDiscx") = 0
                 If p_oDTDetail.Rows(lnCtr)("sCategrID") <> "" Then
                     For lnRow As Integer = 0 To p_oDiscount.ItemCategoryCount - 1
-                        Debug.Print("dish" & p_oDTDetail.Rows(lnCtr)("sCategrID") & "data" & p_oDiscount.Category(lnRow, 1))
+                        'Debug.Print("dish" & p_oDTDetail.Rows(lnCtr)("sCategrID") & "data" & p_oDiscount.Category(lnRow, 1))
                         If p_oDTDetail.Rows(lnCtr)("sCategrID") = p_oDiscount.Category(lnRow, 1) Then
                             If IFNull(p_oDiscount.Category(lnRow, 2), 0) = 0.0 Then
                                 p_oDTDetail.Rows(lnCtr)("nDiscount") = p_oDiscount.Category(lnRow, 3)
