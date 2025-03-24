@@ -4737,7 +4737,7 @@ Public Class New_Sales_Order
     Private Function createDetail() As Boolean
         p_oDTDetail = New DataTable("Detail")
         p_oDTDetail.Columns.Add("nEntryNox", System.Type.GetType("System.Int16")).AutoIncrement = True
-        p_oDTDetail.Columns.Add("sBarcodex", System.Type.GetType("System.String")).MaxLength = 12
+        p_oDTDetail.Columns.Add("sBarcodex", System.Type.GetType("System.String")).MaxLength = 17
         p_oDTDetail.Columns.Add("sDescript", System.Type.GetType("System.String")).MaxLength = 64
         p_oDTDetail.Columns.Add("sBriefDsc", System.Type.GetType("System.String")).MaxLength = 16
         p_oDTDetail.Columns.Add("nUnitPrce", System.Type.GetType("System.Decimal"))
@@ -5822,7 +5822,6 @@ Public Class New_Sales_Order
             MsgBox("Invalid Machine Identification Info Detected...")
             Return False
         End If
-
         Dim lsSQL As String
         lsSQL = "SELECT" &
                        "  sAccredtn" &
