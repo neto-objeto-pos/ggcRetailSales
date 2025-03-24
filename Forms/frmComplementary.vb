@@ -206,7 +206,7 @@ endProc:
 
             'Set Column Headers
             .Columns(0).HeaderText = "No"
-            .Columns(1).HeaderText = "Barrcode"
+            .Columns(1).HeaderText = "Barcode"
             .Columns(2).HeaderText = "Description"
             .Columns(3).HeaderText = "Qty"
             .Columns(4).HeaderText = "SRP"

@@ -392,7 +392,7 @@ endProc:
 
             'Set Column Headers
             .Columns(0).HeaderText = "No"
-            .Columns(1).HeaderText = "Barrcode"
+            .Columns(1).HeaderText = "Barcode"
             .Columns(2).HeaderText = "Description"
             .Columns(3).HeaderText = "Qty"
             .Columns(4).HeaderText = "SRP"
@@ -400,7 +400,7 @@ endProc:
 
             'Set Column Sizes
             .Columns(0).Width = 30
-            .Columns(1).Width = 95
+            .Columns(1).Width = 125
             .Columns(2).Width = 160
             .Columns(3).Width = 40
             .Columns(4).Width = 75

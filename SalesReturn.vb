@@ -1037,7 +1037,7 @@ errProc:
             .Columns.Add("nUnitPrce", GetType(Decimal))
             .Columns.Add("nDiscount", GetType(Decimal))
             .Columns.Add("nAddDiscx", GetType(Decimal))
-            .Columns.Add("sBarcodex", GetType(String)).MaxLength = 12
+            .Columns.Add("sBarcodex", GetType(String)).MaxLength = 17
             .Columns.Add("sBriefDsc", GetType(String)).MaxLength = 16
             .Columns.Add("cReversex", GetType(String)).MaxLength = 1
             .Columns.Add("nComplmnt", GetType(Integer))
