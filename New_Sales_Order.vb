@@ -1344,9 +1344,9 @@ Public Class New_Sales_Order
                                         , getSQ_Search _
                                         , False _
                                         , lsFilter _
-                                        , "sBarcodex»sDescript»nUnitPrce" _
+                                        , "sBarcodex»sDescript»nSelPrice" _
                                         , "Bar Code»Description»Unit Price",
-                                        , "a.sBarcodex»a.sDescript»a.nUnitPrce" _
+                                        , "a.sBarcodex»a.sDescript»a.nSelPrice" _
                                         , IIf(fbByCode, 0, 1))
             If IsNothing(loDta) Then
                 Return False
@@ -1381,9 +1381,9 @@ Public Class New_Sales_Order
                                         , getSQ_Search _
                                         , False _
                                         , lsFilter _
-                                        , "sDescript»nUnitPrce" _
+                                        , "sDescript»nSelPrice" _
                                         , "Description»Unit Price",
-                                        , "sDescript»nUnitPrce" _
+                                        , "sDescript»nSelPrice" _
                                         , 0)
             If IsNothing(loDta) Then
                 Return False
@@ -4852,7 +4852,7 @@ Public Class New_Sales_Order
         p_oDTDetail(p_nRow).Item("sBarcodex") = foDT(0).Item("sBarcodex")
         p_oDTDetail(p_nRow).Item("sDescript") = foDT(0).Item("sDescript")
         p_oDTDetail(p_nRow).Item("sBriefDsc") = foDT(0).Item("sBriefDsc")
-        p_oDTDetail(p_nRow).Item("nUnitPrce") = foDT(0).Item("nUnitPrce")
+        p_oDTDetail(p_nRow).Item("nUnitPrce") = foDT(0).Item("nSelPrice")
         p_oDTDetail(p_nRow).Item("sStockIDx") = foDT(0).Item("sStockIDx")
         p_oDTDetail(p_nRow).Item("nDiscLev1") = foDT(0).Item("nDiscLev1")
         p_oDTDetail(p_nRow).Item("nDiscLev2") = foDT(0).Item("nDiscLev2")
@@ -5724,7 +5724,7 @@ Public Class New_Sales_Order
         If loDT.Rows.Count = 0 Then
             Return 1
         Else
-            Return loDT(0).Item("nContrlNo") + 1
+            Return IFNull(loDT(0).Item("nContrlNo"), 0) + 1
         End If
     End Function
 
@@ -6042,6 +6042,7 @@ Public Class New_Sales_Order
             "SELECT a.sBarcodex" &
                 ", a.sDescript" &
                 ", a.nUnitPrce" &
+                ", a.nSelPrice" &
                 ", a.cWthPromo" &
                 ", a.cComboMlx" &
                 ", a.sBriefDsc" &
