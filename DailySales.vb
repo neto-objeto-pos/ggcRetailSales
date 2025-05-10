@@ -891,11 +891,11 @@ Public Class DailySales
         Dim lnResult As Long
         ' Check if the batch file exists
         If File.Exists(Path.Combine(pxeJavaPath, "uploadSales.bat")) Then
-            lnResult = RMJExecute(pxeJavaPath, "uploadSales.bat", "")
-            If lnResult <> 0 Then
-                'MessageBox.Show("Unable to upload Sales to main server!", "Notice", MessageBoxButtons.OK, MessageBoxIcon.Information)
-                Return False
-            End If
+            RMJExecute(pxeJavaPath, "uploadSales.bat", "")
+            'If lnResult <> 0 Then
+            'MessageBox.Show("Unable to upload Sales to main server!", "Notice", MessageBoxButtons.OK, MessageBoxIcon.Information)
+            'Return False
+            'End If
         Else
             ' Path check
             MessageBox.Show("File Path Doesn't Exist " & Path.Combine(pxeJavaPath, "reademployee.bat") & " Please Inform MIS Dept !!", "Notice", MessageBoxButtons.OK, MessageBoxIcon.Information)
