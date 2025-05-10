@@ -406,6 +406,8 @@ Public Class DailySales
         Try
             Dim lsSQL As String
 
+
+
             'Save master table 
             If p_nEditMode = xeEditMode.MODE_ADDNEW Then
                 lsSQL = ADO2SQL(p_oDTMaster, p_sMasTable)
@@ -529,6 +531,11 @@ Public Class DailySales
             End If
         End If
 
+
+
+        If Not computeCategorySales(sTrandate, sCRMNumbr) Then
+            MsgBox("Unable to perform Category Sales!!", , p_sMsgHeadr)
+        End If
         If p_sParent = "" Then p_oApp.BeginTransaction()
 
         'print daily sales
@@ -641,20 +648,54 @@ Public Class DailySales
             lnPrevSale = loDT(0)("nAccuSale")
         End If
 
+        If p_oApp.BranchCode = "P013" Then
+            Return True
+        End If
+
+        'maynard printSales by Category
+        'get previous day accumulated sale
+        lsSQL = "SELECT a.sCategrID" &
+                        ", b.sDescript" &
+                        ", SUM(a.nTotalAmt) nTotalAmt" &
+                " FROM Daily_Summary_Others a" &
+                " LEFT JOIN Product_Category b ON a.sCategrID = b.sCategrCd" &
+                " WHERE sTranDate = " & strParm(sTrandate) &
+                    " AND a.sCRMNumbr = " & strParm(sCRMNumbr) &
+                    " AND a.sCashierx = " & strParm(p_oDTMaster(0).Item("sCashierx")) &
+                " GROUP BY a.sTranDate,a.sCRMNumbr,a.sCategrID ORDER BY a.sCategrID "
+
+        Dim loDTCategory As DataTable
+        loDTCategory = p_oApp.ExecuteQuery(lsSQL)
+
         '        Dim Printer_Name As String = "\\192.168.10.14\EPSON LX-310 ESC/P"
         Dim builder As New System.Text.StringBuilder()
 
-        builder.Append(Environment.NewLine)
-        builder.Append(PadCenter(Trim(p_sCompny), 40) & Environment.NewLine)
+        builder.Append(RawPrint.pxePRINT_INIT)          'Initialize Printer
+
+        'builder.Append(RawPrint.pxePRINT_ESC & Chr(RawPrint.pxeESC_FNT1 + RawPrint.pxeESC_DBLW + RawPrint.pxeESC_EMPH))
+        builder.Append(RawPrint.pxePRINT_CNTR)
+        'p_sCompny = "The Monarch Hospitality & Tourism Corp."
+        builder.Append(PadCenter(Trim(p_sCompny), 20) & Environment.NewLine)
+
+        builder.Append(RawPrint.pxePRINT_ESC & Chr(RawPrint.pxeESC_FNT1)) 'Condense
+
         builder.Append(PadCenter(Trim(p_oApp.BranchName), 40) & Environment.NewLine)
         builder.Append(PadCenter(Trim(p_oApp.Address), 40) & Environment.NewLine)
         builder.Append(PadCenter(Trim(p_oApp.TownCity & ", " & p_oApp.Province), 40) & Environment.NewLine)
 
+        'p_sVATReg = "469-083-682-002"
         builder.Append(PadCenter("VAT REG TIN: " & p_sVATReg, 40) & Environment.NewLine)
+        'p_sPOSNo = "22010313392685363"
         builder.Append(PadCenter("MIN : " & p_sPOSNo, 40) & Environment.NewLine)
+        'p_sSerial = "WCC6Y5NUS72X"
         builder.Append(PadCenter("Serial No. : " & p_sSerial, 40) & Environment.NewLine & Environment.NewLine)
 
-        builder.Append(PadCenter("X-READING", 40) & Environment.NewLine)
+        builder.Append(RawPrint.pxePRINT_ESC & Chr(RawPrint.pxeESC_FNT1 + RawPrint.pxeESC_DBLH + RawPrint.pxeESC_DBLW + RawPrint.pxeESC_EMPH))
+        builder.Append(RawPrint.pxePRINT_CNTR)
+        builder.Append("X-READING" & Environment.NewLine)
+
+        builder.Append(RawPrint.pxePRINT_ESC & Chr(RawPrint.pxeESC_FNT1)) 'Condense
+        builder.Append(RawPrint.pxePRINT_LEFT)
 
         'Get the transaction date thru reverse formatting the sTrandate field
         Dim lsTranDate As String
@@ -662,17 +703,12 @@ Public Class DailySales
         lsTranDate = Left(lsTranDate, 4) & "-" & Mid(lsTranDate, 5, 2) & "-" & Right(lsTranDate, 2)
 
         builder.Append(Environment.NewLine)
+        builder.Append(RawPrint.pxePRINT_ESC & Chr(RawPrint.pxeESC_FNT1)) 'Condense
         builder.Append("DATE      :" & Format(CDate(lsTranDate), "dd-MMM-yyyy") & Environment.NewLine)
         builder.Append("CASHIER   :" & getCashier(p_sCashier) & Environment.NewLine)
         builder.Append("TERMINAL  :" & p_sTermnl & Environment.NewLine)
         'builder.Append("TERMINAL #:" & p_sSerial & Environment.NewLine)
-
-        'builder.Append(Environment.NewLine)
-        'builder.Append(RawPrint.pxePRINT_ESC & Chr(RawPrint.pxeESC_FNT1)) 'Condense
-        'builder.Append("DATE      :" & Format(CDate(lsTranDate), "dd-MMM-yyyy") & Environment.NewLine)
-        'builder.Append("CASHIER   :" & getCashier(p_sCashier) & Environment.NewLine)
-        'builder.Append("TERMINAL #:" & p_sSerial & Environment.NewLine)
-        'builder.Append(RawPrint.pxePRINT_EMP0)
+        builder.Append(RawPrint.pxePRINT_EMP0)
 
         'Print Asterisk(*)
         builder.Append(Environment.NewLine)
@@ -812,6 +848,15 @@ Public Class DailySales
         builder.Append("  Credit Card".PadRight(24) & Format(lnCrdtAmnt, xsDECIMAL).PadLeft(13) & Environment.NewLine)
         builder.Append("  Gift Cheque".PadRight(24) & Format(lnGiftAmnt, xsDECIMAL).PadLeft(13) & Environment.NewLine)
         'builder.Append("  Company Accounts".PadRight(24) & Format(lnChrgAmnt, xsDECIMAL).PadLeft(13) & Environment.NewLine)
+
+        If loDTCategory.Rows.Count > 0 Then
+            builder.Append("-".PadLeft(40, "-") & Environment.NewLine)
+
+            For lnCtr = 0 To loDTCategory.Rows.Count - 1
+                builder.Append(("  " & loDTCategory(lnCtr).Item("sDescript")).PadRight(24) & Format(loDTCategory(lnCtr).Item("nTotalAmt"), xsDECIMAL).PadLeft(13) & Environment.NewLine)
+
+            Next
+        End If
 
         builder.Append("-".PadLeft(40, "-") & Environment.NewLine)
         builder.Append(RawPrint.pxePRINT_EMP1)
@@ -1166,6 +1211,21 @@ Public Class DailySales
             Return True
         End If
 
+        'maynard printSales by Category
+        'get previous day accumulated sale
+        lsSQL = "SELECT a.sCategrID" &
+                        ", b.sDescript" &
+                        ", SUM(a.nTotalAmt) nTotalAmt" &
+                " FROM Daily_Summary_Others a" &
+                " LEFT JOIN Product_Category b ON a.sCategrID = b.sCategrCd" &
+                " WHERE sTranDate = " & strParm(sTrandate) &
+                    " AND a.sCRMNumbr = " & strParm(sCRMNumbr) &
+                    " AND a.sCashierx = " & strParm(p_oDTMaster(0).Item("sCashierx")) &
+                " GROUP BY a.sTranDate,a.sCRMNumbr,a.sCategrID ORDER BY a.sCategrID "
+
+        Dim loDTCategory As DataTable
+        loDTCategory = p_oApp.ExecuteQuery(lsSQL)
+
         '        Dim Printer_Name As String = "\\192.168.10.14\EPSON LX-310 ESC/P"
         Dim builder As New System.Text.StringBuilder()
 
@@ -1347,6 +1407,15 @@ Public Class DailySales
         builder.Append("  Credit Card".PadRight(24) & Format(lnCrdtAmnt, xsDECIMAL).PadLeft(13) & Environment.NewLine)
         builder.Append("  Gift Cheque".PadRight(24) & Format(lnGiftAmnt, xsDECIMAL).PadLeft(13) & Environment.NewLine)
         'builder.Append("  Company Accounts".PadRight(24) & Format(lnChrgAmnt, xsDECIMAL).PadLeft(13) & Environment.NewLine)
+
+        If loDTCategory.Rows.Count > 0 Then
+            builder.Append("-".PadLeft(40, "-") & Environment.NewLine)
+
+            For lnCtr = 0 To loDTCategory.Rows.Count - 1
+                builder.Append(("  " & loDTCategory(lnCtr).Item("sDescript")).PadRight(24) & Format(loDTCategory(lnCtr).Item("nTotalAmt"), xsDECIMAL).PadLeft(13) & Environment.NewLine)
+
+            Next
+        End If
 
         builder.Append("-".PadLeft(40, "-") & Environment.NewLine)
         builder.Append(RawPrint.pxePRINT_EMP1)
@@ -2135,6 +2204,86 @@ Public Class DailySales
     '    Return True
     'End Function
 
+    Private Function computeCategorySales(ByVal sTrandate As String, ByVal sCRMNumbr As String) As Boolean
+        Dim lsSQL As String
+        lsSQL = AddCondition(getSQ_Master, "sTranDate = " & strParm(sTrandate) &
+                                      " AND sCRMNumbr = " & strParm(sCRMNumbr) &
+                                      " AND sCashierx =  " & strParm(p_sCashier) &
+                                      " AND cTranStat = '0'")
+
+        Dim loDta As DataTable
+        loDta = p_oApp.ExecuteQuery(lsSQL)
+
+        If loDta.Rows.Count = 0 Then
+            MsgBox("There are no transaction for this date(" & sTrandate & ").", , p_sMsgHeadr)
+            Return False
+        ElseIf loDta.Rows.Count > 1 Then
+            MsgBox("Unclosed cashier shifts detected for the date(" & sTrandate & ").", , p_sMsgHeadr)
+            Return False
+        End If
+
+        If Not OpenTransaction(sTrandate, sCRMNumbr, loDta(0).Item("sCashierx")) Then
+            MsgBox("Can't open transaction of " & getCashier(loDta(0).Item("sCashierx")))
+            Return False
+        End If
+
+        Dim lsTranDate As String
+        Dim lnCtr As Integer
+
+        lsTranDate = p_oDTMaster(0).Item("sTranDate")
+        lsTranDate = Left(lsTranDate, 4) & "-" & Mid(lsTranDate, 5, 2) & "-" & Right(lsTranDate, 2)
+
+        'Maynard get Sales by Inventory Category
+        lsSQL = "SELECT" &
+                 " IFNULL (e.sCategrCd, '') AS sCategrCd" &
+                 ", IFNULL (e.sDescript, 'Others') AS sDescript" &
+                 ",  SUM(((b.nUnitPrce * b.nQuantity) / NULLIF (xSales.nTotalSales, 0))" &
+                      "  * IFNULL (c.nSalesAmt, 0)) AS nCatSales" &
+                " FROM SO_Master a" &
+                " LEFT JOIN SO_Detail b ON a.sTransNox = b.sTransNox" &
+                        " AND b.cReversex = '+'" &
+                " LEFT JOIN Receipt_Master c ON a.sTransNox = c.sSourceNo" &
+                        " AND c.sSourceCd = 'SO'" &
+                " LEFT JOIN Inventory d ON b.sStockIDx = d.sStockIDx" &
+                " LEFT JOIN Product_Category e ON d.sCategrID = e.sCategrCd" &
+                " LEFT JOIN (SELECT " &
+                        " sTransNox" &
+                        " ,SUM(nUnitPrce * nQuantity) AS nTotalSales" &
+                        "  FROM SO_Detail" &
+                        "  WHERE cReversex = '+'" &
+                        "  GROUP BY sTransNox) xSales" &
+                    "  ON a.sTransNox = xSales.sTransNox" &
+                " WHERE a.cTranStat <> '3'" &
+                         " AND a.sTransNox Like " & strParm(p_oApp.BranchCode & p_sTermnl & "%") &
+                         " And a.sCashierx = " & strParm(p_oDTMaster(0).Item("sCashierx")) &
+                         " And a.dTransact = " & dateParm(lsTranDate) &
+                " GROUP BY e.sCategrCd ORDER BY e.sCategrCd"
+        loDta = p_oApp.ExecuteQuery(lsSQL)
+
+        If loDta.Rows.Count > 0 Then
+            For lnCtr = 0 To loDta.Rows.Count - 1
+                Debug.Print(loDta(lnCtr).Item("sCategrCd"))
+                Try
+                    lsSQL = "INSERT INTO Daily_Summary_Others " &
+                        " SET sTranDate = " & strParm(p_oDTMaster(0).Item("sTranDate")) &
+                            ", sCRMNumbr = " & strParm(p_oDTMaster(0).Item("sCRMNumbr")) &
+                            ", sCashierx = " & strParm(p_oDTMaster(0).Item("sCashierx")) &
+                            ", sCategrID = " & strParm(loDta(lnCtr).Item("sCategrCd")) &
+                            ", nTotalAmt = " & strParm(loDta(lnCtr).Item("nCatSales")) &
+                       " ON DUPLICATE KEY UPDATE" &
+                        "  nTotalAmt = " & strParm(loDta(lnCtr).Item("nCatSales"))
+
+                    p_oApp.Execute(lsSQL, "Daily_Summary_Others", "")
+                Catch ex As Exception
+                    MsgBox(ex.Message)
+                    Throw ex
+                End Try
+
+
+            Next
+        End If
+        Return True
+    End Function
     Private Function computeTotalCashierSales() As Boolean
         Dim loDSC As New DataTable
         Dim lsSQL As String
@@ -2428,6 +2577,7 @@ Public Class DailySales
         p_oDTMaster(0).Item("nGiftAmnt") = lnGiftAmnt
         p_oDTMaster(0).Item("nChrgAmnt") = lnChrgAmnt
         p_oDTMaster(0).Item("nSChargex") = lnSChargex
+
         Return True
     End Function
 

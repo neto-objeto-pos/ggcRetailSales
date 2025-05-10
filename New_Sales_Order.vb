@@ -6160,6 +6160,7 @@ Public Class New_Sales_Order
                     If loZReading.PrintTZReading(Format(p_dPOSDatex, "yyyyMMdd"),
                                                         Format(p_dPOSDatex, "yyyyMMdd"),
                                                         p_sPOSNo, False) Then
+                        uploadSales()
                         Return True
                     End If
                 End If
@@ -6180,7 +6181,7 @@ Public Class New_Sales_Order
 
                 If loDta.Rows.Count = 0 Then
                     MsgBox("There are no transaction for the given date....", , "New_Sales_Order")
-                    Return False
+                    Return True
                 End If
 
                 For lnCtr = 0 To loDta.Rows.Count - 1
@@ -6189,9 +6190,11 @@ Public Class New_Sales_Order
                                                             p_sPOSNo, True, loDta.Rows(lnCtr)("nZReadCtr")) Then
                     End If
                 Next
-
+                uploadSales()
                 MsgBox("Z-Reading was perform successfully!!", , "ProcTZReading")
-                Return False
+
+                Return True
+
             End If
         End If
 
@@ -6946,6 +6949,23 @@ Public Class New_Sales_Order
         Next
 
     End Sub
+    Private Function uploadSales() As Boolean
+
+        Dim lnResult As Long
+        ' Check if the batch file exists
+        If File.Exists(Path.Combine(pxeJavaPath, "uploadSales.bat")) Then
+            lnResult = RMJExecute(pxeJavaPath, "uploadSales.bat", "")
+            If lnResult <> 0 Then
+                MessageBox.Show("Unable to upload Sales!", "Notice", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                Return False
+            End If
+        Else
+            ' Path check
+            MessageBox.Show("File Path Doesn't Exist " & Path.Combine(pxeJavaPath, "reademployee.bat") & " Please Inform MIS Dept !!", "Notice", MessageBoxButtons.OK, MessageBoxIcon.Information)
+            Return False
+        End If
+    End Function
+
 
     Private Function getSQ_HistoryPrice() As String
         Return "SELECT sStockIDx" &
