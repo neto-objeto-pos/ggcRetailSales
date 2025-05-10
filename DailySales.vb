@@ -23,6 +23,7 @@ Imports ADODB
 Imports ggcAppDriver
 Imports ggcReceipt
 Imports System.IO
+Imports System.Windows.Forms
 
 Public Class DailySales
     Private p_oApp As GRider
@@ -56,9 +57,14 @@ Public Class DailySales
     Private Const p_sMsgHeadr As String = "Daily Summary"
     Private Const xsSignature As String = "08220326"
 
+
+    Public Const pxeJavaPath As String = "D:\GGC_Java_Systems\"
+
+    Public Const pxeJavaPathTemp As String = "D:\GGC_Java_Systems\temp\"
+
     Private Const pxeLFTMGN As Integer = 3
 
-    Public Event MasterRetrieved(ByVal Index As Integer, _
+    Public Event MasterRetrieved(ByVal Index As Integer,
                                   ByVal Value As Object)
 
     'Property EditMode()
@@ -443,8 +449,8 @@ Public Class DailySales
     Public Function OpenTransaction(ByVal sTrandate As String, ByVal sCRMNumbr As String, ByVal sCashierx As String) As Boolean
         Dim lsSQL As String
 
-        lsSQL = AddCondition(getSQ_Master, "sTranDate = " & strParm(sTrandate) & _
-                                      " AND sCRMNumbr = " & strParm(sCRMNumbr) & _
+        lsSQL = AddCondition(getSQ_Master, "sTranDate = " & strParm(sTrandate) &
+                                      " AND sCRMNumbr = " & strParm(sCRMNumbr) &
                                       " AND sCashierx = " & strParm(sCashierx))
         p_oDTMaster = p_oApp.ExecuteQuery(lsSQL)
 
@@ -535,6 +541,7 @@ Public Class DailySales
 
         If Not computeCategorySales(sTrandate, sCRMNumbr) Then
             MsgBox("Unable to perform Category Sales!!", , p_sMsgHeadr)
+            uploadSales()
         End If
         If p_sParent = "" Then p_oApp.BeginTransaction()
 
@@ -549,10 +556,10 @@ Public Class DailySales
         'create query to post the daily sales
         If p_oDTMaster(0).Item("cTranStat") = "0" Then
             Dim lsSQL As String
-            lsSQL = "UPDATE " & p_sMasTable & _
-                    " SET cTranStat = " & strParm(xeTranStat.TRANS_CLOSED) & _
-                    " WHERE sTranDate = " & strParm(sTrandate) & _
-                        " AND sCRMNumbr = " & strParm(sCRMNumbr) & _
+            lsSQL = "UPDATE " & p_sMasTable &
+                    " SET cTranStat = " & strParm(xeTranStat.TRANS_CLOSED) &
+                    " WHERE sTranDate = " & strParm(sTrandate) &
+                        " AND sCRMNumbr = " & strParm(sCRMNumbr) &
                         " AND cTranStat = '0'"
             'post daily sales
             p_oApp.Execute(lsSQL, p_sMasTable)
@@ -877,6 +884,23 @@ Public Class DailySales
         RawPrint.writeToFile(p_sPOSNo & " X-READING" & " " & sTrandate, builder.ToString())
 
         Return True
+    End Function
+
+    Public Function uploadSales() As Boolean
+
+        Dim lnResult As Long
+        ' Check if the batch file exists
+        If File.Exists(Path.Combine(pxeJavaPath, "uploadSales.bat")) Then
+            lnResult = RMJExecute(pxeJavaPath, "uploadSales.bat", "")
+            If lnResult <> 0 Then
+                'MessageBox.Show("Unable to upload Sales to main server!", "Notice", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                Return False
+            End If
+        Else
+            ' Path check
+            MessageBox.Show("File Path Doesn't Exist " & Path.Combine(pxeJavaPath, "reademployee.bat") & " Please Inform MIS Dept !!", "Notice", MessageBoxButtons.OK, MessageBoxIcon.Information)
+            Return False
+        End If
     End Function
 
     Public Function doWriteTXReadingReg(ByVal sTrandate As String,
@@ -1770,23 +1794,23 @@ Public Class DailySales
         'kalyptus - 2016.12.14 11:09am 
         'UPDATE Cash Register machine info if the daily cash register is not yet posted...
         'If p_oDTMaster(0).Item("cTranStat") = "0" Then
-            loDta(0).Item("nSalesTot") += lnSalesAmt
-            loDta(0).Item("nVATSales") += lnVATSales
-            loDta(0).Item("nVATAmtxx") += lnVATAmtxx
-            loDta(0).Item("nNonVATxx") += lnNonVATxx
-            loDta(0).Item("nZeroRatd") += lnZeroRatd
-            loDta(0).Item("nSChrgAmt") += lnSChargex
+        loDta(0).Item("nSalesTot") += lnSalesAmt
+        loDta(0).Item("nVATSales") += lnVATSales
+        loDta(0).Item("nVATAmtxx") += lnVATAmtxx
+        loDta(0).Item("nNonVATxx") += lnNonVATxx
+        loDta(0).Item("nZeroRatd") += lnZeroRatd
+        loDta(0).Item("nSChrgAmt") += lnSChargex
 
-            lsSQL = "UPDATE Cash_Reg_Machine" &
-                   " SET nVATSales = nVATSales + " & lnVATSales &
-                      ", nVATAmtxx = nVATAmtxx + " & lnVATAmtxx &
-                      ", nNonVATxx = nNonVATxx + " & lnNonVATxx &
-                      ", nZeroRatd = nZeroRatd + " & lnZeroRatd &
-                      ", nSalesTot = nSalesTot + " & lnSalesAmt &
-                      ", nSChrgAmt = nSChrgAmt + " & lnSChargex &
-                      ", sORNoxxxx = " & strParm(lsORNoThru) &
-                   " WHERE sIDNumber = " & strParm(p_sPOSNo)
-            p_oApp.Execute(lsSQL, "Cash_Reg_Machine")
+        lsSQL = "UPDATE Cash_Reg_Machine" &
+" SET nVATSales = nVATSales + " & lnVATSales &
+", nVATAmtxx = nVATAmtxx + " & lnVATAmtxx &
+", nNonVATxx = nNonVATxx + " & lnNonVATxx &
+", nZeroRatd = nZeroRatd + " & lnZeroRatd &
+", nSalesTot = nSalesTot + " & lnSalesAmt &
+", nSChrgAmt = nSChrgAmt + " & lnSChargex &
+", sORNoxxxx = " & strParm(lsORNoThru) &
+" WHERE sIDNumber = " & strParm(p_sPOSNo)
+        p_oApp.Execute(lsSQL, "Cash_Reg_Machine")
         'End If
 
         builder.Append("*".PadLeft(40, "*") & Environment.NewLine)
