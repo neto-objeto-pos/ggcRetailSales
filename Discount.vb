@@ -517,6 +517,7 @@ Public Class Discount
         Dim lsSQL As String
         Dim lnRow As Integer
         Dim lsEntryNox As String
+        Dim lbWithDiscount As Boolean
 
         With p_oMasterTable
             If p_bCancelled Then Return False
@@ -530,23 +531,24 @@ Public Class Discount
                 '    Return False
                 'End If
                 Debug.Print("")
-            Else
+
                 If p_oCategrTable.Rows.Count = 1 Then
-                    If p_oCategrTable.Rows(0)("nDiscRate") <= 0 And p_oCategrTable.Rows(0)("nAddDiscx") <= 0 Then Return True
+                    lbWithDiscount = Not p_oCategrTable.Rows(0)("nDiscRate") <= 0 Or Not p_oCategrTable.Rows(0)("nDiscAmtx") <= 0
+
                 Else
-                    Dim lbWithDiscount As Boolean
                     For lnCtr As Integer = 0 To p_oCategrTable.Rows.Count - 1
                         If Not lbWithDiscount Then
-                            If p_oCategrTable.Rows(lnCtr)("nDiscRate") > 0 And p_oCategrTable.Rows(lnCtr)("nAddDiscx") > 0 Then
+                            If p_oCategrTable.Rows(lnCtr)("nDiscRate") > 0 And p_oCategrTable.Rows(lnCtr)("nDiscAmtx") > 0 Then
                                 lbWithDiscount = True
                             End If
                         End If
                         If Not lbWithDiscount Then Return True
                     Next
-                    If Not p_oAppDrvr.BranchCode = "P013" Then
-                        If lbWithDiscount Then
-                            If Not p_oAppDrvr.getUserApproval Then Return False
-                        End If
+
+                End If
+                If Not p_oAppDrvr.BranchCode = "P013" Then
+                    If lbWithDiscount Then
+                        If Not p_oAppDrvr.getUserApproval Then Return False
                     End If
                 End If
             End If
