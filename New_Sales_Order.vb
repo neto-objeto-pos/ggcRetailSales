@@ -1435,7 +1435,7 @@ Public Class New_Sales_Order
 
         If IIf(Master("sTableNox") = "", 0, Master("sTableNox")) <> "0" Then
             If p_oDTDetail(p_nRow).Item("cPrintedx") = xeLogical.YES Then
-                If Not getUserApproval() Then Return False
+                If Not p_oApp.getUserApproval() Then Return False
                 'MsgBox("Update on QTY detected!" & vbCrLf &
                 '    "You must need to save order to save transaction", vbInformation)
             End If
@@ -2672,7 +2672,7 @@ Public Class New_Sales_Order
 
             If .Cancel Then Return False
 
-            If Not getUserApproval() Then Return False
+            If Not p_oApp.getUserApproval() Then Return False
 
             lnNewPrice = .UnitPrice
 
@@ -2968,7 +2968,7 @@ Public Class New_Sales_Order
         lnRep = MsgBox("Are you sure you want to charge order?", vbQuestion & vbYesNo, "CONFIRMATION")
         If lnRep = vbNo Then Return False
 
-        'If Not getUserApproval() Then Return False
+        If Not p_oApp.getUserApproval() Then Return False
         If (p_oApp.BranchCode = "P013") Then
 
 
@@ -3538,7 +3538,7 @@ Public Class New_Sales_Order
             'lbSuccess = Not .Cancelled
 
             If .Cancelled Then Return False
-            If Not getUserApproval() Then Return False
+            If Not p_oApp.getUserApproval() Then Return False
 
             lbSuccess = True
             p_nComplmnt = .Master(5)
@@ -3654,7 +3654,7 @@ Public Class New_Sales_Order
                 End If
             End If
 
-            If Not getUserApproval() Then Return False
+            If Not p_oApp.getUserApproval() Then Return False
 
             lsSQL = "SELECT * FROM Receipt_Master" &
                     " WHERE sSourceNo = " & strParm(p_oDTMaster.Rows(0)("sTransNox"))
@@ -3764,74 +3764,74 @@ Public Class New_Sales_Order
         Return True
     End Function
 
-    Function getUserApproval() As Boolean
-        Dim lofrmUserDisc As New frmUserDisc
-        Dim loDT As New DataTable
+    'Function getUserApproval() As Boolean
+    '    Dim lofrmUserDisc As New frmUserDisc
+    '    Dim loDT As New DataTable
 
-        Dim lnCtr As Integer = 0
-        Dim lbValid As Boolean = False
+    '    Dim lnCtr As Integer = 0
+    '    Dim lbValid As Boolean = False
 
-        With lofrmUserDisc
-            Do
-                .TopMost = True
-                .ShowDialog()
-                If .Cancelled = True Then
-                    Return False
-                End If
+    '    With lofrmUserDisc
+    '        Do
+    '            .TopMost = True
+    '            .ShowDialog()
+    '            If .Cancelled = True Then
+    '                Return False
+    '            End If
 
-                p_oSC.Connection = p_oApp.Connection
-                p_oSC.CommandText = getSQ_User()
-                p_oSC.Parameters.Clear()
-                p_oSC.Parameters.AddWithValue("?sLogNamex", Encrypt(lofrmUserDisc.LogName, xsSignature))
-                p_oSC.Parameters.AddWithValue("?sPassword", Encrypt(lofrmUserDisc.Password, xsSignature))
+    '            p_oSC.Connection = p_oApp.Connection
+    '            p_oSC.CommandText = getSQ_User()
+    '            p_oSC.Parameters.Clear()
+    '            p_oSC.Parameters.AddWithValue("?sLogNamex", Encrypt(lofrmUserDisc.LogName, xsSignature))
+    '            p_oSC.Parameters.AddWithValue("?sPassword", Encrypt(lofrmUserDisc.Password, xsSignature))
 
-                loDT = p_oApp.ExecuteQuery(p_oSC)
+    '            loDT = p_oApp.ExecuteQuery(p_oSC)
 
-                If loDT.Rows.Count = 0 Then
-                    MsgBox("User Does Not Exist!" & vbCrLf & "Verify log name and/or password.", vbCritical, "Warning")
-                    lnCtr += 1
-                Else
-                    If Not isUserActive(loDT) Then
-                        lnCtr = 0
-                    Else
-                        If loDT.Rows(0).Item("nUserLevl") > xeUserRights.DATAENTRY Then
-                            lbValid = True
-                        Else
-                            MsgBox("User is not allowed to approve this transaction!" & vbCrLf & "Verify user name and/or password.", vbCritical, "Warning")
-                            lnCtr += 1
-                        End If
-                    End If
-                End If
-            Loop Until lbValid Or lnCtr = 3
-        End With
+    '            If loDT.Rows.Count = 0 Then
+    '                MsgBox("User Does Not Exist!" & vbCrLf & "Verify log name and/or password.", vbCritical, "Warning")
+    '                lnCtr += 1
+    '            Else
+    '                If Not isUserActive(loDT) Then
+    '                    lnCtr = 0
+    '                Else
+    '                    If loDT.Rows(0).Item("nUserLevl") > xeUserRights.DATAENTRY Then
+    '                        lbValid = True
+    '                    Else
+    '                        MsgBox("User is not allowed to approve this transaction!" & vbCrLf & "Verify user name and/or password.", vbCritical, "Warning")
+    '                        lnCtr += 1
+    '                    End If
+    '                End If
+    '            End If
+    '        Loop Until lbValid Or lnCtr = 3
+    '    End With
 
-        If lbValid Then
-            p_sUserIDxx = loDT.Rows(0).Item("sUserIDxx")
-            p_sUserName = loDT.Rows(0).Item("sUserName")
-            p_sLogNamex = loDT.Rows(0).Item("sLogNamex")
-            p_nUserLevl = loDT.Rows(0).Item("nUserLevl")
+    '    If lbValid Then
+    '        p_sUserIDxx = loDT.Rows(0).Item("sUserIDxx")
+    '        p_sUserName = loDT.Rows(0).Item("sUserName")
+    '        p_sLogNamex = loDT.Rows(0).Item("sLogNamex")
+    '        p_nUserLevl = loDT.Rows(0).Item("nUserLevl")
 
-        End If
-        Return lbValid
-    End Function
+    '    End If
+    '    Return lbValid
+    'End Function
 
-    Private Function getSQ_User() As String
-        Return "SELECT sUserIDxx" &
-              ", sLogNamex" &
-              ", sPassword" &
-              ", sUserName" &
-              ", nUserLevl" &
-              ", cUserType" &
-              ", sProdctID" &
-              ", cUserStat" &
-              ", nSysError" &
-              ", cLogStatx" &
-              ", cLockStat" &
-              ", cAllwLock" &
-           " FROM xxxSysUser" &
-           " WHERE sLogNamex = ?sLogNamex" &
-              " AND sPassword = ?sPassword"
-    End Function
+    'Private Function getSQ_User() As String
+    '    Return "SELECT sUserIDxx" &
+    '          ", sLogNamex" &
+    '          ", sPassword" &
+    '          ", sUserName" &
+    '          ", nUserLevl" &
+    '          ", cUserType" &
+    '          ", sProdctID" &
+    '          ", cUserStat" &
+    '          ", nSysError" &
+    '          ", cLogStatx" &
+    '          ", cLockStat" &
+    '          ", cAllwLock" &
+    '       " FROM xxxSysUser" &
+    '       " WHERE sLogNamex = ?sLogNamex" &
+    '          " AND sPassword = ?sPassword"
+    'End Function
 
     Private Function getSQ_Category() As String
         Return "SELECT" &
@@ -3874,34 +3874,34 @@ Public Class New_Sales_Order
         Return loDT
     End Function
 
-    Private Function isUserActive(ByRef loDT As DataTable) As Boolean
-        Dim lnCtr As Integer = 0
-        Dim lbMember As Boolean = False
+    'Private Function isUserActive(ByRef loDT As DataTable) As Boolean
+    '    Dim lnCtr As Integer = 0
+    '    Dim lbMember As Boolean = False
 
-        If loDT.Rows(0).Item("cUserType").Equals(0) Then
-            For lnCtr = 0 To loDT.Rows.Count - 1
-                If loDT.Rows(0).Item("sProdctID").Equals(p_oApp.ProductID) Then
-                    Exit For
-                    lbMember = True
-                End If
-            Next
-        Else
-            lbMember = True
-        End If
+    '    If loDT.Rows(0).Item("cUserType").Equals(0) Then
+    '        For lnCtr = 0 To loDT.Rows.Count - 1
+    '            If loDT.Rows(0).Item("sProdctID").Equals(p_oApp.ProductID) Then
+    '                Exit For
+    '                lbMember = True
+    '            End If
+    '        Next
+    '    Else
+    '        lbMember = True
+    '    End If
 
-        If Not lbMember Then
-            MsgBox("User is not a member of this application!!!" & vbCrLf &
-               "Application used is not allowed!!!", vbCritical, "Warning")
-        End If
+    '    If Not lbMember Then
+    '        MsgBox("User is not a member of this application!!!" & vbCrLf &
+    '           "Application used is not allowed!!!", vbCritical, "Warning")
+    '    End If
 
-        ' check user status
-        If loDT.Rows(0).Item("cUserStat").Equals(xeUserStatus.SUSPENDED) Then
-            MsgBox("User is currently suspended!!!" & vbCrLf &
-                     "Application used is not allowed!!!", vbCritical, "Warning")
-            Return False
-        End If
-        Return True
-    End Function
+    '    ' check user status
+    '    If loDT.Rows(0).Item("cUserStat").Equals(xeUserStatus.SUSPENDED) Then
+    '        MsgBox("User is currently suspended!!!" & vbCrLf &
+    '                 "Application used is not allowed!!!", vbCritical, "Warning")
+    '        Return False
+    '    End If
+    '    Return True
+    'End Function
 
     Private Function saveDetail(ByVal fnRow As Integer) As Boolean
         Dim lsSQL As String
@@ -6166,7 +6166,7 @@ Public Class New_Sales_Order
                     End If
                 End If
             Else
-                If Not getUserApproval() Then
+                If Not p_oApp.getUserApproval() Then
                     Return False
                     Exit Function
                 End If
@@ -6202,7 +6202,7 @@ Public Class New_Sales_Order
     End Function
 
     Public Function ReComputeReading() As Boolean
-        If Not getUserApproval() Then
+        If Not p_oApp.getUserApproval() Then
             Return False
             Exit Function
         End If
@@ -6376,7 +6376,7 @@ Public Class New_Sales_Order
     End Function
 
     Public Sub CancelOR()
-        If Not getUserApproval() Then Exit Sub
+        If Not p_oApp.getUserApproval() Then Exit Sub
 
         Dim lsSQL As String
         Dim loDTMaster As DataTable
@@ -6619,7 +6619,7 @@ Public Class New_Sales_Order
     End Sub
 
     Public Sub Reprint()
-        If Not getUserApproval() Then Exit Sub
+        If Not p_oApp.getUserApproval() Then Exit Sub
 
         Dim lsSQL As String
         Dim loDTMaster As DataTable

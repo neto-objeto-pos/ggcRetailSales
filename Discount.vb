@@ -538,11 +538,11 @@ Public Class Discount
                 Else
                     For lnCtr As Integer = 0 To p_oCategrTable.Rows.Count - 1
                         If Not lbWithDiscount Then
-                            If p_oCategrTable.Rows(lnCtr)("nDiscRate") > 0 And p_oCategrTable.Rows(lnCtr)("nDiscAmtx") > 0 Then
+                            If p_oCategrTable.Rows(lnCtr)("nDiscRate") > 0 Or p_oCategrTable.Rows(lnCtr)("nDiscAmtx") > 0 Then
                                 lbWithDiscount = True
+                                Exit For
                             End If
                         End If
-                        If Not lbWithDiscount Then Return True
                     Next
 
                 End If
