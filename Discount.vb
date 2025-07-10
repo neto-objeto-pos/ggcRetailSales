@@ -533,7 +533,8 @@ Public Class Discount
                 Debug.Print("")
 
                 If p_oCategrTable.Rows.Count = 1 Then
-                    If p_oCategrTable.Rows(0)("nDiscRate") <= 0 And p_oCategrTable.Rows(0)("nDiscAmtx") <= 0 Then lbWithDiscount = True
+                    lbWithDiscount = Not p_oCategrTable.Rows(0)("nDiscRate") <= 0 Or Not p_oCategrTable.Rows(0)("nDiscAmtx") <= 0
+
                 Else
                     For lnCtr As Integer = 0 To p_oCategrTable.Rows.Count - 1
                         If Not lbWithDiscount Then
@@ -544,9 +545,7 @@ Public Class Discount
                         If Not lbWithDiscount Then Return True
                     Next
 
-
                 End If
-
                 If Not p_oAppDrvr.BranchCode = "P013" Then
                     If lbWithDiscount Then
                         If Not p_oAppDrvr.getUserApproval Then Return False
