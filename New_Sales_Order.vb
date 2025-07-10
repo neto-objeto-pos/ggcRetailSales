@@ -3815,23 +3815,23 @@ Public Class New_Sales_Order
     '    Return lbValid
     'End Function
 
-    Private Function getSQ_User() As String
-        Return "SELECT sUserIDxx" &
-              ", sLogNamex" &
-              ", sPassword" &
-              ", sUserName" &
-              ", nUserLevl" &
-              ", cUserType" &
-              ", sProdctID" &
-              ", cUserStat" &
-              ", nSysError" &
-              ", cLogStatx" &
-              ", cLockStat" &
-              ", cAllwLock" &
-           " FROM xxxSysUser" &
-           " WHERE sLogNamex = ?sLogNamex" &
-              " AND sPassword = ?sPassword"
-    End Function
+    'Private Function getSQ_User() As String
+    '    Return "SELECT sUserIDxx" &
+    '          ", sLogNamex" &
+    '          ", sPassword" &
+    '          ", sUserName" &
+    '          ", nUserLevl" &
+    '          ", cUserType" &
+    '          ", sProdctID" &
+    '          ", cUserStat" &
+    '          ", nSysError" &
+    '          ", cLogStatx" &
+    '          ", cLockStat" &
+    '          ", cAllwLock" &
+    '       " FROM xxxSysUser" &
+    '       " WHERE sLogNamex = ?sLogNamex" &
+    '          " AND sPassword = ?sPassword"
+    'End Function
 
     Private Function getSQ_Category() As String
         Return "SELECT" &
@@ -3874,34 +3874,34 @@ Public Class New_Sales_Order
         Return loDT
     End Function
 
-    Private Function isUserActive(ByRef loDT As DataTable) As Boolean
-        Dim lnCtr As Integer = 0
-        Dim lbMember As Boolean = False
+    'Private Function isUserActive(ByRef loDT As DataTable) As Boolean
+    '    Dim lnCtr As Integer = 0
+    '    Dim lbMember As Boolean = False
 
-        If loDT.Rows(0).Item("cUserType").Equals(0) Then
-            For lnCtr = 0 To loDT.Rows.Count - 1
-                If loDT.Rows(0).Item("sProdctID").Equals(p_oApp.ProductID) Then
-                    Exit For
-                    lbMember = True
-                End If
-            Next
-        Else
-            lbMember = True
-        End If
+    '    If loDT.Rows(0).Item("cUserType").Equals(0) Then
+    '        For lnCtr = 0 To loDT.Rows.Count - 1
+    '            If loDT.Rows(0).Item("sProdctID").Equals(p_oApp.ProductID) Then
+    '                Exit For
+    '                lbMember = True
+    '            End If
+    '        Next
+    '    Else
+    '        lbMember = True
+    '    End If
 
-        If Not lbMember Then
-            MsgBox("User is not a member of this application!!!" & vbCrLf &
-               "Application used is not allowed!!!", vbCritical, "Warning")
-        End If
+    '    If Not lbMember Then
+    '        MsgBox("User is not a member of this application!!!" & vbCrLf &
+    '           "Application used is not allowed!!!", vbCritical, "Warning")
+    '    End If
 
-        ' check user status
-        If loDT.Rows(0).Item("cUserStat").Equals(xeUserStatus.SUSPENDED) Then
-            MsgBox("User is currently suspended!!!" & vbCrLf &
-                     "Application used is not allowed!!!", vbCritical, "Warning")
-            Return False
-        End If
-        Return True
-    End Function
+    '    ' check user status
+    '    If loDT.Rows(0).Item("cUserStat").Equals(xeUserStatus.SUSPENDED) Then
+    '        MsgBox("User is currently suspended!!!" & vbCrLf &
+    '                 "Application used is not allowed!!!", vbCritical, "Warning")
+    '        Return False
+    '    End If
+    '    Return True
+    'End Function
 
     Private Function saveDetail(ByVal fnRow As Integer) As Boolean
         Dim lsSQL As String
