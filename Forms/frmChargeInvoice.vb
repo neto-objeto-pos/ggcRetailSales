@@ -76,6 +76,8 @@ Public Class frmChargeInvoice
 
         Select Case lnIndex
             Case 0
+                poCharge.Master("sClientNm") = txtField00.Text
+                poCharge.Master("xaddressx") = txtField01.Text
                 p_bCancelled = Not poCharge.SaveTransaction()
 
                 If Not p_bCancelled Then
@@ -154,6 +156,10 @@ endProc:
 
         If Mid(loTxt.Name, 1, 8) = "txtField" Then
             Select Case loIndex
+                Case 0
+                    poCharge.Master("sClientNm") = loTxt.Text
+                Case 1
+                    poCharge.Master("xaddressx") = loTxt.Text
 
             End Select
         End If
