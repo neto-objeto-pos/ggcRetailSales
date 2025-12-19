@@ -31,6 +31,7 @@ Partial Class frmChargeInvoiceCollection
         Me.gridInvoices = New System.Windows.Forms.DataGridView()
         Me.Column1 = New System.Windows.Forms.DataGridViewCheckBoxColumn()
         Me.pnlButtons = New System.Windows.Forms.Panel()
+        Me.cmdButton03 = New System.Windows.Forms.Button()
         Me.cmdButton00 = New System.Windows.Forms.Button()
         Me.cmdButton01 = New System.Windows.Forms.Button()
         Me.Label6 = New System.Windows.Forms.Label()
@@ -52,7 +53,7 @@ Partial Class frmChargeInvoiceCollection
         Me.pnlMain.Controls.Add(Me.pnlButtons)
         Me.pnlMain.Location = New System.Drawing.Point(5, 23)
         Me.pnlMain.Name = "pnlMain"
-        Me.pnlMain.Size = New System.Drawing.Size(389, 473)
+        Me.pnlMain.Size = New System.Drawing.Size(562, 473)
         Me.pnlMain.TabIndex = 2
         '
         'Panel1
@@ -62,7 +63,7 @@ Partial Class frmChargeInvoiceCollection
         Me.Panel1.Controls.Add(Me.cmdButton02)
         Me.Panel1.Location = New System.Drawing.Point(2, 164)
         Me.Panel1.Name = "Panel1"
-        Me.Panel1.Size = New System.Drawing.Size(379, 40)
+        Me.Panel1.Size = New System.Drawing.Size(553, 40)
         Me.Panel1.TabIndex = 21
         '
         'cmdButton04
@@ -88,13 +89,13 @@ Partial Class frmChargeInvoiceCollection
         Me.cmdButton02.FlatStyle = System.Windows.Forms.FlatStyle.Flat
         Me.cmdButton02.Font = New System.Drawing.Font("Microsoft Sans Serif", 6.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.cmdButton02.ForeColor = System.Drawing.Color.White
-        Me.cmdButton02.Location = New System.Drawing.Point(299, 3)
+        Me.cmdButton02.Location = New System.Drawing.Point(470, 3)
         Me.cmdButton02.Margin = New System.Windows.Forms.Padding(2)
         Me.cmdButton02.Name = "cmdButton02"
         Me.cmdButton02.Size = New System.Drawing.Size(71, 30)
         Me.cmdButton02.TabIndex = 18
         Me.cmdButton02.TabStop = False
-        Me.cmdButton02.Text = "PAY BILL"
+        Me.cmdButton02.Text = "SELECT"
         Me.cmdButton02.UseVisualStyleBackColor = False
         '
         'Label1
@@ -105,9 +106,9 @@ Partial Class frmChargeInvoiceCollection
         Me.Label1.ForeColor = System.Drawing.Color.White
         Me.Label1.Location = New System.Drawing.Point(3, 206)
         Me.Label1.Name = "Label1"
-        Me.Label1.Size = New System.Drawing.Size(89, 16)
+        Me.Label1.Size = New System.Drawing.Size(156, 16)
         Me.Label1.TabIndex = 11
-        Me.Label1.Text = "Pay Charge"
+        Me.Label1.Text = "Charge Invoice Detail"
         '
         'gridCharge
         '
@@ -118,7 +119,7 @@ Partial Class frmChargeInvoiceCollection
         Me.gridCharge.Location = New System.Drawing.Point(3, 226)
         Me.gridCharge.Name = "gridCharge"
         Me.gridCharge.ReadOnly = True
-        Me.gridCharge.Size = New System.Drawing.Size(379, 195)
+        Me.gridCharge.Size = New System.Drawing.Size(552, 195)
         Me.gridCharge.TabIndex = 10
         Me.gridCharge.TabStop = False
         '
@@ -131,7 +132,7 @@ Partial Class frmChargeInvoiceCollection
         Me.gridInvoices.Columns.AddRange(New System.Windows.Forms.DataGridViewColumn() {Me.Column1})
         Me.gridInvoices.Location = New System.Drawing.Point(3, 3)
         Me.gridInvoices.Name = "gridInvoices"
-        Me.gridInvoices.Size = New System.Drawing.Size(379, 152)
+        Me.gridInvoices.Size = New System.Drawing.Size(552, 152)
         Me.gridInvoices.TabIndex = 3
         Me.gridInvoices.TabStop = False
         '
@@ -147,13 +148,30 @@ Partial Class frmChargeInvoiceCollection
         'pnlButtons
         '
         Me.pnlButtons.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
+        Me.pnlButtons.Controls.Add(Me.cmdButton03)
         Me.pnlButtons.Controls.Add(Me.cmdButton00)
         Me.pnlButtons.Controls.Add(Me.cmdButton01)
         Me.pnlButtons.Location = New System.Drawing.Point(3, 426)
         Me.pnlButtons.Margin = New System.Windows.Forms.Padding(2)
         Me.pnlButtons.Name = "pnlButtons"
-        Me.pnlButtons.Size = New System.Drawing.Size(379, 40)
+        Me.pnlButtons.Size = New System.Drawing.Size(552, 40)
         Me.pnlButtons.TabIndex = 9
+        '
+        'cmdButton03
+        '
+        Me.cmdButton03.BackColor = System.Drawing.Color.FromArgb(CType(CType(64, Byte), Integer), CType(CType(64, Byte), Integer), CType(CType(64, Byte), Integer))
+        Me.cmdButton03.FlatAppearance.BorderSize = 0
+        Me.cmdButton03.FlatStyle = System.Windows.Forms.FlatStyle.Flat
+        Me.cmdButton03.Font = New System.Drawing.Font("Microsoft Sans Serif", 6.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.cmdButton03.ForeColor = System.Drawing.Color.White
+        Me.cmdButton03.Location = New System.Drawing.Point(340, 2)
+        Me.cmdButton03.Margin = New System.Windows.Forms.Padding(2)
+        Me.cmdButton03.Name = "cmdButton03"
+        Me.cmdButton03.Size = New System.Drawing.Size(64, 30)
+        Me.cmdButton03.TabIndex = 11
+        Me.cmdButton03.TabStop = False
+        Me.cmdButton03.Text = "VOID"
+        Me.cmdButton03.UseVisualStyleBackColor = False
         '
         'cmdButton00
         '
@@ -162,7 +180,7 @@ Partial Class frmChargeInvoiceCollection
         Me.cmdButton00.FlatStyle = System.Windows.Forms.FlatStyle.Flat
         Me.cmdButton00.Font = New System.Drawing.Font("Microsoft Sans Serif", 6.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.cmdButton00.ForeColor = System.Drawing.Color.White
-        Me.cmdButton00.Location = New System.Drawing.Point(237, 3)
+        Me.cmdButton00.Location = New System.Drawing.Point(408, 2)
         Me.cmdButton00.Margin = New System.Windows.Forms.Padding(2)
         Me.cmdButton00.Name = "cmdButton00"
         Me.cmdButton00.Size = New System.Drawing.Size(64, 30)
@@ -178,7 +196,7 @@ Partial Class frmChargeInvoiceCollection
         Me.cmdButton01.FlatStyle = System.Windows.Forms.FlatStyle.Flat
         Me.cmdButton01.Font = New System.Drawing.Font("Microsoft Sans Serif", 6.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.cmdButton01.ForeColor = System.Drawing.Color.White
-        Me.cmdButton01.Location = New System.Drawing.Point(304, 3)
+        Me.cmdButton01.Location = New System.Drawing.Point(476, 2)
         Me.cmdButton01.Margin = New System.Windows.Forms.Padding(2)
         Me.cmdButton01.Name = "cmdButton01"
         Me.cmdButton01.Size = New System.Drawing.Size(64, 30)
@@ -195,7 +213,7 @@ Partial Class frmChargeInvoiceCollection
         Me.Label6.ForeColor = System.Drawing.Color.White
         Me.Label6.Location = New System.Drawing.Point(2, 2)
         Me.Label6.Name = "Label6"
-        Me.Label6.Size = New System.Drawing.Size(185, 16)
+        Me.Label6.Size = New System.Drawing.Size(184, 16)
         Me.Label6.TabIndex = 0
         Me.Label6.Text = "Charge Invoice Collection"
         '
@@ -208,7 +226,7 @@ Partial Class frmChargeInvoiceCollection
         Me.BackgroundImage = Global.ggcRetailSales.My.Resources.Resources.mainbackground
         Me.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch
         Me.CausesValidation = False
-        Me.ClientSize = New System.Drawing.Size(395, 501)
+        Me.ClientSize = New System.Drawing.Size(576, 501)
         Me.Controls.Add(Me.Label6)
         Me.Controls.Add(Me.pnlMain)
         Me.DoubleBuffered = True
@@ -244,4 +262,5 @@ Partial Class frmChargeInvoiceCollection
     Friend WithEvents cmdButton04 As System.Windows.Forms.Button
     Friend WithEvents Column1 As System.Windows.Forms.DataGridViewCheckBoxColumn
     Friend WithEvents Panel1 As System.Windows.Forms.Panel
+    Friend WithEvents cmdButton03 As Windows.Forms.Button
 End Class

@@ -349,6 +349,8 @@ Public Class ChargeInvoice
         p_oDTMstr = p_oApp.ExecuteQuery(lsSQL)
         p_oDTMstr.Rows.Add(p_oDTMstr.NewRow())
 
+        Debug.Print(lsSQL)
+        Debug.Print(p_oDTMstr.Columns.Count)
         Call initMaster()
         Call initOthers()
 
