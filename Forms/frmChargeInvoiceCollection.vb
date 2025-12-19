@@ -51,6 +51,20 @@ Public Class frmChargeInvoiceCollection
                         Call initTransaction()
                     End If
                 End If
+            Case 3 'void
+                If gridCharge.Rows(0).Cells(2).Value = "" Then Exit Sub
+                If Not p_oApp.getUserApproval Then
+                    Exit Sub
+                End If
+                If p_oCharge.VoidTtransaction Then
+                    MsgBox("Transaction void successfully", MsgBoxStyle.Exclamation, "Information")
+                    pbCloseForm = True
+                    Me.Close()
+                    Me.Dispose()
+                Else
+                    MsgBox("Unable to void charge invoices.", MsgBoxStyle.Critical, "Warning")
+                    Call initTransaction()
+                End If
 
             Case 4 'reset
                 Call initTransaction()
@@ -62,6 +76,18 @@ endProc:
     End Sub
 
     Function isEntryOk() As Boolean
+        For Each rowOuter As DataGridViewRow In gridInvoices.Rows
+            For Each rowInner As DataGridViewRow In gridCharge.Rows
+                If rowOuter.Cells(3).Value = rowInner.Cells(3).Value Then
+                    Return False
+                End If
+            Next
+        Next
+
+        Return True
+    End Function
+
+    Function isEntryVoidable() As Boolean
         For Each rowOuter As DataGridViewRow In gridInvoices.Rows
             For Each rowInner As DataGridViewRow In gridCharge.Rows
                 If rowOuter.Cells(3).Value = rowInner.Cells(3).Value Then
@@ -214,12 +240,12 @@ endProc:
 
 
             .Columns(0).Width = 30
-            .Columns(1).Width = 45
-            .Columns(2).Width = 110
-            .Columns(3).Width = 50
-            .Columns(4).Width = 45
-            .Columns(5).Width = 45
-            .Columns(6).Width = 50
+            .Columns(1).Width = 86
+            .Columns(2).Width = 130
+            .Columns(3).Width = 60
+            .Columns(4).Width = 75
+            .Columns(5).Width = 75
+            .Columns(6).Width = 75
 
             .Columns(0).Name = ""
             .Columns(1).Name = "Date"
@@ -280,10 +306,10 @@ endProc:
             .RowHeadersVisible = False
 
             .Columns(0).Width = 30
-            .Columns(1).Width = 80
-            .Columns(2).Width = 100
-            .Columns(3).Width = 80
-            .Columns(4).Width = 85
+            .Columns(1).Width = 90
+            .Columns(2).Width = 168
+            .Columns(3).Width = 130
+            .Columns(4).Width = 130
 
             .Columns(0).Name = "No"
             .Columns(1).Name = "Date"
@@ -416,4 +442,5 @@ endProc:
             End If
         End With
     End Sub
+
 End Class

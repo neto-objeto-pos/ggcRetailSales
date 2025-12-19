@@ -892,6 +892,7 @@ Public Class DailySales
         ' Check if the batch file exists
         If File.Exists(Path.Combine(pxeJavaPath, "uploadSales.bat")) Then
             RMJExecute(pxeJavaPath, "uploadSales.bat", "")
+            Return True
             'If lnResult <> 0 Then
             'MessageBox.Show("Unable to upload Sales to main server!", "Notice", MessageBoxButtons.OK, MessageBoxIcon.Information)
             'Return False
@@ -2261,8 +2262,8 @@ Public Class DailySales
         lsSQL = "SELECT" &
                  " IFNULL (e.sCategrCd, '') AS sCategrCd" &
                  ", IFNULL (e.sDescript, 'Others') AS sDescript" &
-                 ",  SUM(((b.nUnitPrce * b.nQuantity) / NULLIF (xSales.nTotalSales, 0))" &
-                      "  * IFNULL (c.nSalesAmt, 0)) AS nCatSales" &
+                 ",  IFNULL( SUM(((b.nUnitPrce * b.nQuantity) / NULLIF (xSales.nTotalSales, 0))" &
+                      "  * IFNULL (c.nSalesAmt, 0)),0.0) AS nCatSales" &
                 " FROM SO_Master a" &
                 " LEFT JOIN SO_Detail b ON a.sTransNox = b.sTransNox" &
                         " AND b.cReversex = '+'" &
@@ -2608,10 +2609,10 @@ Public Class DailySales
     Private Function validSummary(ByVal bCurrent As Boolean) As Boolean
         'Load Transactions with OPEN STATUS prior to the current day....
         Dim lsSQL As String
-        lsSQL = "SELECT *" & _
-               " FROM SO_Master" & _
-               " WHERE sTransNox LIKE " & strParm(p_oApp.BranchCode & p_sTermnl & "%") & _
-                 " AND dTransact " & IIf(bCurrent, " = ", " < ") & dateParm(Format(p_oApp.SysDate, xsDATE_SHORT)) & _
+        lsSQL = "SELECT *" &
+               " FROM SO_Master" &
+               " WHERE sTransNox LIKE " & strParm(p_oApp.BranchCode & p_sTermnl & "%") &
+                 " AND dTransact " & IIf(bCurrent, " = ", " < ") & dateParm(Format(p_oApp.SysDate, xsDATE_SHORT)) &
                  " AND cTranStat = '0'"
 
         Dim loDta As DataTable
@@ -2627,9 +2628,9 @@ Public Class DailySales
         Dim lsCashierNm As String
         Dim loDta As DataTable
 
-        lsSQL = "SELECT" & _
-                    " a.sUserName" & _
-                    " FROM xxxSysUser a" & _
+        lsSQL = "SELECT" &
+                    " a.sUserName" &
+                    " FROM xxxSysUser a" &
                     " WHERE a.sUserIDxx = " & strParm(sCashierx)
 
         loDta = p_oApp.ExecuteQuery(lsSQL)
@@ -2705,10 +2706,10 @@ Public Class DailySales
         Dim lsSQL As String
         Dim loDta As DataTable
 
-        lsSQL = "SELECT nAccuSale, nSalesAmt" & _
-               " FROM Daily_Summary" & _
-               " WHERE sTranDate = " & Format(p_oApp.getSysDate, "yyyyMMdd") & _
-                 " AND sCashierx = " & strParm(p_oDTMaster(0).Item("sCashierx")) & _
+        lsSQL = "SELECT nAccuSale, nSalesAmt" &
+               " FROM Daily_Summary" &
+               " WHERE sTranDate = " & Format(p_oApp.getSysDate, "yyyyMMdd") &
+                 " AND sCashierx = " & strParm(p_oDTMaster(0).Item("sCashierx")) &
                " ORDER BY sTranDate DESC LIMIT 1"
         loDta = p_oApp.ExecuteQuery(lsSQL)
 

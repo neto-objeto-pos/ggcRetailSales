@@ -3213,15 +3213,16 @@ Public Class New_Sales_Order
 
                 .ShowChargeInvoice()
                 lbSuccess = Not .Cancelled
-            End With
 
-            If lbSuccess Then
-                If PostOrder() Then
-                    If Not PostChargeOrder() Then
-                        MsgBox("Unable to post charge invoice", vbCritical)
+
+                If lbSuccess Then
+                    If PostOrder() Then
+                        If Not PostChargeOrder() Then
+                            MsgBox("Unable to post charge invoice", vbCritical)
+                        End If
                     End If
                 End If
-            End If
+            End With
 
         End If
         Return lbSuccess

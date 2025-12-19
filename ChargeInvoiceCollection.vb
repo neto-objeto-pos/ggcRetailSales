@@ -403,6 +403,67 @@ Public Class ChargeInvoiceCollection
         Return True
     End Function
 
+
+    Public Function VoidTtransaction() As Boolean
+        Dim lsSourceNo As String
+        Dim lnCtr As Integer
+        Dim lnRow As Integer
+        Dim lbMismatch As Boolean = False
+
+
+        For lnCtr = 0 To p_oDTDetail.Rows.Count - 1
+            lsSourceNo = ""
+            lsSourceNo = p_oDTDetail(lnCtr).Item("sSourceNo")
+
+            For lnRow = 0 To p_oDTCharge.Rows.Count - 1
+                If p_oDTCharge(lnRow).Item("sSourceNo") = lsSourceNo Then
+                    Dim dtTransact As Date
+                    dtTransact = CDate(p_oDTCharge(lnRow).Item("dTransact"))
+
+                    Dim dtNow As Date
+                    dtNow = DateValue(p_oApp.getSysDate)
+
+                    Debug.Print(dtTransact)
+                    Debug.Print(dtNow)
+
+                    If DateValue(dtTransact) <> dtNow Then
+                        lbMismatch = True
+                    End If
+
+                    Exit For
+                End If
+            Next
+            If lbMismatch Then
+                MsgBox("It seems that you have selected different date to void." & vbCrLf &
+                                    "Charge invoice transaction will reset. Unable to void past date.", MsgBoxStyle.Critical, "Warning")
+                Return False
+            End If
+
+        Next
+        p_oApp.BeginTransaction()
+
+        Try
+                Dim lsSQL As String
+                For lnCtr = 0 To p_oDTDetail.Rows.Count - 1
+
+                lsSQL = "UPDATE Charge_Invoice SET " &
+                            " cTranStat = " & strParm(xeTranStat.TRANS_CANCELLED) &
+                        " WHERE sSourceNo = " & strParm(p_oDTDetail(lnCtr).Item("sSourceNo")) &
+                            " AND sSourceCD = " & strParm(p_oDTDetail(lnCtr).Item("sSourceCD"))
+
+                Call p_oApp.Execute(lsSQL, "Charge_Invoice")
+                Next
+
+                p_oApp.CommitTransaction()
+        Catch ex As MySqlException
+            p_oApp.RollBackTransaction()
+            MsgBox(ex.Message)
+            Return False
+        End Try
+
+        Return True
+    End Function
+
     Public Function InitMachine() As Boolean
         If p_sPOSNo = "" Then
             MsgBox("Invalid Machine Identification Info Detected...")
