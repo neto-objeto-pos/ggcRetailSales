@@ -1921,6 +1921,8 @@ Public Class New_Sales_Order
             .LogName = p_sLogName
             .PosDate = p_oApp.getSysDate
             .PosDate = p_dPOSDatex
+            .TransNo1 = p_oDTMaster(0)("sTransNox")
+            .p_sTableNo2 = p_oDTMaster(0)("sTableNox")
             .SplitType = 2
 
 
