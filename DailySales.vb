@@ -1078,7 +1078,7 @@ Public Class DailySales
         builder.Append(" ".PadRight(24) & "-".PadLeft(13, "-") & Environment.NewLine)
 
         'builder.Append(" NET SALES".PadRight(24) & Format((lnSalesAmt + lnSChargex) - (lnDiscount + lnPWDDiscx + lnVatDiscx + lnSChargex), xsDECIMAL).PadLeft(13) & Environment.NewLine)
-        builder.Append(" NET SALES".PadRight(24) & Format(lnSalesAmt - (lnDiscount + lnPWDDiscx + lnVatDiscx), xsDECIMAL).PadLeft(13) & Environment.NewLine)
+        builder.Append(" NET SALES".PadRight(24) & Format(lnSalesAmt, xsDECIMAL).PadLeft(13) & Environment.NewLine)
 
         'Display a space in between NEW Sales and VAT Related Info
         builder.Append(" ".PadRight(24) & "-".PadLeft(13, "-") & Environment.NewLine)
@@ -1165,11 +1165,12 @@ Public Class DailySales
                     " ORDER BY dOpenedxx DESC LIMIT 1"
             loDta = p_oApp.ExecuteQuery(lsSQL)
 
-            Dim lnNetAmnt As Decimal = p_oDTMaster(0).Item("nSalesAmt") - (p_oDTMaster(0).Item("nDiscount") + p_oDTMaster(0).Item("nPWDDiscx") + p_oDTMaster(0).Item("nVatDiscx"))
+            Dim lnNetAmnt As Decimal = p_oDTMaster(0).Item("nSalesAmt")
             If loDta.Rows.Count = 0 Then
                 p_oDTMaster(0).Item("nAccuSale") = lnNetAmnt
             Else
                 p_oDTMaster(0).Item("nAccuSale") = lnNetAmnt + loDta(0)("nAccuSale")
+                Debug.Print(loDta(0)("nAccuSale"))
                 'p_oDTMaster(0).Item("nSChargex") = p_oDTMaster(0).Item("nSChargex") + loDta(0)("nSChargex")
             End If
             loDta = Nothing
@@ -1730,7 +1731,7 @@ Public Class DailySales
 
         builder.Append(RawPrint.pxePRINT_EMP1)
         'builder.Append(" NET SALES".PadRight(24) & Format((lnSalesAmt + lnSCharge) - (lnDiscount + lnPWDDiscx + lnVatDiscx + lnSChargex), xsDECIMAL).PadLeft(13) & Environment.NewLine)
-        builder.Append(" NET SALES".PadRight(24) & Format(lnSalesAmt - (lnDiscount + lnPWDDiscx + lnVatDiscx), xsDECIMAL).PadLeft(13) & Environment.NewLine)
+        builder.Append(" NET SALES".PadRight(24) & Format(lnSalesAmt, xsDECIMAL).PadLeft(13) & Environment.NewLine)
         builder.Append(RawPrint.pxePRINT_EMP0)
 
         'Display a space in between NEW Sales and VAT Related Info
@@ -2578,6 +2579,7 @@ Public Class DailySales
         'lnNonVATxx = lnNonVATxx / 1.12
 
         'p_oDTMaster(0).Item("nSalesAmt") = (lnSalesAmt + lnDiscount + lnVatDiscx + lnPWDDiscx) - p_oDTMaster(0).Item("nReturnsx")
+        Debug.Print(p_oDTMaster(0).Item("nReturnsx"))
         p_oDTMaster(0).Item("nSalesAmt") = lnSalesAmt - p_oDTMaster(0).Item("nReturnsx")
         'lnSalesAmt = lnSalesAmt - (lnNonVATxx + lnZeroRatd)
         'p_oDTMaster(0).Item("nVATSales") = Math.Round(((lnSalesAmt) - p_oDTMaster(0).Item("nReturnsx")) / 1.12, 2)
