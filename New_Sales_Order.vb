@@ -4519,6 +4519,9 @@ Public Class New_Sales_Order
 
         p_oDTMaster(0).Item("nContrlNo") = getNextControl()
 
+        'Dim lsOrderNox As String = getNextOrderNo()
+        p_oDTMaster(0).Item("sOrderNox") = "XX"
+
         lsSQL = "INSERT INTO " & pxeMasTable &
                 " SET sTransNox = " & strParm(p_oDTMaster(0).Item("sTransNox")) &
                     ", dTransact = " & dateParm(p_oDTMaster(0).Item("dTransact")) &
@@ -4528,6 +4531,7 @@ Public Class New_Sales_Order
                     ", sWaiterID = " & strParm(p_oDTMaster(0).Item("sWaiterID")) &
                     ", sTableNox = " & strParm(p_oDTMaster(0).Item("sTableNox")) &
                     ", nOccupnts = " & IFNull(p_oDTMaster(0).Item("nOccupnts"), 0) &
+                    ", sOrderNox = " & strParm(p_oDTMaster(0).Item("sOrderNox")) &
                     ", cTranStat = " & strParm(p_oDTMaster(0).Item("cTranStat")) &
                     ", cSChargex = " & strParm(p_oDTMaster(0).Item("cSChargex")) &
                     ", sModified = " & strParm(p_oApp.UserID) &
